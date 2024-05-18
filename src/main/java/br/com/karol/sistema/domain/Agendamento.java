@@ -1,8 +1,6 @@
-package br.com.karol.sistema.model;
+package br.com.karol.sistema.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,6 +10,7 @@ import java.time.LocalTime;
 @Entity
 public class Agendamento {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
     private Procedimento nomeProcedimento;
