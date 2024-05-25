@@ -12,9 +12,9 @@ public class Agendamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Procedimento nomeProcedimento;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Cliente cliente;
     private LocalDate data;
     private LocalTime hora;
