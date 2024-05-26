@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain;
+package br.com.karol.sistema.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,12 +8,15 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Procedimento {
+public class UsuarioDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    private String descricao;
-    private Double valor;
+    private String cpf;
+    private String endereco;
+    private String telefone;
+    private String email;
+    private String senha;
 
 }

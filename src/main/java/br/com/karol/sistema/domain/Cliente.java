@@ -1,9 +1,6 @@
 package br.com.karol.sistema.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -12,8 +9,10 @@ public class Cliente {
     @Id
     @GeneratedValue (strategy=GenerationType.IDENTITY)
     private String cpf;
+    @Column(unique=true)
     private String nome;
     private String endereco;
+    @Column(unique=true)
     private String telefone;
     private String email;
 
