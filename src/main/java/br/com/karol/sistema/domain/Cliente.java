@@ -8,6 +8,7 @@ import lombok.Data;
 public class Cliente {
     @Id
     @GeneratedValue (strategy=GenerationType.IDENTITY)
+    private Integer id;
     private String cpf;
     @Column(unique=true)
     private String nome;

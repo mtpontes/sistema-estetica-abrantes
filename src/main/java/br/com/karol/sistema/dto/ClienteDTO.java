@@ -7,10 +7,9 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity
+
 public class ClienteDTO {
-    @Id
-    @GeneratedValue (strategy=GenerationType.IDENTITY)
+
     private String cpf;
     private String nome;
     private String endereco;

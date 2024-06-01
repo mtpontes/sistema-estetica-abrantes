@@ -7,10 +7,9 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity
+
 public class AdministradorDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
     private String nome;
     private String senha;
