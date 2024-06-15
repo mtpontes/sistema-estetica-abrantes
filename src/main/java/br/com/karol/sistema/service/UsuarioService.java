@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
+@Transactional
 @Data
 public class UsuarioService {
 
@@ -57,7 +59,7 @@ public class UsuarioService {
             // Copia os valores do usuário atualizado para o existente, exceto o ID
             Usuario usuarioParaAtualizar = usuarioExistente.get();
             usuarioParaAtualizar.setNome(usuario.getNome());
-            usuarioParaAtualizar.setEmail(usuario.getEmail());
+            usuarioParaAtualizar.setLogin(usuario.getLogin());
             usuarioParaAtualizar.setSenha(usuario.getSenha());
 
 

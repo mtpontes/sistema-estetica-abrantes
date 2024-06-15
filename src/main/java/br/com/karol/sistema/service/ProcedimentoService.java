@@ -6,10 +6,12 @@ import br.com.karol.sistema.repository.ProcedimentoRepository;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @Data
 public class ProcedimentoService {
     private final ProcedimentoRepository repository;
