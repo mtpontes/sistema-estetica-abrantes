@@ -29,6 +29,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/usuarios/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/usuarios/user").hasRole("USER")
+
+                        .requestMatchers(HttpMethod.GET, "/agendamento/admin").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/agendamento/user").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/agendamento/listarAgendamentos").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/agendamento/criar").hasRole("USER")
+
                         .requestMatchers(HttpMethod.POST, "/usuarios/salvarUsuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/refresh-token").permitAll()
@@ -45,7 +51,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-}
+
+    }

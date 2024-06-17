@@ -24,6 +24,8 @@ public class Agendamento {
     private LocalDateTime dataHora;
     @Column(name = "Data_Criacao")
     private LocalDateTime dataCriacao;
+    @ManyToOne
+    private Usuario usuario;
 
 
 }

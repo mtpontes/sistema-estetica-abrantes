@@ -2,6 +2,7 @@ package br.com.karol.sistema.controller;
 
 
 import br.com.karol.sistema.domain.Agendamento;
+import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.dto.AgendamentoDTO;
 import br.com.karol.sistema.mapper.AgendamentoMapper;
 import br.com.karol.sistema.service.AgendamentoService;
@@ -10,6 +11,7 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +23,7 @@ public class AgendamentoController {
     private final AgendamentoService service;
     private final AgendamentoMapper mapper;
 
-    @GetMapping
+    @GetMapping("/listarAgendamentos")
     public ResponseEntity<List<AgendamentoDTO>> listarAgendamento() {
         List<Agendamento> agendamentos = service.listarTodos();
         List<AgendamentoDTO> agendados = mapper.agendamentoListToAgendamentoDTOList(agendamentos);
@@ -40,8 +42,10 @@ public class AgendamentoController {
 
     }
 
-    @PostMapping
-    public ResponseEntity<AgendamentoDTO> salvar(@Valid @RequestBody Agendamento agendamento) throws Exception {
+    @PostMapping("/criar")
+    public ResponseEntity<AgendamentoDTO> salvar(@Valid @RequestBody Agendamento agendamento, Authentication authentication) throws Exception {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        agendamento.setUsuario(usuario);
         Agendamento agendar = service.salvar(agendamento);
         AgendamentoDTO agendamentoDTO = mapper.agendamentoToAgendamentoDTO(agendar);
         return ResponseEntity.status(HttpStatus.CREATED).body(agendamentoDTO);

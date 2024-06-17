@@ -3,6 +3,8 @@ package br.com.karol.sistema.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 public class Relatorio {
@@ -19,5 +21,7 @@ public class Relatorio {
     @OneToOne(cascade = CascadeType.ALL)
     private Usuario responsavelAgendamento;
     private String observacao;
+    private LocalDate dataCadastro=LocalDate.now();
+
 
 }
