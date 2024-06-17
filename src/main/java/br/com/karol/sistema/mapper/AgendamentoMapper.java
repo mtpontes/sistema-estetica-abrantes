@@ -5,6 +5,7 @@ import br.com.karol.sistema.dto.AgendamentoDTO;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,7 +14,10 @@ import java.util.stream.Collectors;
 @Component
 @Data
 public class AgendamentoMapper {
+
+
     private final ModelMapper mapper;
+
 
     @Autowired
     public AgendamentoMapper(ModelMapper mapper) {
@@ -30,5 +34,9 @@ public class AgendamentoMapper {
 
     public List<AgendamentoDTO> agendamentoListToAgendamentoDTOList(List<Agendamento> agendamentoList) {
         return agendamentoList.stream().map(this::agendamentoToAgendamentoDTO).collect(Collectors.toList());
+    }
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

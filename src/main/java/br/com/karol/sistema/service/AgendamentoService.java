@@ -1,7 +1,9 @@
 package br.com.karol.sistema.service;
 
+import br.com.karol.sistema.config.ModelMapperConfig;
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
+import br.com.karol.sistema.dto.AgendamentoDTO;
 import br.com.karol.sistema.exceptions.ClienteException;
 import br.com.karol.sistema.repository.AgendamentoRepository;
 import lombok.Data;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class AgendamentoService {
     private final AgendamentoRepository repository;
     private final ClienteService clienteService;
+
+
 
     public List<Agendamento> listarTodos() {
         return repository.findAll();

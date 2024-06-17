@@ -24,10 +24,9 @@ public class AgendamentoController {
     private final AgendamentoMapper mapper;
 
     @GetMapping("/listarAgendamentos")
-    public ResponseEntity<List<AgendamentoDTO>> listarAgendamento() {
+    public List<AgendamentoDTO> listarAgendamento() {
         List<Agendamento> agendamentos = service.listarTodos();
-        List<AgendamentoDTO> agendados = mapper.agendamentoListToAgendamentoDTOList(agendamentos);
-        return ResponseEntity.status(HttpStatus.OK).body(agendados);
+        return mapper.agendamentoListToAgendamentoDTOList(agendamentos);
 
     }
 
