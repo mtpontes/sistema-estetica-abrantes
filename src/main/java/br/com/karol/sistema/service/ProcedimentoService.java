@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 @Transactional
 @Data
+
 public class ProcedimentoService {
     private final ProcedimentoRepository repository;
 

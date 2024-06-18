@@ -7,6 +7,8 @@ import br.com.karol.sistema.dto.RegisterDTO;
 import br.com.karol.sistema.repository.UsuarioRepository;
 import br.com.karol.sistema.service.TokenService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;

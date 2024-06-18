@@ -2,7 +2,9 @@ package br.com.karol.sistema.dto;
 
 import br.com.karol.sistema.domain.Endereco;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 

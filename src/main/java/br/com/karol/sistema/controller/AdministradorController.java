@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/administrador")
+
 public class AdministradorController {
 
     private final AdministradorService service;

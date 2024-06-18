@@ -2,12 +2,10 @@ package br.com.karol.sistema.mapper;
 
 
 import br.com.karol.sistema.domain.Cliente;
-import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.dto.ClienteDTO;
-import br.com.karol.sistema.dto.EnderecoDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -16,20 +14,21 @@ import java.util.stream.Collectors;
 
 @Component
 @Data
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClienteMapper {
 
     private ModelMapper mapper;
 
 
-
-
     public ClienteDTO clienteToClienteDTO(Cliente cliente) {
         return mapper.map(cliente, ClienteDTO.class);
     }
+
     public Cliente clienteDTOToCliente(ClienteDTO clienteDTO) {
         return mapper.map(clienteDTO, Cliente.class);
     }
+
     public List<ClienteDTO> clienteListToClienteDTOList(List<Cliente> clienteList) {
         return clienteList.stream().map(this::clienteToClienteDTO).collect(Collectors.toList());
     }
@@ -58,7 +57,6 @@ public class ClienteMapper {
 //
 //        return enderecoDTO;
 //    }
-
 
 
 }

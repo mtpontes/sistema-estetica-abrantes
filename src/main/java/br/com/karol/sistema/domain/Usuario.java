@@ -2,6 +2,7 @@ package br.com.karol.sistema.domain;
 
 import br.com.karol.sistema.enums.UserRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +16,7 @@ import java.util.List;
 @Table(name = "usuario")
 @Entity(name = "usuario")
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +31,14 @@ public class Usuario implements UserDetails {
     //UserRole(Enum)
     private UserRole role;
 
-    public Usuario(String login, String senha, UserRole role) {
+    public Usuario(String login, String senha, String nome, UserRole role) {
         this.login = login;
         this.senha = senha;
         this.role = role;
+        this.nome = nome;
+    }
+
+    public Usuario(String login, String encryptedPassword, UserRole role) {
     }
 
 

@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/cliente")
 @RestController
 @Data
-
 public class ClienteController {
     private final ClienteService service;
     private final ClienteMapper mapper;

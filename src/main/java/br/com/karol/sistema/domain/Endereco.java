@@ -1,11 +1,15 @@
 package br.com.karol.sistema.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "endereco")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Endereco {
 
     @Id

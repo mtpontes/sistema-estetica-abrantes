@@ -7,7 +7,10 @@ import br.com.karol.sistema.dto.AgendamentoDTO;
 import br.com.karol.sistema.mapper.AgendamentoMapper;
 import br.com.karol.sistema.service.AgendamentoService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +22,20 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/agendamento")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AgendamentoController {
-    private final AgendamentoService service;
-    private final AgendamentoMapper mapper;
+
+    @Autowired
+    private AgendamentoService service;
+    @Autowired
+    private AgendamentoMapper mapper;
+
 
     @GetMapping("/listarAgendamentos")
     public List<AgendamentoDTO> listarAgendamento() {
         List<Agendamento> agendamentos = service.listarTodos();
         return mapper.agendamentoListToAgendamentoDTOList(agendamentos);
-
     }
 
     @GetMapping("/{id}")
