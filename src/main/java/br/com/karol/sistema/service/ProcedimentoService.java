@@ -29,8 +29,6 @@ public class ProcedimentoService {
 
     public List<Procedimento> listar() {
         repository.findAll();
-
-
         return List.of();
     }
     public ResponseEntity<Procedimento>remover(Procedimento procedimento){
