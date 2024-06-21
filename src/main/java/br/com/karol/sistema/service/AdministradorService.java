@@ -1,72 +1,56 @@
 package br.com.karol.sistema.service;
 
-import br.com.karol.sistema.domain.Administrador;
-import br.com.karol.sistema.repository.AdministradorRepository;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import br.com.karol.sistema.domain.Administrador;
+import br.com.karol.sistema.dto.administrador.DadosAdministradorDTO;
+import br.com.karol.sistema.repository.AdministradorRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
-@Transactional
 public class AdministradorService {
 
-    private final AdministradorRepository repository;
-
     @Autowired
-    public AdministradorService(AdministradorRepository repository) {
-        this.repository = repository;
+    private AdministradorRepository repository;
 
-    }
 
-    public ResponseEntity<Administrador> salvar(Administrador administrador) {
+    public DadosAdministradorDTO salvar(Administrador administrador) {
         Administrador admin = repository.save(administrador);
         System.out.println("Administrador salvo com sucesso");
-        return ResponseEntity.ok(admin);
+
+        return new DadosAdministradorDTO(admin);
     }
 
-    public ResponseEntity<Administrador> excluir(Administrador administrador) {
-        repository.delete(administrador);
+    // não precisa retornar
+    public void excluir(Integer administradorID) {
+        repository.deleteById(administradorID);
         System.out.println("Administrador excluido com sucesso!");
-        return ResponseEntity.ok(administrador);
-
     }
 
+    public DadosAdministradorDTO buscarAdministradorPorId(Integer id) {
+        Administrador admin = repository.findById(id)
+            .orElseThrow(EntityNotFoundException::new);
 
-    public ResponseEntity<Administrador> buscarAdministradorPorId(Integer id) {
-        Optional<Administrador> admin = repository.findById(id);
-        if (admin.isPresent()) {
-            return ResponseEntity.ok(admin.get());
-
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
+        return new DadosAdministradorDTO(admin);
     }
 
-    public ResponseEntity<List<Administrador>> listar() {
-        Iterable<Administrador> adms = repository.findAll();
-
-
-        return null;
+    public List<DadosAdministradorDTO> listar() {
+        return repository.findAll().stream()
+            .map(DadosAdministradorDTO::new)
+            .toList();
     }
 
-    public ResponseEntity<Administrador> editar(Administrador administrador) {
-        Optional<Administrador> admin = repository.findById(administrador.getId());
-        if (admin.isPresent()) {
-            repository.save(administrador);
-            System.out.println("Administrador: " + administrador);
-            return ResponseEntity.ok(administrador);
-        } else {
-            System.out.println("Administrador não localizado: " + administrador);
-            return ResponseEntity.notFound().build();
-        }
+    // implementar lógica de update na entidade Administrador
+    public DadosAdministradorDTO editar(Administrador dadosParaUpdate) {
+        Administrador alvo = repository.findById(dadosParaUpdate.getId())
+            .orElseThrow((() -> new EntityNotFoundException("Administrador não encontrado")));
+        
+        alvo.update(dadosParaUpdate.getUsuario());
+        System.out.println("Administrador: " + alvo);
 
+        return new DadosAdministradorDTO(alvo);
     }
-
-
 }
