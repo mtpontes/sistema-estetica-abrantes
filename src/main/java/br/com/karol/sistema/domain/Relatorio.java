@@ -16,16 +16,19 @@ public class Relatorio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Cliente cliente;
+    
     @OneToOne(cascade = CascadeType.ALL)
     private Agendamento agendamento;
+    
     @OneToOne(cascade = CascadeType.ALL)
     private Procedimento procedimento;
+    
     @OneToOne(cascade = CascadeType.ALL)
     private Usuario responsavelAgendamento;
+    
     private String observacao;
     private LocalDate dataCadastro=LocalDate.now();
-
-
 }

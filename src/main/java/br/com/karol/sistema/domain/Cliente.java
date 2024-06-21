@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,11 +27,7 @@ public class Cliente {
     @Column(unique = true)
     private String email;
 
-
     @JoinColumn(name = "paciente_id")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
-
-
-
 }

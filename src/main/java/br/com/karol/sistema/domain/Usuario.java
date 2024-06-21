@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario implements UserDetails {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,7 +30,9 @@ public class Usuario implements UserDetails {
     private String senha;
 
     //UserRole(Enum)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
+
 
     public Usuario(String login, String senha, String nome, UserRole role) {
         this.login = login;
@@ -38,18 +41,15 @@ public class Usuario implements UserDetails {
         this.nome = nome;
     }
 
-    public Usuario(String login, String encryptedPassword, UserRole role) {
-    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN)
             return List.of(
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(
+                new SimpleGrantedAuthority("ROLE_ADMIN"),
                 new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(
+            new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

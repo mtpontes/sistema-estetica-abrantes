@@ -10,11 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Administrador {
-    @Id
+    
+    @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(unique=true,nullable=false)
+
+    @Column( unique = true, nullable = false)
     private String usuario;
     private String senha;
 
+
+    public void update(String usuario) {
+        if (usuario != null && !usuario.isBlank()) {
+            this.usuario = usuario;
+        }
+    }
 }
