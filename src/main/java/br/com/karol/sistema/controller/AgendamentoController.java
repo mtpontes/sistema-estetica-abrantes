@@ -1,29 +1,33 @@
 package br.com.karol.sistema.controller;
 
 
-import br.com.karol.sistema.domain.Agendamento;
-import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.dto.AgendamentoDTO;
-import br.com.karol.sistema.mapper.AgendamentoMapper;
-import br.com.karol.sistema.service.AgendamentoService;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import br.com.karol.sistema.domain.Agendamento;
+import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.dto.agendamento.AgendamentoDTO;
+import br.com.karol.sistema.dto.agendamento.CriaAgendamentoDTO;
+import br.com.karol.sistema.dto.agendamento.DadosAgendamentoDTO;
+import br.com.karol.sistema.mapper.AgendamentoMapper;
+import br.com.karol.sistema.service.AgendamentoService;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/agendamento")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class AgendamentoController {
 
     @Autowired
@@ -49,15 +53,22 @@ public class AgendamentoController {
 
     }
 
-    @PostMapping("/criar")
-    public ResponseEntity<AgendamentoDTO> salvar(@Valid @RequestBody Agendamento agendamento, Authentication authentication) throws Exception {
+    @Transactional
+    @PostMapping
+    public ResponseEntity<DadosAgendamentoDTO> salvar(
+        @Valid @RequestBody CriaAgendamentoDTO dadosAgendamento, 
+        UriComponentsBuilder uriBuilder,
+        Authentication authentication
+        ) throws Exception {
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        agendamento.setUsuario(usuario);
-        Agendamento agendar = service.salvar(agendamento);
-        AgendamentoDTO agendamentoDTO = mapper.agendamentoToAgendamentoDTO(agendar);
-        return ResponseEntity.status(HttpStatus.CREATED).body(agendamentoDTO);
+        DadosAgendamentoDTO dadosAgendamentoCriado = service.salvar(dadosAgendamento, usuario);
 
+        var uri = uriBuilder.path("/agendamento/{id}")
+            .buildAndExpand(dadosAgendamentoCriado.getId())
+            .toUri();
 
+        //AgendamentoDTO agendamentoDTO = mapper.agendamentoToAgendamentoDTO(agendar); - não tinha visto que tinha um mapper aqui, agora já criei os construtores...
+        return ResponseEntity.created(uri).body(dadosAgendamentoCriado);
     }
 
 //    @PutMapping
