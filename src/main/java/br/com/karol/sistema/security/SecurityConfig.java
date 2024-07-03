@@ -1,7 +1,5 @@
 package br.com.karol.sistema.security;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,33 +17,37 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@NoArgsConstructor
-@AllArgsConstructor
 public class SecurityConfig {
+    
     @Autowired
     SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/usuarios/admin").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/usuarios/user").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/usuarios/salvarUsuario").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/refresh-token").permitAll()
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/usuarios/admin/**").hasRole("ADMIN")
+                
+                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                .requestMatchers(HttpMethod.GET, "/usuarios").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/usuarios").hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/agendamento/admin").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/agendamento/user").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/agendamento/listarAgendamentos").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/agendamento/criar").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/auth").permitAll()
+                .requestMatchers(HttpMethod.POST, "/auth/refresh-token").permitAll()
 
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .requestMatchers(HttpMethod.GET, "/agendamento/admin").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/agendamento/user").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/agendamento/listarAgendamentos").permitAll()
+                .requestMatchers(HttpMethod.POST, "/agendamento/criar").hasRole("USER")
+
+                .requestMatchers("/administrador/**").permitAll()
+
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
 
     }
 
@@ -58,6 +60,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 }
