@@ -2,21 +2,22 @@ package br.com.karol.sistema.dto.administrador;
 
 import org.springframework.beans.BeanUtils;
 
+import br.com.karol.sistema.domain.Administrador;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-public class CriaAdministradorDTO {
+@AllArgsConstructor
+public class CriarAdministradorDTO {
 
-    private Integer id;
     private String usuario;
     private String senha;
 
-
-    public CriaAdministradorDTO(UpdateAdministradorDTO administrador) {
+    public CriarAdministradorDTO(Administrador administrador) {
         BeanUtils.copyProperties(administrador, this);
     }
 }
