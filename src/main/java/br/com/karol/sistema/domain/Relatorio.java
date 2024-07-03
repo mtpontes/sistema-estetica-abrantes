@@ -7,15 +7,15 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Relatorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int codigo;
+    private Long codigo;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Cliente cliente;
@@ -30,5 +30,5 @@ public class Relatorio {
     private Usuario responsavelAgendamento;
     
     private String observacao;
-    private LocalDate dataCadastro=LocalDate.now();
+    private LocalDate dataCadastro = LocalDate.now();
 }
