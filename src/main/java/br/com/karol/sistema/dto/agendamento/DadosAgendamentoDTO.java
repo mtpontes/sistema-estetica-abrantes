@@ -3,31 +3,35 @@ package br.com.karol.sistema.dto.agendamento;
 import java.time.LocalDateTime;
 
 import br.com.karol.sistema.domain.Agendamento;
-import br.com.karol.sistema.dto.ProcedimentoDTO;
-import br.com.karol.sistema.dto.cliente.DadosClienteDTO;
+import br.com.karol.sistema.dto.cliente.IdNomeEmailClienteDTO;
+import br.com.karol.sistema.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.dto.usuario.DadosUsuarioDTO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
-@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class DadosAgendamentoDTO {
 
-    private Integer id;
-    private ProcedimentoDTO tipoProcedimento;
+    private Long id;
+    private DadosProcedimentoDTO tipoProcedimento;
     private String observacao;
-    private DadosClienteDTO cliente;
+    private IdNomeEmailClienteDTO cliente;
     private LocalDateTime dataHora;
     private LocalDateTime dataCriacao;
     private DadosUsuarioDTO usuario;
 
-    public DadosAgendamentoDTO(Agendamento agendament) {
-        this.id = agendament.getId();
-        this.tipoProcedimento = new ProcedimentoDTO(agendament.getTipoProcedimento());
-        this.observacao = agendament.getObservacao();
-        this.cliente = new DadosClienteDTO(agendament.getCliente());
-        this.dataHora = agendament.getDataHora();
-        this.dataCriacao = agendament.getDataCriacao();
-        this.usuario = new DadosUsuarioDTO(agendament.getUsuario());
+    public DadosAgendamentoDTO(Agendamento agendamento) {
+        this.id = agendamento.getId();
+        this.tipoProcedimento = new DadosProcedimentoDTO(agendamento.getTipoProcedimento());
+        this.observacao = agendamento.getObservacao();
+        this.cliente = new IdNomeEmailClienteDTO(agendamento.getCliente());
+        this.dataHora = agendamento.getDataHora();
+        this.dataCriacao = agendamento.getDataCriacao();
+        this.usuario = new DadosUsuarioDTO(agendamento.getUsuario());
     }
 }

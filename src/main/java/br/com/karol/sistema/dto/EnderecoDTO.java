@@ -1,15 +1,17 @@
 package br.com.karol.sistema.dto;
 
-import br.com.karol.sistema.domain.Endereco;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import br.com.karol.sistema.domain.Endereco;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 public class EnderecoDTO {
+
     private Long id;
     private String rua;
     private String numero;
@@ -17,12 +19,7 @@ public class EnderecoDTO {
     private String bairro;
     private String estado;
 
-
     public EnderecoDTO(Endereco endereco) {
         BeanUtils.copyProperties(endereco, this);
-
     }
-    public EnderecoDTO() {}
-
-
 }

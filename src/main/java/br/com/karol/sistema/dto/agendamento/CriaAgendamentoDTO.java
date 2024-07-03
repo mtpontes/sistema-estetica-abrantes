@@ -2,42 +2,34 @@ package br.com.karol.sistema.dto.agendamento;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import br.com.karol.sistema.domain.Agendamento;
-import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.dto.ClienteDTO;
-import br.com.karol.sistema.dto.ProcedimentoDTO;
+import br.com.karol.sistema.dto.procedimento.CriarProcedimentoDTO;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CriaAgendamentoDTO {
 
-    // mensagem padrão do Bean Validation é algo como "Cannot be blank" ou "Não pode estar em branco"
-    @NotBlank( message = "Campo obrigatório!") 
-    private ProcedimentoDTO procedimento;
+    @NotNull 
+    @Valid
+    private CriarProcedimentoDTO procedimento;
 
-    private String observacao;
+    private String observacao; // pode ser blank
 
-    private ClienteDTO cliente;
+    @NotNull
+    private Long idCliente;
     
     @NotNull 
     @Future
     @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss")
     private LocalDateTime dataHora;
-    
-    private Usuario usuario;
-
-
-    public CriaAgendamentoDTO(Agendamento agendamento) {
-        BeanUtils.copyProperties(agendamento, this);
-    }
 }
