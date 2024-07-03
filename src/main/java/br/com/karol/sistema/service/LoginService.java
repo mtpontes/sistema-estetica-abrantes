@@ -1,59 +1,50 @@
 package br.com.karol.sistema.service;
 
-import br.com.karol.sistema.domain.Login;
-import br.com.karol.sistema.repository.LoginRepository;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import br.com.karol.sistema.domain.Login;
+import br.com.karol.sistema.repository.LoginRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Transactional
-@Data
 public class LoginService {
+
+    private final String ERROR_MESSAGE = "Login não encontrado";
+
     private final LoginRepository repository;
 
-    @Autowired
     public LoginService(LoginRepository repository) {
         this.repository = repository;
     }
 
-    public ResponseEntity<Login> salvar(Login login) {
-        Login login1 = repository.save(login);
-        return ResponseEntity.ok(login1);
 
+    public Login salvar(Login login) {
+        Login entity = repository.save(login);
+        return entity;
     }
 
-    public Login buscarLogin(String login) {
-        List<Login> logins = repository.findAll();
-        for (Login login1 : logins) {
-            if (login.equals(login1.getLogin())) {
-                return login1;
-            }
-        }
-
-        return null;
+    public void removerLogin(String login) {
+        if (!this.repository.existsByLogin(login)) throw new EntityNotFoundException(ERROR_MESSAGE);
+        repository.deleteByLogin(login);
     }
 
-    public ResponseEntity<Login> removerLogin(String login) {
-        Login login1 = buscarLogin(login);
-        repository.delete(login1);
-        return ResponseEntity.ok(login1);
-
-    }
-
-    public ResponseEntity<Login> editarLogin(Login login) {
-        Login login1 = buscarLogin(login.getLogin());
-        login1.setLogin(login.getLogin());
-        repository.save(login1);
-        return ResponseEntity.ok(login1);
+    public Login editarLogin(Login login) {
+        Login recovered = this.buscarLogin(login.getLogin());
+        recovered.atualizarSenha(recovered.getLogin());
+        repository.save(recovered);
+        return recovered;
     }
 
     public List<Login> listarLogin() {
         return repository.findAll();
+    }
 
+    public Login buscarLogin(String login) {
+        return this.repository.findByLogin(login)
+            .orElseThrow(() -> new EntityNotFoundException(ERROR_MESSAGE));
     }
 }

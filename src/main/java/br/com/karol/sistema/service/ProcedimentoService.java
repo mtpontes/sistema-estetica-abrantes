@@ -1,45 +1,52 @@
 package br.com.karol.sistema.service;
 
 
-import br.com.karol.sistema.domain.Procedimento;
-import br.com.karol.sistema.repository.ProcedimentoRepository;
-import lombok.Data;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import br.com.karol.sistema.domain.Procedimento;
+import br.com.karol.sistema.dto.procedimento.AtualizarProcedimentoDTO;
+import br.com.karol.sistema.dto.procedimento.CriarProcedimentoDTO;
+import br.com.karol.sistema.dto.procedimento.DadosProcedimentoDTO;
+import br.com.karol.sistema.mapper.ProcedimentoMapper;
+import br.com.karol.sistema.repository.ProcedimentoRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Transactional
-@Data
-
 public class ProcedimentoService {
-    private final ProcedimentoRepository repository;
 
-    public ProcedimentoService(ProcedimentoRepository repository) {
+    private ProcedimentoRepository repository;
+    private ProcedimentoMapper mapper;
+
+    public ProcedimentoService(ProcedimentoRepository repository, ProcedimentoMapper mapper) {
         this.repository = repository;
     }
 
 
-    public ResponseEntity<Procedimento> salvar(Procedimento procedimento) {
-        Procedimento procedimento1 = repository.save(procedimento);
-        return ResponseEntity.ok().body(procedimento1);
+    public DadosProcedimentoDTO salvar(CriarProcedimentoDTO dados) {
+        Procedimento procedimento = repository.save(mapper.toProcedimento(dados));
+        return mapper.toDadosProcedimentoDTO(procedimento);
     }
 
-    public List<Procedimento> listar() {
-        repository.findAll();
-        return List.of();
-    }
-    public ResponseEntity<Procedimento>remover(Procedimento procedimento){
-        repository.delete(procedimento);
-        return ResponseEntity.ok().body(procedimento);
-
-    }
-    public ResponseEntity<Procedimento>atualizar(Procedimento procedimento){
-        repository.save(procedimento);
-        return ResponseEntity.ok().body(procedimento);
+    public List<DadosProcedimentoDTO> listar() {
+        return mapper.toListDadosProcedimentoDTO(repository.findAll());
     }
 
+    public void remover(Long id){
+        repository.deleteById(id);
+    }
 
+    public DadosProcedimentoDTO atualizar(Long procedimentoId, AtualizarProcedimentoDTO update){
+        Procedimento alvo = this.getProcedimentoById(procedimentoId);
+        alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getValor());
+        return mapper.toDadosProcedimentoDTO(repository.save(alvo));
+    }
+
+    private Procedimento getProcedimentoById(Long id) {
+        return this.repository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Procedimento não encontrado"));
+    }
 }

@@ -1,38 +1,45 @@
 package br.com.karol.sistema.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.dto.agendamento.AtualizarAgentamentoDTO;
 import br.com.karol.sistema.dto.agendamento.CriaAgendamentoDTO;
 import br.com.karol.sistema.dto.agendamento.DadosAgendamentoDTO;
+import br.com.karol.sistema.mapper.AgendamentoMapper;
 import br.com.karol.sistema.repository.AgendamentoRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
-//ctrl+o remove imports não utilizados
-//@Transactional evita que determinados dados sejam persistidos no banco de dados caso haja algum tipo de problema
 @Service
+@Transactional
 public class AgendamentoService {
 
-    @Autowired
+    private final String NOT_FOUND_DEFAULT_MESSAGE = "Agendamento não encontrado";
+
     private AgendamentoRepository repository;
-    @Autowired
     private ClienteService clienteService;
+    
+    private AgendamentoMapper mapper;
 
-
-    public List<Agendamento> listarTodos() {
-        return repository.findAll();
+    public AgendamentoService(AgendamentoRepository repository, ClienteService clienteService, AgendamentoMapper mapper) {
+        this.repository = repository;
+        this.clienteService = clienteService;
+        this.mapper = mapper;
     }
 
-    public Optional<Agendamento> buscarPorId(Integer id) {
-        return repository.findById(id);
+
+    public DadosAgendamentoDTO buscarAgendamentoPorId(Long id) {
+        return mapper.toDadosAgentamentoDTO(this.getAgendamentoById(id));
+    }
+
+    public List<DadosAgendamentoDTO> listarTodosAgendamentos() {
+        return mapper.toListDadosAgentamentoDTO(repository.findAll());
     }
 
     /* ! isso precisará ser readaptado !
@@ -42,11 +49,11 @@ public class AgendamentoService {
      * - Horário de fechamento 
      * - Intervalo de tempo entre os agendamentos, considerando agentamentos anteriores e futuros dentro de um determinado tempo
      */
-    public DadosAgendamentoDTO salvar(CriaAgendamentoDTO dadosAgendamento, Usuario usuario) throws Exception {
-        Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getCliente().getId());
+    public DadosAgendamentoDTO salvarAgendamento(CriaAgendamentoDTO dadosAgendamento, Usuario usuario) {
+        Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getIdCliente());
         
         repository.findByDataHora(dadosAgendamento.getDataHora())
-            .orElseThrow(() -> new IllegalStateException("Horário indisponível"));
+            .orElseThrow(() -> new IllegalArgumentException("Horário indisponível"));
 
         Agendamento novoAgendamento = new Agendamento(
             new Procedimento(
@@ -61,18 +68,30 @@ public class AgendamentoService {
             usuario
         );
 
-        novoAgendamento = repository.save(novoAgendamento);
-        return new DadosAgendamentoDTO(novoAgendamento);
+        return mapper.toDadosAgentamentoDTO(repository.save(novoAgendamento));
     }
 
-    public Agendamento editar(Integer id, Agendamento agendamentoAtualizado) {
-        if (repository.existsById(id)) {
-            agendamentoAtualizado.setId(id);
-            return repository.save(agendamentoAtualizado);
+    /* Aqui deve ser implementado na entidade um método de update, precisa-se decidir sobre quais atributos de um agendamento
+     * que podem ser modificados.
+     * 
+     * Se for possível alterar o horário do agendamento será necessário rodar as validações de horário assim como foi feito 
+     * na criação de um agendamento
+     */
+    public DadosAgendamentoDTO  atualizarAgendamento(Long id, AtualizarAgentamentoDTO dadosAtualizacao) {
+        Agendamento agendamento = this.getAgendamentoById(id);
+        agendamento.remarcarAgendamento(dadosAtualizacao.getObservacao(), dadosAtualizacao.getDataHora());
+        
+        repository.save(agendamento);
+        return mapper.toDadosAgentamentoDTO(agendamento);
+    }
 
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agendamento não encontrado");
-        }
+    public void deletarAgendamento(Long id) {
+        this.repository.deleteById(id);
+    }
+
+    private Agendamento getAgendamentoById(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_DEFAULT_MESSAGE));
     }
 
 }

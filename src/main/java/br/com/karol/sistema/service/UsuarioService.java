@@ -1,74 +1,88 @@
 package br.com.karol.sistema.service;
 
+import java.util.List;
+import java.util.Optional;
 
-import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.repository.UsuarioRepository;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
+import br.com.karol.sistema.dto.usuario.AtualizarUsuarioDTO;
+import br.com.karol.sistema.dto.usuario.CriarUsuarioDTO;
+import br.com.karol.sistema.dto.usuario.DadosUsuarioDTO;
+import br.com.karol.sistema.enums.UserRole;
+import br.com.karol.sistema.mapper.UsuarioMapper;
+import br.com.karol.sistema.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 
 @Service
 @Transactional
-@Data
 public class UsuarioService {
 
-    private final UsuarioRepository repository;
+    private final String NOT_FOUND_MESSAGE = "Usuario não encontrado";
 
-    @Autowired
-    public UsuarioService(UsuarioRepository repository) {
+    private UsuarioRepository repository;
+    private UsuarioMapper mapper;
+    private PasswordEncoder encoder;
+
+    public UsuarioService(UsuarioRepository repository, UsuarioMapper mapper, PasswordEncoder encoder) {
         this.repository = repository;
+        this.mapper = mapper;
+        this.encoder = encoder;
     }
 
-    public ResponseEntity<Usuario> salvar(Usuario usuario) {
-        Usuario usuarioSalvo = repository.save(usuario);
-        return ResponseEntity.ok(usuarioSalvo);
+
+    public DadosUsuarioDTO salvar(CriarUsuarioDTO usuario) {
+        Usuario usuarioSalvo = repository.save(mapper.toUsuario(usuario));
+        return mapper.toDadosUsuarioDTO(usuarioSalvo);
+    }
+    public DadosUsuarioDTO adminSalvar(CriarUsuarioDTO dados) {
+        Usuario usuario = mapper.toUsuario(dados);
+        usuario.setRole(UserRole.ADMIN);
+        
+        return mapper.toDadosUsuarioDTO(repository.save(usuario));
     }
 
-    public ResponseEntity<List<Usuario>> listarTodos() {
+    public List<DadosUsuarioDTO> listarTodos(Pageable pageable) {
         List<Usuario> usuarios = repository.findAll();
-        return ResponseEntity.ok(usuarios);
-
-
+        return mapper.toListDadosUsuarioDTO(usuarios);
     }
 
-    public ResponseEntity<Usuario> buscarPorId(Integer id) {
-        Optional<Usuario> usuario = repository.findById(id);
-        if (usuario.isPresent()) {
-            return ResponseEntity.ok(usuario.get());
-
-        }
-        return null;
+    public DadosUsuarioDTO getDadosUsuarioAtual(Usuario usuario) {
+        return mapper.toDadosUsuarioDTO(usuario);
     }
 
-    public void removerPorId(Integer id) {
+    public DadosUsuarioDTO adminBuscarPorID(Long id) {
+        return mapper.toDadosUsuarioDTO(this.getUsuarioById(id));
+    }
+
+    public void removerPorId(Long id) {
+        if (!this.repository.existsById(id))
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
         repository.deleteById(id);
     }
 
-    public ResponseEntity<Usuario> atualizar(Integer id, Usuario usuario) {
-        // Verifica se o usuário existe no banco de dados
-        Optional<Usuario> usuarioExistente = repository.findById(id);
+    public DadosUsuarioDTO atualizarUsuarioAtual(Usuario usuario, AtualizarUsuarioDTO update) {
+        Usuario alvo = this.getUsuarioById(usuario.getId());
+        alvo.atualizarDados(update.getNome(), encoder.encode(update.getSenha()));
 
-        if (usuarioExistente.isPresent()) {
-            // Copia os valores do usuário atualizado para o existente, exceto o ID
-            Usuario usuarioParaAtualizar = usuarioExistente.get();
-            usuarioParaAtualizar.setNome(usuario.getNome());
-            usuarioParaAtualizar.setLogin(usuario.getLogin());
-            usuarioParaAtualizar.setSenha(usuario.getSenha());
+        return mapper.toDadosUsuarioDTO(repository.save(alvo));
+    }
+    public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(Long id, AtualizarSenhaOutroUsuarioDTO update) {
+        Usuario alvo = this.getUsuarioById(id);
+        alvo.setSenha(encoder.encode(update.getSenha()));
+        
+        return mapper.toDadosUsuarioDTO(repository.save(alvo));
+    }
 
-
-            // Salva as alterações no banco de dados
-            Usuario usuarioSalvo = repository.save(usuarioParaAtualizar);
-            return ResponseEntity.ok(usuarioSalvo);
-        } else {
-            // Retorna 404 Not Found se o usuário não existir
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    private Usuario getUsuarioById(Long id) {
+        return this.getUsuarioOrElseThrow(this.repository.findById(id));
+    }
+    private Usuario getUsuarioOrElseThrow(Optional<Usuario> optional) {
+        return optional.orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
 }

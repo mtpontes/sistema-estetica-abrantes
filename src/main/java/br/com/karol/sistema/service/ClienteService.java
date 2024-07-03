@@ -2,76 +2,64 @@ package br.com.karol.sistema.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.karol.sistema.domain.Cliente;
-import br.com.karol.sistema.dto.ClienteDTO;
-import br.com.karol.sistema.exceptions.ClienteException;
+import br.com.karol.sistema.dto.cliente.AtualizarClienteDTO;
+import br.com.karol.sistema.dto.cliente.CriarClienteDTO;
+import br.com.karol.sistema.dto.cliente.DadosClienteDTO;
+import br.com.karol.sistema.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.mapper.ClienteMapper;
 import br.com.karol.sistema.repository.ClienteRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.Data;
 
 @Service
 @Transactional
-@Data
 public class ClienteService {
 
-    @Autowired
+    private final String NOT_FOUND_MESSAGE = "Cliente não encontrado";
+    
     private ClienteRepository repository;
-    @Autowired
     private ClienteMapper mapper;
 
+    public ClienteService(ClienteRepository repository, ClienteMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
-//    public ClienteDTO salvar(ClienteDTO cliente) {
-//        Cliente cliente1 = mapper.clienteDTOToCliente(cliente);
-//        return mapper.clienteToClienteDTO(repository.save(cliente1));
-//
-//
-//    }
 
-    @Transactional
-    public ClienteDTO savarCliente(Cliente cliente) {
-        cliente.getEnderecos().forEach(endereco -> endereco.setCliente(cliente));
+    public DadosCompletosClienteDTO salvarCliente(CriarClienteDTO dadosCriacaoCliente) {
+        Cliente cliente = mapper.toCliente(dadosCriacaoCliente);
+
         Cliente savedCliente = repository.save(cliente);
-        return mapper.clienteToClienteDTO(savedCliente);
+        return mapper.toDadosCompletosClienteDTO(savedCliente);
     }
 
-    public void excluir(int id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
-        }
+    public void excluirCliente(Long id) {
+        if (!repository.existsById(id))
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
+
+        repository.deleteById(id);
     }
 
-    public List<Cliente> listar() {
-        return repository.findAll();
-
+    public List<DadosClienteDTO> listarTodosClientes() {
+        return mapper.toListDadosClienteDTO(repository.findAll());
     }
 
-    public Cliente buscarPorId(Integer id) {
+    public DadosCompletosClienteDTO buscarClientePorId(Long id) {
+        Cliente cliente = this.buscarPorId(id);
+        return mapper.toDadosCompletosClienteDTO(cliente);
+    }
+
+    public DadosCompletosClienteDTO editar(Long clienteId, AtualizarClienteDTO dadosAtualizacao) {
+        Cliente cliente = this.buscarPorId(clienteId);
+        cliente.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail(), dadosAtualizacao.getEndereco());
+        return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
+    }
+
+    public Cliente buscarPorId(Long id) {
         return repository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
-    }
-    
-    @Transactional(readOnly = true)
-    public ClienteDTO getCliente(Integer id) {
-        Cliente cliente = repository.findById(id).orElseThrow(() -> new ClienteException("Cliente não encontrado"));
-        return mapper.clienteToClienteDTO(cliente);
-    }
-
-    public Cliente editar(Integer id, Cliente clienteAtualizado) {
-        if (repository.existsById(id)) {
-            clienteAtualizado.setId(id);
-            return repository.save(clienteAtualizado);
-
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
-        }
+            .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
 }
