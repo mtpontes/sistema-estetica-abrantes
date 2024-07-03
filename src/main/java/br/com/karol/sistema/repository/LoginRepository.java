@@ -1,9 +1,16 @@
 package br.com.karol.sistema.repository;
 
-import br.com.karol.sistema.domain.Login;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
-@Repository
-public interface LoginRepository extends JpaRepository<Login, Integer> {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import br.com.karol.sistema.domain.Login;
+
+public interface LoginRepository extends JpaRepository<Login, Long> {
+
+    boolean existsByLogin(String login);
+
+    Optional<Login> findByLogin(String login);
+
+    void deleteByLogin(String login);
 }

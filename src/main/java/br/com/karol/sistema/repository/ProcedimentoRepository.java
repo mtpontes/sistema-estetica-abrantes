@@ -1,9 +1,8 @@
 package br.com.karol.sistema.repository;
 
-import br.com.karol.sistema.domain.Procedimento;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface ProcedimentoRepository extends CrudRepository<Procedimento, Long> {
+import br.com.karol.sistema.domain.Procedimento;
+
+public interface ProcedimentoRepository extends JpaRepository<Procedimento, Long> {
 }
