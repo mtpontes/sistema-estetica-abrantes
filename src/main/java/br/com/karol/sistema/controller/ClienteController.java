@@ -2,7 +2,6 @@ package br.com.karol.sistema.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +33,7 @@ public class ClienteController {
 
 
     @PostMapping
-    public ResponseEntity<DadosCompletosClienteDTO> salvarCliente(@Valid @RequestBody CriarClienteDTO cliente) {
+    public ResponseEntity<DadosCompletosClienteDTO> salvarCliente(@RequestBody @Valid CriarClienteDTO cliente) {
         DadosCompletosClienteDTO clienteSalvo = service.salvarCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
@@ -50,8 +49,8 @@ public class ClienteController {
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping
-    public ResponseEntity<DadosCompletosClienteDTO> editar(@RequestBody Long id, AtualizarClienteDTO cliente) {
+    @PutMapping("/{id}")
+    public ResponseEntity<DadosCompletosClienteDTO> editar(@PathVariable Long id, AtualizarClienteDTO cliente) {
         return ResponseEntity.ok(service.editar(id, cliente));
     }
 

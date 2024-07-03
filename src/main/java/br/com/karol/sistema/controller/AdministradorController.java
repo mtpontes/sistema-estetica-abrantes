@@ -16,6 +16,7 @@ import br.com.karol.sistema.dto.administrador.CriarAdministradorDTO;
 import br.com.karol.sistema.dto.administrador.DadosAdministradorDTO;
 import br.com.karol.sistema.dto.administrador.AtualizarAdministradorDTO;
 import br.com.karol.sistema.service.AdministradorService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/administrador")
@@ -29,7 +30,7 @@ public class AdministradorController {
 
 
     @PostMapping
-    public ResponseEntity<DadosAdministradorDTO> criarAdministrador(@RequestBody CriarAdministradorDTO dados) {
+    public ResponseEntity<DadosAdministradorDTO> criarAdministrador(@RequestBody @Valid CriarAdministradorDTO dados) {
         return ResponseEntity.ok(service.salvar(dados));
     }
 

@@ -22,6 +22,7 @@ import br.com.karol.sistema.dto.usuario.AtualizarUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.service.UsuarioService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -35,7 +36,7 @@ public class UsuarioController {
 
 
     @PostMapping
-    public ResponseEntity<DadosUsuarioDTO> criarUsuario(@RequestBody CriarUsuarioDTO dados) {
+    public ResponseEntity<DadosUsuarioDTO> criarUsuario(@RequestBody @Valid CriarUsuarioDTO dados) {
         System.out.println("Usuario: " + dados + " Salvo com sucesso!");
         return ResponseEntity.ok(service.salvar(dados));
     }
@@ -56,7 +57,7 @@ public class UsuarioController {
     // --- Rotas de admins -- 
 
     @PostMapping("/admin")
-    public ResponseEntity<DadosUsuarioDTO> criarUsuarioAdmin(@RequestBody CriarUsuarioDTO dados) {
+    public ResponseEntity<DadosUsuarioDTO> criarUsuarioAdmin(@RequestBody @Valid CriarUsuarioDTO dados) {
         System.out.println("Usuario: " + dados + " Salvo com sucesso!");
         return ResponseEntity.ok(service.adminSalvar(dados));
     }

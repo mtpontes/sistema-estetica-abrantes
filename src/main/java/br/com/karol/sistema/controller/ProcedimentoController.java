@@ -17,6 +17,7 @@ import br.com.karol.sistema.dto.procedimento.AtualizarProcedimentoDTO;
 import br.com.karol.sistema.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.service.ProcedimentoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/procedimento")
@@ -29,29 +30,29 @@ public class ProcedimentoController {
     }
 
 
-    @PostMapping("/salvarProcedimento")
-    public ResponseEntity<DadosProcedimentoDTO > salvarProcedimento(@RequestBody CriarProcedimentoDTO procedimento) {
+    @PostMapping
+    public ResponseEntity<DadosProcedimentoDTO > salvarProcedimento(@RequestBody @Valid CriarProcedimentoDTO procedimento) {
         return ResponseEntity.ok(service.salvar(procedimento));
 
     }
 
-    @GetMapping("/listarProcedimento")
+    @GetMapping
     public ResponseEntity<List<DadosProcedimentoDTO>> listarProcedimento() {
         return ResponseEntity.ok(service.listar());
 
     }
 
-    @DeleteMapping("/deletarProcedimento/{procedimentoId}")
-    public ResponseEntity<Procedimento> removerProcedimento(@PathVariable Long procedimentoId) {
-        service.remover(procedimentoId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/atualizarProcedimento/{procedimentoId}")
+    @PutMapping("/{procedimentoId}")
     public ResponseEntity<DadosProcedimentoDTO > atualizarProcedimento(
         @PathVariable Long procedimentoId, 
         @RequestBody AtualizarProcedimentoDTO procedimento
         ) {
         return ResponseEntity.ok(service.atualizar(procedimentoId, procedimento));
+    }
+
+    @DeleteMapping("/{procedimentoId}")
+    public ResponseEntity<Procedimento> removerProcedimento(@PathVariable Long procedimentoId) {
+        service.remover(procedimentoId);
+        return ResponseEntity.noContent().build();
     }
 }

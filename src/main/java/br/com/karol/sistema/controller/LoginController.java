@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.karol.sistema.domain.Login;
 import br.com.karol.sistema.service.LoginService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/login")
@@ -27,7 +28,7 @@ public class LoginController {
 
     
     @PostMapping
-    public ResponseEntity<Login> salvarLogin(@RequestBody Login login) {
+    public ResponseEntity<Login> salvarLogin(@RequestBody @Valid Login login) {
         return ResponseEntity.ok(service.salvar(login));
     }
 
