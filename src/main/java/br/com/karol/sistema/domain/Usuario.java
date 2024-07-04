@@ -51,7 +51,7 @@ public class Usuario implements UserDetails {
 
     public void setNome(String nome) {
         this.notBlank(nome, "nome");
-        this.senha = nome;
+        this.nome = nome;
     }
 
     public void setLogin(String login) {
