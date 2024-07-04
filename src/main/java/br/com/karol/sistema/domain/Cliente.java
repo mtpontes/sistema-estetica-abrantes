@@ -1,6 +1,7 @@
 package br.com.karol.sistema.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -17,9 +18,15 @@ public class Cliente {
 
     @Id    
     private String id;
+    
+    @Indexed(unique = true)
     private String cpf;
     private String nome;
+    
+    @Indexed(unique = true)
     private String telefone;
+    
+    @Indexed(unique = true)
     private String email;
     private Endereco endereco;
 
