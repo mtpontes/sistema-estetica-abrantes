@@ -44,14 +44,14 @@ public class ProcedimentoController {
 
     @PutMapping("/{procedimentoId}")
     public ResponseEntity<DadosProcedimentoDTO > atualizarProcedimento(
-        @PathVariable Long procedimentoId, 
+        @PathVariable String procedimentoId, 
         @RequestBody AtualizarProcedimentoDTO procedimento
         ) {
         return ResponseEntity.ok(service.atualizar(procedimentoId, procedimento));
     }
 
     @DeleteMapping("/{procedimentoId}")
-    public ResponseEntity<Procedimento> removerProcedimento(@PathVariable Long procedimentoId) {
+    public ResponseEntity<Procedimento> removerProcedimento(@PathVariable String procedimentoId) {
         service.remover(procedimentoId);
         return ResponseEntity.noContent().build();
     }

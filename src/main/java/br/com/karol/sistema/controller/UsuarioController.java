@@ -70,19 +70,19 @@ public class UsuarioController {
 
     /* Um usuário com ROLE ADMIN autenticado consegue recuperar dados de outros usuários */
     @GetMapping("/admin/{userId}")
-    public ResponseEntity<DadosUsuarioDTO> adminBuscarPorId(@PathVariable Long userId) {
+    public ResponseEntity<DadosUsuarioDTO> adminBuscarPorId(@PathVariable String userId) {
         System.out.println("Usuario encontrado: " + userId);
         return ResponseEntity.ok(service.adminBuscarPorID(userId));
     }
 
     @PatchMapping("/admin/{userId}")
-    public ResponseEntity<DadosUsuarioDTO> adminAtualizarUsuario(@PathVariable Long userId, @RequestBody AtualizarSenhaOutroUsuarioDTO dados) {
+    public ResponseEntity<DadosUsuarioDTO> adminAtualizarUsuario(@PathVariable String userId, @RequestBody AtualizarSenhaOutroUsuarioDTO dados) {
         System.out.println("Usuario Atualizado: " + dados);
         return ResponseEntity.ok(service.adminAtualizarSenhaOutrosUsuarios(userId, dados));
     }
 
     @DeleteMapping("/admin/{userId}")
-    public ResponseEntity<Void> removerPorId(@PathVariable Long userId) {
+    public ResponseEntity<Void> removerPorId(@PathVariable String userId) {
         service.removerPorId(userId);
         return ResponseEntity.noContent().build();
     }

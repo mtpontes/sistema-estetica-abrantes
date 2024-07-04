@@ -55,18 +55,18 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> buscarPorId(@PathVariable Long agendamentoId) {
+    public ResponseEntity<DadosAgendamentoDTO> buscarPorId(@PathVariable String agendamentoId) {
         return ResponseEntity.ok().body(service.buscarAgendamentoPorId(agendamentoId));
     }
 
     @PutMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> atualizar(@PathVariable Long agendamentoId, @RequestBody AtualizarAgentamentoDTO dadosRemarcacao) {
+    public ResponseEntity<DadosAgendamentoDTO> atualizar(@PathVariable String agendamentoId, @RequestBody AtualizarAgentamentoDTO dadosRemarcacao) {
         DadosAgendamentoDTO agendamentoAtualizado = service.atualizarAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
     @DeleteMapping("/{agendamentoId}")
-    public ResponseEntity<Void> deletar(@PathVariable Long agendamentoId) {
+    public ResponseEntity<Void> deletar(@PathVariable String agendamentoId) {
         service.deletarAgendamento(agendamentoId);
         return ResponseEntity.noContent().build();
     }
