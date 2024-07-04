@@ -1,7 +1,6 @@
 package br.com.karol.sistema.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,9 +13,9 @@ import br.com.karol.sistema.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.AtualizarUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.DadosUsuarioDTO;
+import br.com.karol.sistema.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.mapper.UsuarioMapper;
 import br.com.karol.sistema.repository.UsuarioRepository;
-import jakarta.persistence.EntityNotFoundException;
 
 
 @Service
@@ -48,19 +47,18 @@ public class UsuarioService {
     }
 
     public List<DadosUsuarioDTO> listarTodos(Pageable pageable) {
-        List<Usuario> usuarios = repository.findAll();
-        return mapper.toListDadosUsuarioDTO(usuarios);
+        return mapper.toListDadosUsuarioDTO(repository.findAll());
     }
 
     public DadosUsuarioDTO getDadosUsuarioAtual(Usuario usuario) {
         return mapper.toDadosUsuarioDTO(usuario);
     }
 
-    public DadosUsuarioDTO adminBuscarPorID(Long id) {
+    public DadosUsuarioDTO adminBuscarPorID(String id) {
         return mapper.toDadosUsuarioDTO(this.getUsuarioById(id));
     }
 
-    public void removerPorId(Long id) {
+    public void removerPorId(String id) {
         if (!this.repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
         repository.deleteById(id);
@@ -72,17 +70,15 @@ public class UsuarioService {
 
         return mapper.toDadosUsuarioDTO(repository.save(alvo));
     }
-    public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(Long id, AtualizarSenhaOutroUsuarioDTO update) {
+    public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(String id, AtualizarSenhaOutroUsuarioDTO update) {
         Usuario alvo = this.getUsuarioById(id);
         alvo.setSenha(encoder.encode(update.getSenha()));
         
         return mapper.toDadosUsuarioDTO(repository.save(alvo));
     }
 
-    private Usuario getUsuarioById(Long id) {
-        return this.getUsuarioOrElseThrow(this.repository.findById(id));
-    }
-    private Usuario getUsuarioOrElseThrow(Optional<Usuario> optional) {
-        return optional.orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
+    private Usuario getUsuarioById(String id) {
+        return this.repository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
 }

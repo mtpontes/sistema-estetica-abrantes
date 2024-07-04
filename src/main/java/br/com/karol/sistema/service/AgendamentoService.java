@@ -3,6 +3,7 @@ package br.com.karol.sistema.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
@@ -11,10 +12,9 @@ import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.dto.agendamento.AtualizarAgentamentoDTO;
 import br.com.karol.sistema.dto.agendamento.CriaAgendamentoDTO;
 import br.com.karol.sistema.dto.agendamento.DadosAgendamentoDTO;
+import br.com.karol.sistema.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.mapper.AgendamentoMapper;
 import br.com.karol.sistema.repository.AgendamentoRepository;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -34,7 +34,7 @@ public class AgendamentoService {
     }
 
 
-    public DadosAgendamentoDTO buscarAgendamentoPorId(Long id) {
+    public DadosAgendamentoDTO buscarAgendamentoPorId(String id) {
         return mapper.toDadosAgentamentoDTO(this.getAgendamentoById(id));
     }
 
@@ -77,7 +77,7 @@ public class AgendamentoService {
      * Se for possível alterar o horário do agendamento será necessário rodar as validações de horário assim como foi feito 
      * na criação de um agendamento
      */
-    public DadosAgendamentoDTO  atualizarAgendamento(Long id, AtualizarAgentamentoDTO dadosAtualizacao) {
+    public DadosAgendamentoDTO  atualizarAgendamento(String id, AtualizarAgentamentoDTO dadosAtualizacao) {
         Agendamento agendamento = this.getAgendamentoById(id);
         agendamento.remarcarAgendamento(dadosAtualizacao.getObservacao(), dadosAtualizacao.getDataHora());
         
@@ -85,13 +85,12 @@ public class AgendamentoService {
         return mapper.toDadosAgentamentoDTO(agendamento);
     }
 
-    public void deletarAgendamento(Long id) {
+    public void deletarAgendamento(String id) {
         this.repository.deleteById(id);
     }
 
-    private Agendamento getAgendamentoById(Long id) {
+    private Agendamento getAgendamentoById(String id) {
         return repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_DEFAULT_MESSAGE));
     }
-
 }

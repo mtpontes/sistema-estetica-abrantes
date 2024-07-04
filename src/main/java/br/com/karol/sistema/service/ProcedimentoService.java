@@ -10,9 +10,9 @@ import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.dto.procedimento.AtualizarProcedimentoDTO;
 import br.com.karol.sistema.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.dto.procedimento.DadosProcedimentoDTO;
+import br.com.karol.sistema.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.mapper.ProcedimentoMapper;
 import br.com.karol.sistema.repository.ProcedimentoRepository;
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Transactional
@@ -35,18 +35,18 @@ public class ProcedimentoService {
         return mapper.toListDadosProcedimentoDTO(repository.findAll());
     }
 
-    public void remover(Long id){
-        repository.deleteById(id);
-    }
-
-    public DadosProcedimentoDTO atualizar(Long procedimentoId, AtualizarProcedimentoDTO update){
+    public DadosProcedimentoDTO atualizar(String procedimentoId, AtualizarProcedimentoDTO update){
         Procedimento alvo = this.getProcedimentoById(procedimentoId);
         alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getValor());
         return mapper.toDadosProcedimentoDTO(repository.save(alvo));
     }
 
-    private Procedimento getProcedimentoById(Long id) {
+    private Procedimento getProcedimentoById(String id) {
         return this.repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Procedimento não encontrado"));
+    }
+
+    public void remover(String id){
+        repository.deleteById(id);
     }
 }
