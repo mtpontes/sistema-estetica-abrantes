@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Cliente;
-import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.dto.cliente.DadosCompletosClienteDTO;
@@ -25,7 +24,7 @@ public class ClienteMapper {
 
     
     public Cliente toCliente(CriarClienteDTO dados) {
-        return new Cliente(dados.getCpf(), dados.getNome(), dados.getTelefone(), dados.getEmail(), mapper.map(dados.getEndereco(), Endereco.class));
+        return new Cliente(dados.getCpf(), dados.getNome(), dados.getTelefone(), dados.getEmail(), dados.getEndereco());
     }
 
     public DadosCompletosClienteDTO toDadosCompletosClienteDTO(Cliente cliente) {
