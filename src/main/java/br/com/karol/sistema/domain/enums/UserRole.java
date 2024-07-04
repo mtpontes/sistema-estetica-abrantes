@@ -1,8 +1,10 @@
-package br.com.karol.sistema.enums;
+package br.com.karol.sistema.domain.enums;
 
 public enum UserRole {
+    
     ADMIN("admin"),
     USER("user");
+
     private String role;
 
     UserRole(String role) {
@@ -12,5 +14,4 @@ public enum UserRole {
     public String getRole() {
         return role;
     }
-
 }

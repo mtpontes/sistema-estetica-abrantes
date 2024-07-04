@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.AtualizarUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.dto.usuario.DadosUsuarioDTO;
-import br.com.karol.sistema.enums.UserRole;
 import br.com.karol.sistema.mapper.UsuarioMapper;
 import br.com.karol.sistema.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;

@@ -3,7 +3,7 @@ package br.com.karol.sistema.dto.usuario;
 import org.springframework.beans.BeanUtils;
 
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.enums.UserRole;
+import br.com.karol.sistema.domain.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
