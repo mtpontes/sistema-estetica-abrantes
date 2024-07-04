@@ -1,7 +1,5 @@
 package br.com.karol.sistema.dto.cliente;
 
-import org.springframework.beans.BeanUtils;
-
 import br.com.karol.sistema.domain.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +18,8 @@ public class DadosClienteDTO {
 
 
     public DadosClienteDTO(Cliente cliente) {
-        BeanUtils.copyProperties(cliente, this);
+        this.id = cliente.getId();
+        this.cpf = cliente.getCpf();
+        this.nome = cliente.getNome();
     }
 }

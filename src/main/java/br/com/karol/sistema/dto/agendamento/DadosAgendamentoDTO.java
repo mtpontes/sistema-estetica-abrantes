@@ -25,6 +25,7 @@ public class DadosAgendamentoDTO {
     private LocalDateTime dataCriacao;
     private DadosUsuarioDTO usuario;
 
+    
     public DadosAgendamentoDTO(Agendamento agendamento) {
         this.id = agendamento.getId();
         this.tipoProcedimento = new DadosProcedimentoDTO(agendamento.getTipoProcedimento());

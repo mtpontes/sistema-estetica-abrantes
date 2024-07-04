@@ -1,7 +1,5 @@
 package br.com.karol.sistema.dto.usuario;
 
-import org.springframework.beans.BeanUtils;
-
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.enums.UserRole;
 import lombok.AllArgsConstructor;
@@ -19,7 +17,10 @@ public class DadosUsuarioDTO {
     private String nome;
     private UserRole role;
 
+    
     public DadosUsuarioDTO(Usuario usuario) {
-        BeanUtils.copyProperties(usuario, this);
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.role = usuario.getRole();
     }
 }
