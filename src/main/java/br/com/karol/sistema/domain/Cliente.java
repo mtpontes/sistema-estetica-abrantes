@@ -1,39 +1,26 @@
 package br.com.karol.sistema.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Cliente")
-@Table(name = "clientes")
+@Document(collection = "clientes", collation = "pt", language = "portuguese")
 public class Cliente {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true)
+    @Id    
+    private String id;
     private String cpf;
-
     private String nome;
-
-    @Column(unique = true)
     private String telefone;
-
-    @Column(unique = true)
     private String email;
-
-    @Embedded
     private Endereco endereco;
 
 

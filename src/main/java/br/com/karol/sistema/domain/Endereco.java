@@ -1,12 +1,10 @@
 package br.com.karol.sistema.domain;
 
-import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@Embeddable
 public class Endereco {
 
     private String rua;
@@ -15,6 +13,7 @@ public class Endereco {
     private String bairro;
     private String estado;
 
+    
     public Endereco(String rua, String numero, String cidade, String bairro, String estado) {
         this.setAll(rua, numero, cidade, bairro, estado);
     }

@@ -2,45 +2,34 @@ package br.com.karol.sistema.domain;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Agendamento")
-@Table(name = "agendamentos")
+@Document(collection = "agendamentos", collation = "pt", language = "portuguese")
 public class Agendamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Procedimento tipoProcedimento;
-
+    private String id;
+    @DBRef
+    private Procedimento procedimento;
     private String observacao;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @DBRef
     private Cliente cliente;
-    
-    @Column(name = "Data_Hora")
     private LocalDateTime dataHora;
-    
-    @Column(name = "Data_Criacao")
     private LocalDateTime dataCriacao;
-    
-    @ManyToOne
+    @DBRef
     private Usuario usuario;
+
 
     public Agendamento(Procedimento tipoProcedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
         this.setTipoProcedimento(tipoProcedimento);
@@ -61,9 +50,9 @@ public class Agendamento {
         if (obj == null) throw new IllegalArgumentException("Não pode ser nulo: " + nomeCampo);
     }
 
-    public void setTipoProcedimento(Procedimento tipoProcedimento) {
-        this.notNull(tipoProcedimento, "tipoProcedimento");
-        this.tipoProcedimento = tipoProcedimento;
+    public void setTipoProcedimento(Procedimento procedimento) {
+        this.notNull(procedimento, "tipoProcedimento");
+        this.procedimento = procedimento;
     }
     public void setObservacao(String observacao) {
         // Observação: pode ser blank

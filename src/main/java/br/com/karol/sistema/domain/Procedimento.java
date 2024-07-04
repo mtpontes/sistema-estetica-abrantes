@@ -1,28 +1,27 @@
 package br.com.karol.sistema.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Procedimento")
-@Table(name = "procedimentos")
+@Document(collection = "procedimentos", collation = "pt", language = "portuguese")
 public class Procedimento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String nome;
     private String descricao;
     private Double valor;
 
+    
     public Procedimento(String nome, String descricao, Double valor) {
         this.setAll(nome, descricao, valor);
     }
