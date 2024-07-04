@@ -12,10 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosClienteDTO {
 
-    private Long id;
+    private String id;
     private String cpf;
     private String nome;
-
 
     public DadosClienteDTO(Cliente cliente) {
         this.id = cliente.getId();

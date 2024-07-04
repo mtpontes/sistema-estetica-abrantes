@@ -17,18 +17,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosAgendamentoDTO {
 
-    private Long id;
-    private DadosProcedimentoDTO tipoProcedimento;
+    private String id;
+    private DadosProcedimentoDTO procedimento;
     private String observacao;
     private IdNomeEmailClienteDTO cliente;
     private LocalDateTime dataHora;
     private LocalDateTime dataCriacao;
     private DadosUsuarioDTO usuario;
 
-    
     public DadosAgendamentoDTO(Agendamento agendamento) {
         this.id = agendamento.getId();
-        this.tipoProcedimento = new DadosProcedimentoDTO(agendamento.getTipoProcedimento());
+        this.procedimento = new DadosProcedimentoDTO(agendamento.getProcedimento());
         this.observacao = agendamento.getObservacao();
         this.cliente = new IdNomeEmailClienteDTO(agendamento.getCliente());
         this.dataHora = agendamento.getDataHora();

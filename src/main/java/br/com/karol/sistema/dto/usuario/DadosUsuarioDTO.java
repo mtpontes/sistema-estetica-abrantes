@@ -13,11 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosUsuarioDTO {
 
-    private Long id;
+    private String id;
     private String nome;
     private UserRole role;
 
-    
     public DadosUsuarioDTO(Usuario usuario) {
         this.id = usuario.getId();
         this.nome = usuario.getNome();

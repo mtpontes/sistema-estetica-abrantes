@@ -26,7 +26,7 @@ public class CriaAgendamentoDTO {
     private String observacao; // pode ser blank
 
     @NotNull
-    private Long idCliente;
+    private String idCliente;
     
     @NotNull 
     @Future

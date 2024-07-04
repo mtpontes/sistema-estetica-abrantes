@@ -13,13 +13,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosCompletosClienteDTO {
 
-    private Long id;
+    private String id;
     private String cpf;
     private String nome;
     private String telefone;
     private String email;
     private Endereco endereco;
-
 
     public DadosCompletosClienteDTO(Cliente cliente) {
         this.id = cliente.getId();
