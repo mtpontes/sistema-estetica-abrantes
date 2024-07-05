@@ -10,7 +10,7 @@ import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.dto.agendamento.AtualizarAgendamentoDTO;
-import br.com.karol.sistema.dto.agendamento.CriaAgendamentoDTO;
+import br.com.karol.sistema.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.mapper.AgendamentoMapper;
@@ -47,7 +47,7 @@ public class AgendamentoService {
      * - Horário de fechamento 
      * - Intervalo de tempo entre os agendamentos, considerando agendamentos anteriores e futuros dentro de um determinado tempo
      */
-    public DadosAgendamentoDTO salvarAgendamento(CriaAgendamentoDTO dadosAgendamento, Usuario usuario) {
+    public DadosAgendamentoDTO salvarAgendamento(CriarAgendamentoDTO dadosAgendamento, Usuario usuario) {
         // ----- validações ----- 
         
         Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getClienteId());

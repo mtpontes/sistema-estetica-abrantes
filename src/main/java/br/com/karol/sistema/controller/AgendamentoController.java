@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.dto.agendamento.AtualizarAgendamentoDTO;
-import br.com.karol.sistema.dto.agendamento.CriaAgendamentoDTO;
+import br.com.karol.sistema.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.service.AgendamentoService;
 import jakarta.validation.Valid;
@@ -37,7 +37,7 @@ public class AgendamentoController {
     public ResponseEntity<DadosAgendamentoDTO> criarAgendamento(
         UriComponentsBuilder uriBuilder,
         Authentication authentication,
-        @RequestBody @Valid CriaAgendamentoDTO dadosAgendamento
+        @RequestBody @Valid CriarAgendamentoDTO dadosAgendamento
     ) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         DadosAgendamentoDTO agendamentoCriado = service.salvarAgendamento(dadosAgendamento, usuario);
