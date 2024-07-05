@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.dto.agendamento.AtualizarAgentamentoDTO;
+import br.com.karol.sistema.dto.agendamento.AtualizarAgendamentoDTO;
 import br.com.karol.sistema.dto.agendamento.CriaAgendamentoDTO;
 import br.com.karol.sistema.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.service.AgendamentoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/agendamento")
+@RequestMapping("/agendamentos")
 public class AgendamentoController {
 
     private final AgendamentoService service;
@@ -35,10 +35,10 @@ public class AgendamentoController {
 
     @PostMapping
     public ResponseEntity<DadosAgendamentoDTO> salvar(
-        @RequestBody @Valid CriaAgendamentoDTO dadosAgendamento, 
         UriComponentsBuilder uriBuilder,
-        Authentication authentication
-        ) {
+        Authentication authentication,
+        @RequestBody @Valid CriaAgendamentoDTO dadosAgendamento)
+        {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         DadosAgendamentoDTO agendamentoCriado = service.salvarAgendamento(dadosAgendamento, usuario);
 
@@ -60,7 +60,7 @@ public class AgendamentoController {
     }
 
     @PutMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> atualizar(@PathVariable String agendamentoId, @RequestBody AtualizarAgentamentoDTO dadosRemarcacao) {
+    public ResponseEntity<DadosAgendamentoDTO> atualizar(@PathVariable String agendamentoId, @RequestBody AtualizarAgendamentoDTO dadosRemarcacao) {
         DadosAgendamentoDTO agendamentoAtualizado = service.atualizarAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
