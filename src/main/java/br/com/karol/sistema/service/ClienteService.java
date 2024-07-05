@@ -48,13 +48,13 @@ public class ClienteService {
         return mapper.toDadosCompletosClienteDTO(cliente);
     }
 
-    public DadosCompletosClienteDTO editar(String clienteId, AtualizarClienteDTO dadosAtualizacao) {
+    public DadosCompletosClienteDTO editarCliente(String clienteId, AtualizarClienteDTO dadosAtualizacao) {
         Cliente cliente = this.buscarPorId(clienteId);
         cliente.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail(), enderecoMapper.toEndereco(dadosAtualizacao.getEndereco()));
         return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
     }
 
-    public void excluirCliente(String id) {
+    public void removerCliente(String id) {
         if (!repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
 

@@ -76,7 +76,7 @@ public class AgendamentoService {
      * Se for possível alterar o horário do agendamento será necessário rodar as validações de horário assim como foi feito 
      * na criação de um agendamento
      */
-    public DadosAgendamentoDTO  atualizarAgendamento(String id, AtualizarAgendamentoDTO dadosAtualizacao) {
+    public DadosAgendamentoDTO  editarAgendamento(String id, AtualizarAgendamentoDTO dadosAtualizacao) {
         Agendamento agendamento = this.getAgendamentoById(id);
         agendamento.remarcarAgendamento(dadosAtualizacao.getObservacao(), dadosAtualizacao.getDataHora());
         
@@ -84,7 +84,7 @@ public class AgendamentoService {
         return mapper.toDadosAgendamentoDTO(agendamento);
     }
 
-    public void deletarAgendamento(String agendamentoId) {
+    public void removerAgendamento(String agendamentoId) {
         if (!agendamentoRepository.existsById(agendamentoId))
             throw new EntityNotFoundException(this.NOT_FOUND_DEFAULT_MESSAGE);
         agendamentoRepository.deleteById(agendamentoId);

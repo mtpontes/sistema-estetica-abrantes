@@ -35,18 +35,18 @@ public class UsuarioService {
     }
 
 
-    public DadosUsuarioDTO salvar(CriarUsuarioDTO usuario) {
+    public DadosUsuarioDTO salvarUsuario(CriarUsuarioDTO usuario) {
         Usuario usuarioSalvo = repository.save(mapper.toUsuario(usuario));
         return mapper.toDadosUsuarioDTO(usuarioSalvo);
     }
-    public DadosUsuarioDTO adminSalvar(CriarUsuarioDTO dados) {
+    public DadosUsuarioDTO adminSalvarUsuario(CriarUsuarioDTO dados) {
         Usuario usuario = mapper.toUsuario(dados);
         usuario.setRole(UserRole.ADMIN);
         
         return mapper.toDadosUsuarioDTO(repository.save(usuario));
     }
 
-    public List<DadosUsuarioDTO> listarTodos(Pageable pageable) {
+    public List<DadosUsuarioDTO> listarTodosUsuarios(Pageable pageable) {
         return mapper.toListDadosUsuarioDTO(repository.findAll());
     }
 
@@ -54,11 +54,11 @@ public class UsuarioService {
         return mapper.toDadosUsuarioDTO(usuario);
     }
 
-    public DadosUsuarioDTO adminBuscarPorID(String id) {
+    public DadosUsuarioDTO adminBuscarUsuarioPorID(String id) {
         return mapper.toDadosUsuarioDTO(this.getUsuarioById(id));
     }
 
-    public void removerPorId(String id) {
+    public void removerUsuario(String id) {
         if (!this.repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
         repository.deleteById(id);

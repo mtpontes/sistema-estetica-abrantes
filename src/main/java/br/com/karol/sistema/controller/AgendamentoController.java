@@ -34,7 +34,7 @@ public class AgendamentoController {
 
 
     @PostMapping
-    public ResponseEntity<DadosAgendamentoDTO> salvar(
+    public ResponseEntity<DadosAgendamentoDTO> criarAgendamento(
         UriComponentsBuilder uriBuilder,
         Authentication authentication,
         @RequestBody @Valid CriaAgendamentoDTO dadosAgendamento
@@ -55,19 +55,19 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> buscarPorId(@PathVariable String agendamentoId) {
+    public ResponseEntity<DadosAgendamentoDTO> buscarAgendamento(@PathVariable String agendamentoId) {
         return ResponseEntity.ok().body(service.buscarAgendamentoPorId(agendamentoId));
     }
 
     @PutMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> atualizar(@PathVariable String agendamentoId, @RequestBody AtualizarAgendamentoDTO dadosRemarcacao) {
-        DadosAgendamentoDTO agendamentoAtualizado = service.atualizarAgendamento(agendamentoId, dadosRemarcacao);
+    public ResponseEntity<DadosAgendamentoDTO> atualizarAgendamento(@PathVariable String agendamentoId, @RequestBody AtualizarAgendamentoDTO dadosRemarcacao) {
+        DadosAgendamentoDTO agendamentoAtualizado = service.editarAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
     @DeleteMapping("/{agendamentoId}")
-    public ResponseEntity<Void> deletar(@PathVariable String agendamentoId) {
-        service.deletarAgendamento(agendamentoId);
+    public ResponseEntity<Void> deletarAgendamento(@PathVariable String agendamentoId) {
+        service.removerAgendamento(agendamentoId);
         return ResponseEntity.noContent().build();
     }
 }
