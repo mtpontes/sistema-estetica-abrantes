@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -25,19 +26,14 @@ public class Agendamento {
     private String observacao;
     @DBRef
     private Cliente cliente;
+    @Setter
     private LocalDateTime dataHora;
     private LocalDateTime dataCriacao;
     @DBRef
     private Usuario usuario;
 
-
-    public Agendamento(Procedimento tipoProcedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
-        this.setTipoProcedimento(tipoProcedimento);
-        this.setObservacao(observacao);
-        this.setCliente(cliente);
-        this.setDataHora(dataHora);
-        this.setUsuario(usuario);
-        this.dataCriacao = LocalDateTime.now();
+    public Agendamento(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
+        this.setAllWithValidations(procedimento, observacao, cliente, dataHora, usuario);
     }
 
 
@@ -50,24 +46,21 @@ public class Agendamento {
         if (obj == null) throw new IllegalArgumentException("Não pode ser nulo: " + nomeCampo);
     }
 
-    public void setTipoProcedimento(Procedimento procedimento) {
-        this.notNull(procedimento, "tipoProcedimento");
+    private void setAllWithValidations(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
+        this.notNull(procedimento, "procedimento");
         this.procedimento = procedimento;
-    }
-    public void setObservacao(String observacao) {
-        // Observação: pode ser blank
+
         this.observacao = observacao == null ? "" : observacao;
-    }
-    public void setCliente(Cliente cliente) {
+
         this.notNull(cliente, "cliente");
         this.cliente = cliente;
-    }
-    public void setDataHora(LocalDateTime dataHora) {
+
         this.notNull(dataHora, "dataHora");
         this.dataHora = dataHora;
-    }
-    public void setUsuario(Usuario usuario) {
+
         this.notNull(usuario, "usuario");
         this.usuario = usuario;
+
+        this.dataCriacao = LocalDateTime.now();
     }
 }
