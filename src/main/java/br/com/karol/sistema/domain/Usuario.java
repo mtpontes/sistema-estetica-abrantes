@@ -35,7 +35,6 @@ public class Usuario implements UserDetails {
     @Setter 
     private UserRole role;
 
-    
     public Usuario(String nome, String login, String senha) {
         this.setNome(nome);
         this.setLogin(login);
