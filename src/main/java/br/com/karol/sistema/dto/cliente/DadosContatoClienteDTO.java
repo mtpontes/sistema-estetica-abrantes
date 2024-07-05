@@ -10,15 +10,17 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class IdNomeEmailClienteDTO {
+public class DadosContatoClienteDTO {
 
     private String id;
     private String nome;
+    private String telefone;
     private String email;
 
-    public IdNomeEmailClienteDTO(Cliente cliente) {
+    public DadosContatoClienteDTO(Cliente cliente) {
         this.id = cliente.getId();
         this.nome = cliente.getNome();
+        this.telefone = cliente.getTelefone();
         this.email = cliente.getEmail();
     }
 }
