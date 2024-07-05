@@ -37,8 +37,8 @@ public class AgendamentoController {
     public ResponseEntity<DadosAgendamentoDTO> salvar(
         UriComponentsBuilder uriBuilder,
         Authentication authentication,
-        @RequestBody @Valid CriaAgendamentoDTO dadosAgendamento) 
-    {
+        @RequestBody @Valid CriaAgendamentoDTO dadosAgendamento
+    ) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         DadosAgendamentoDTO agendamentoCriado = service.salvarAgendamento(dadosAgendamento, usuario);
 
