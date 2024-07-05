@@ -10,9 +10,10 @@ import br.com.karol.sistema.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.dto.cliente.DadosCompletosClienteDTO;
+import br.com.karol.sistema.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.mapper.ClienteMapper;
+import br.com.karol.sistema.mapper.EnderecoMapper;
 import br.com.karol.sistema.repository.ClienteRepository;
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Transactional
@@ -22,10 +23,12 @@ public class ClienteService {
     
     private ClienteRepository repository;
     private ClienteMapper mapper;
+    private EnderecoMapper enderecoMapper;
 
-    public ClienteService(ClienteRepository repository, ClienteMapper mapper) {
+    public ClienteService(ClienteRepository repository, ClienteMapper mapper, EnderecoMapper enderecoMapper) {
         this.repository = repository;
         this.mapper = mapper;
+        this. enderecoMapper = enderecoMapper;
     }
 
 
@@ -36,29 +39,29 @@ public class ClienteService {
         return mapper.toDadosCompletosClienteDTO(savedCliente);
     }
 
-    public void excluirCliente(Long id) {
+    public List<DadosClienteDTO> listarTodosClientes() {
+        return mapper.toListDadosClienteDTO(repository.findAll());
+    }
+
+    public DadosCompletosClienteDTO buscarClientePorId(String id) {
+        Cliente cliente = this.buscarPorId(id);
+        return mapper.toDadosCompletosClienteDTO(cliente);
+    }
+
+    public DadosCompletosClienteDTO editar(String clienteId, AtualizarClienteDTO dadosAtualizacao) {
+        Cliente cliente = this.buscarPorId(clienteId);
+        cliente.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail(), enderecoMapper.toEndereco(dadosAtualizacao.getEndereco()));
+        return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
+    }
+
+    public void excluirCliente(String id) {
         if (!repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
 
         repository.deleteById(id);
     }
 
-    public List<DadosClienteDTO> listarTodosClientes() {
-        return mapper.toListDadosClienteDTO(repository.findAll());
-    }
-
-    public DadosCompletosClienteDTO buscarClientePorId(Long id) {
-        Cliente cliente = this.buscarPorId(id);
-        return mapper.toDadosCompletosClienteDTO(cliente);
-    }
-
-    public DadosCompletosClienteDTO editar(Long clienteId, AtualizarClienteDTO dadosAtualizacao) {
-        Cliente cliente = this.buscarPorId(clienteId);
-        cliente.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail(), dadosAtualizacao.getEndereco());
-        return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
-    }
-
-    public Cliente buscarPorId(Long id) {
+    public Cliente buscarPorId(String id) {
         return repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }

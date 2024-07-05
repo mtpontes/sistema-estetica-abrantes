@@ -1,12 +1,12 @@
 package br.com.karol.sistema.domain;
 
-import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
-@Embeddable
 public class Endereco {
 
     private String rua;
@@ -16,14 +16,21 @@ public class Endereco {
     private String estado;
 
     public Endereco(String rua, String numero, String cidade, String bairro, String estado) {
-        this.setAll(rua, numero, cidade, bairro, estado);
+        this.setAllWithValidations(rua, numero, cidade, bairro, estado);
     }
 
     
     public void atualizarDados(String rua, String numero, String cidade, String bairro, String estado) {
-        this.setAll(rua, numero, cidade, bairro, estado);
+        if (!this.isBlank(rua)) this.rua = rua;
+        if (!this.isBlank(numero)) this.numero = numero;
+        if (!this.isBlank(cidade)) this.cidade = cidade;
+        if (!this.isBlank(bairro)) this.bairro = bairro;
+        if (!this.isBlank(estado)) this.estado = estado;
 	}
 
+    private boolean isBlank(String param) {
+        return param == null || param.isBlank();
+    }
     private void notBlank(String field, String fieldName) {
         if (field == null)
             throw new IllegalArgumentException("Não pode ser null: " + fieldName);
@@ -31,32 +38,20 @@ public class Endereco {
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
     }
 
-    public void setRua(String rua) {
+    private void setAllWithValidations(String rua, String numero, String cidade, String bairro, String estado) {
         this.notBlank(rua, "rua");
         this.rua = rua;
-    }
-    public void setNumero(String numero) {
+
         this.notBlank(numero, "numero");
         this.numero = numero;
-    }
-    public void setCidade(String cidade) {
+
         this.notBlank(cidade, "cidade");
         this.cidade = cidade;
-    }
-    public void setBairro(String bairro) {
+
         this.notBlank(bairro, "bairro");
         this.bairro = bairro;
-    }
-    public void setEstado(String estado) {
+
         this.notBlank(estado, "estado");
         this.estado = estado;
-    }
-    
-    private void setAll(String rua, String numero, String cidade, String bairro, String estado) {
-        this.setRua(rua);
-        this.setNumero(numero);
-        this.setCidade(cidade);
-        this.setBairro(bairro);
-        this.setEstado(estado);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.enums.UserRole;
+import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.repository.UsuarioRepository;
 import jakarta.annotation.PostConstruct;
 

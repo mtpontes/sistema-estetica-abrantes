@@ -9,5 +9,4 @@ public class AbrantesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AbrantesApplication.class, args);
 	}
-
 }

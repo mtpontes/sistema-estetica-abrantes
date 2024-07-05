@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.dto.procedimento.AtualizarProcedimentoDTO;
 import br.com.karol.sistema.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.dto.procedimento.DadosProcedimentoDTO;
@@ -20,7 +19,7 @@ import br.com.karol.sistema.service.ProcedimentoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/procedimento")
+@RequestMapping("/procedimentos")
 public class ProcedimentoController {
     
     private final ProcedimentoService service;
@@ -32,27 +31,30 @@ public class ProcedimentoController {
 
     @PostMapping
     public ResponseEntity<DadosProcedimentoDTO > salvarProcedimento(@RequestBody @Valid CriarProcedimentoDTO procedimento) {
-        return ResponseEntity.ok(service.salvar(procedimento));
-
+        return ResponseEntity.ok(service.salvarProcedimento(procedimento));
     }
 
     @GetMapping
-    public ResponseEntity<List<DadosProcedimentoDTO>> listarProcedimento() {
+    public ResponseEntity<List<DadosProcedimentoDTO>> listarProcedimentos() {
         return ResponseEntity.ok(service.listar());
+    }
 
+    @GetMapping("/{procedimentoId}")
+    public ResponseEntity<DadosProcedimentoDTO> mostrarProcedimento(@PathVariable String procedimentoId) {
+        return ResponseEntity.ok(service.mostrarProcedimento(procedimentoId));
     }
 
     @PutMapping("/{procedimentoId}")
-    public ResponseEntity<DadosProcedimentoDTO > atualizarProcedimento(
-        @PathVariable Long procedimentoId, 
+    public ResponseEntity<DadosProcedimentoDTO> atualizarProcedimento(
+        @PathVariable String procedimentoId, 
         @RequestBody AtualizarProcedimentoDTO procedimento
-        ) {
-        return ResponseEntity.ok(service.atualizar(procedimentoId, procedimento));
+    ) {
+        return ResponseEntity.ok(service.editarProcedimento(procedimentoId, procedimento));
     }
 
     @DeleteMapping("/{procedimentoId}")
-    public ResponseEntity<Procedimento> removerProcedimento(@PathVariable Long procedimentoId) {
-        service.remover(procedimentoId);
+    public ResponseEntity<Void> removerProcedimento(@PathVariable String procedimentoId) {
+        service.deletarProcedimento(procedimentoId);
         return ResponseEntity.noContent().build();
     }
 }

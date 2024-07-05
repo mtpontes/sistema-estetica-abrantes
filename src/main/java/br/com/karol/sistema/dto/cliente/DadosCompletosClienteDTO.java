@@ -1,7 +1,5 @@
 package br.com.karol.sistema.dto.cliente;
 
-import org.springframework.beans.BeanUtils;
-
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import lombok.AllArgsConstructor;
@@ -15,16 +13,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosCompletosClienteDTO {
 
-    private Long id;
+    private String id;
     private String cpf;
     private String nome;
     private String telefone;
     private String email;
     private Endereco endereco;
 
-
-    // talvez o Bean Utils deixe o `enderecos` com null ou uma lista vazia
     public DadosCompletosClienteDTO(Cliente cliente) {
-        BeanUtils.copyProperties(cliente, this);
+        this.id = cliente.getId();
+        this.cpf = cliente.getCpf();
+        this.nome = cliente.getNome();
+        this.telefone = cliente.getTelefone();
+        this.email = cliente.getEmail();
+        this.endereco = cliente.getEndereco();
     }
 }

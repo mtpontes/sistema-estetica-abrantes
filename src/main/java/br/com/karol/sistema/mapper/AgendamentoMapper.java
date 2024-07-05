@@ -19,10 +19,11 @@ public class AgendamentoMapper {
     }
 
 
-    public DadosAgendamentoDTO toDadosAgentamentoDTO(Agendamento agendamento) {
+    public DadosAgendamentoDTO toDadosAgendamentoDTO(Agendamento agendamento) {
         return mapper.map(agendamento, DadosAgendamentoDTO.class);
     }
+    
     public List<DadosAgendamentoDTO> toListDadosAgentamentoDTO(List<Agendamento> agendamentoList) {
-        return agendamentoList.stream().map(this::toDadosAgentamentoDTO).collect(Collectors.toList());
+        return agendamentoList.stream().map(this::toDadosAgendamentoDTO).collect(Collectors.toList());
     }
 }

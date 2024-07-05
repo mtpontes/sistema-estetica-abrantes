@@ -8,11 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Cliente;
-import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.dto.cliente.DadosCompletosClienteDTO;
-import br.com.karol.sistema.dto.cliente.IdNomeEmailClienteDTO;
+import br.com.karol.sistema.dto.cliente.DadosContatoClienteDTO;
 
 @Component
 public class ClienteMapper {
@@ -25,7 +24,7 @@ public class ClienteMapper {
 
     
     public Cliente toCliente(CriarClienteDTO dados) {
-        return new Cliente(dados.getCpf(), dados.getNome(), dados.getTelefone(), dados.getEmail(), mapper.map(dados.getEndereco(), Endereco.class));
+        return new Cliente(dados.getCpf(), dados.getNome(), dados.getTelefone(), dados.getEmail(), dados.getEndereco());
     }
 
     public DadosCompletosClienteDTO toDadosCompletosClienteDTO(Cliente cliente) {
@@ -39,7 +38,7 @@ public class ClienteMapper {
         return clienteList.stream().map(c -> toDadosClienteDTO(c)).collect(Collectors.toList());
     }
 
-    public IdNomeEmailClienteDTO toIdNomeEmailClienteDTO(Cliente cliente) {
-        return mapper.map(cliente, IdNomeEmailClienteDTO.class);
+    public DadosContatoClienteDTO toIdNomeEmailClienteDTO(Cliente cliente) {
+        return mapper.map(cliente, DadosContatoClienteDTO.class);
     }
 }

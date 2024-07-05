@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AtualizarAgentamentoDTO {
+public class AtualizarAgendamentoDTO {
 
     @NotBlank
     private String observacao;

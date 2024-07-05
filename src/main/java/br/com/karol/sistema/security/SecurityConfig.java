@@ -34,6 +34,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/usuarios").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/usuarios").hasAnyRole("USER", "ADMIN")
 
+                .requestMatchers(HttpMethod.POST, "/clientes/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/procedimentos/**").permitAll()
+
                 .requestMatchers(HttpMethod.POST, "/auth").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/refresh-token").permitAll()
 

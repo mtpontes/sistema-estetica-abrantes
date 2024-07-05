@@ -1,18 +1,22 @@
 package br.com.karol.sistema.service;
 
-import br.com.karol.sistema.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.karol.sistema.repository.UsuarioRepository;
+
 @Service
-public class AuthorizationService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    UsuarioRepository repository;
+    private UsuarioRepository repository;
 
+    public UserDetailsServiceImpl(UsuarioRepository repository) {
+        this.repository = repository;
+    }
+
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByLogin(username);

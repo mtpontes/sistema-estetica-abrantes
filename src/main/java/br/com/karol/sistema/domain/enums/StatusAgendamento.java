@@ -1,4 +1,4 @@
-package br.com.karol.sistema.enums;
+package br.com.karol.sistema.domain.enums;
 
 public enum StatusAgendamento {
     PENDENTE,

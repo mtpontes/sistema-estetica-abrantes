@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import br.com.karol.sistema.dto.procedimento.CriarProcedimentoDTO;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,16 +18,15 @@ import lombok.Setter;
 public class CriaAgendamentoDTO {
 
     @NotNull 
-    @Valid
-    private CriarProcedimentoDTO procedimento;
-
-    private String observacao; // pode ser blank
-
+    private String procedimentoId;
+    
     @NotNull
-    private Long idCliente;
+    private String clienteId;
     
     @NotNull 
     @Future
     @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss")
     private LocalDateTime dataHora;
+    
+    private String observacao; // pode ser blank
 }

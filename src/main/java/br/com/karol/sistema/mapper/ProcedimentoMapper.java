@@ -18,6 +18,7 @@ public class ProcedimentoMapper {
     public DadosProcedimentoDTO toDadosProcedimentoDTO(Procedimento dados) {
         return new DadosProcedimentoDTO(dados);
     }
+    
     public List<DadosProcedimentoDTO> toListDadosProcedimentoDTO(List<Procedimento> dados) {
         return dados.stream()
             .map(this::toDadosProcedimentoDTO)

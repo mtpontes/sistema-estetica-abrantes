@@ -21,7 +21,7 @@ import br.com.karol.sistema.service.ClienteService;
 import jakarta.validation.Valid;
 
 
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 @RestController
 public class ClienteController {
 
@@ -44,18 +44,18 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DadosCompletosClienteDTO> buscarCliente(@PathVariable Long id) {
+    public ResponseEntity<DadosCompletosClienteDTO> buscarCliente(@PathVariable String id) {
         DadosCompletosClienteDTO dto = service.buscarClientePorId(id);
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DadosCompletosClienteDTO> editar(@PathVariable Long id, AtualizarClienteDTO cliente) {
+    public ResponseEntity<DadosCompletosClienteDTO> editar(@PathVariable String id, @RequestBody AtualizarClienteDTO cliente) {
         return ResponseEntity.ok(service.editar(id, cliente));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    public ResponseEntity<Void> excluir(@PathVariable String id) {
         service.excluirCliente(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
