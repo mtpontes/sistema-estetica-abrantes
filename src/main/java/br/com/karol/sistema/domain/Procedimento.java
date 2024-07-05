@@ -1,6 +1,7 @@
 package br.com.karol.sistema.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class Procedimento {
 
     @Id
     private String id;
+    @Indexed(unique = true)
     private String nome;
     private String descricao;
     private Double valor;
