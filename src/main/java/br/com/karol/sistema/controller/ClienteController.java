@@ -21,7 +21,7 @@ import br.com.karol.sistema.service.ClienteService;
 import jakarta.validation.Valid;
 
 
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 @RestController
 public class ClienteController {
 
@@ -50,7 +50,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DadosCompletosClienteDTO> editar(@PathVariable String id, AtualizarClienteDTO cliente) {
+    public ResponseEntity<DadosCompletosClienteDTO> editar(@PathVariable String id, @RequestBody AtualizarClienteDTO cliente) {
         return ResponseEntity.ok(service.editar(id, cliente));
     }
 
