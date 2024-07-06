@@ -44,7 +44,7 @@ public class ProcedimentoService {
 
     public DadosProcedimentoDTO editarProcedimento(String procedimentoId, AtualizarProcedimentoDTO update){
         Procedimento alvo = this.getProcedimentoById(procedimentoId);
-        alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getValor());
+        alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getDuracao(), update.getValor());
         return mapper.toDadosProcedimentoDTO(repository.save(alvo));
     }
 

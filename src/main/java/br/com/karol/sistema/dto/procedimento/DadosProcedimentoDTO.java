@@ -1,5 +1,7 @@
 package br.com.karol.sistema.dto.procedimento;
 
+import java.time.LocalTime;
+
 import br.com.karol.sistema.domain.Procedimento;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,12 +17,14 @@ public class DadosProcedimentoDTO {
     private String id;
     private String nome;
     private String descricao;
+    private LocalTime duracao;
     private Double valor;
 
     public DadosProcedimentoDTO(Procedimento dados) {
         this.id = dados.getId();
         this.nome = dados.getNome();
         this.descricao = dados.getDescricao();
+        this.duracao = dados.getDuracao();
         this.valor = dados.getValor();
     }
 }
