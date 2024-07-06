@@ -9,8 +9,8 @@ import br.com.karol.sistema.domain.Agendamento;
 @Component
 public class HorarioDeFuncionamentoValidator implements AgendamentoValidator {
 
-    private final Integer HORA_ABERTURA = 8;
-    private final Integer HORA_FECHAMENTO = 15;
+    private static final Integer HORA_ABERTURA = 8;
+    private static final Integer HORA_FECHAMENTO = 15;
 
 
     @Override
