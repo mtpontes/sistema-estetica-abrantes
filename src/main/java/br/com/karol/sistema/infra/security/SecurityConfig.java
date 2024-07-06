@@ -28,30 +28,21 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/usuarios/admin/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/auth").permitAll()
                 
                 .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                 .requestMatchers(HttpMethod.GET, "/usuarios").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/usuarios").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/usuarios/admin/**").hasRole("ADMIN")                
 
-                .requestMatchers(HttpMethod.POST, "/clientes/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/procedimentos/**").permitAll()
+                .requestMatchers("/clientes/**").hasAnyRole("USER", "ADMIN")
 
-                .requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/refresh-token").permitAll()
-
-                .requestMatchers(HttpMethod.GET, "/agendamento/admin").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/agendamento/user").hasRole("USER")
-                .requestMatchers(HttpMethod.GET, "/agendamento/listarAgendamentos").permitAll()
-                .requestMatchers(HttpMethod.POST, "/agendamento/criar").hasRole("USER")
-
-                .requestMatchers("/administrador/**").permitAll()
+                .requestMatchers("/procedimentos/**").hasRole("ADMIN")
 
                 .anyRequest().authenticated()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
-
     }
 
     @Bean
