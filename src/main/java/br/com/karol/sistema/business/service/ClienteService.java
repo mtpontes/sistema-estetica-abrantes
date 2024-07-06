@@ -32,6 +32,7 @@ public class ClienteService {
     }
 
 
+    @Transactional
     public DadosCompletosClienteDTO salvarCliente(CriarClienteDTO dadosCriacaoCliente) {
         Cliente cliente = mapper.toCliente(dadosCriacaoCliente);
 
@@ -48,12 +49,14 @@ public class ClienteService {
         return mapper.toDadosCompletosClienteDTO(cliente);
     }
 
+    @Transactional
     public DadosCompletosClienteDTO editarCliente(String clienteId, AtualizarClienteDTO dadosAtualizacao) {
         Cliente cliente = this.buscarPorId(clienteId);
         cliente.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail(), enderecoMapper.toEndereco(dadosAtualizacao.getEndereco()));
         return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
     }
 
+    @Transactional
     public void removerCliente(String id) {
         if (!repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);

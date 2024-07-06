@@ -15,7 +15,6 @@ import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.ProcedimentoRepository;
 
 @Service
-@Transactional
 public class ProcedimentoService {
 
     private final String NOT_FOUND_MESSAGE = "Procedimento não encontrado";
@@ -29,6 +28,7 @@ public class ProcedimentoService {
     }
 
 
+    @Transactional
     public DadosProcedimentoDTO salvarProcedimento(CriarProcedimentoDTO dados) {
         Procedimento procedimento = repository.save(mapper.toProcedimento(dados));
         return mapper.toDadosProcedimentoDTO(procedimento);
@@ -42,12 +42,14 @@ public class ProcedimentoService {
         return this.mapper.toDadosProcedimentoDTO(this.getProcedimentoById(procedimentoId));
     }
 
+    @Transactional
     public DadosProcedimentoDTO editarProcedimento(String procedimentoId, AtualizarProcedimentoDTO update){
         Procedimento alvo = this.getProcedimentoById(procedimentoId);
         alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getDuracao(), update.getValor());
         return mapper.toDadosProcedimentoDTO(repository.save(alvo));
     }
 
+    @Transactional
     public void removerProcedimento(String id) {
         if (repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
