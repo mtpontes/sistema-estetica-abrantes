@@ -18,12 +18,12 @@ import lombok.Setter;
 public class DadosAgendamentoDTO {
 
     private String id;
-    private DadosProcedimentoDTO procedimento;
     private String observacao;
-    private DadosContatoClienteDTO cliente;
     private LocalDateTime dataHora;
-    private LocalDateTime dataCriacao;
+    private DadosProcedimentoDTO procedimento;
+    private DadosContatoClienteDTO cliente;
     private DadosUsuarioDTO usuario;
+    private LocalDateTime dataCriacao;
 
     public DadosAgendamentoDTO(Agendamento agendamento) {
         this.id = agendamento.getId();
