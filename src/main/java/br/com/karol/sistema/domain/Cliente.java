@@ -56,11 +56,10 @@ public class Cliente {
     }
 
     private boolean isNull(Object param) {
-        return param == null ? true : false;
+        return param == null;
     }
     private boolean isBlank(String param) {
-        if (this.isNull(param) || param.isBlank()) return true; 
-        return false;
+        return this.isNull(param) || param.isBlank();
     }
 
     private void notNull(Object param, String nomeCampo) {

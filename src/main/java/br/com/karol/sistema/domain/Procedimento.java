@@ -28,7 +28,6 @@ public class Procedimento {
     private LocalTime duracao;
     private Double valor;
 
-
     public Procedimento(String nome, String descricao, LocalTime duracao, Double valor) {
         this.setAllWithValidations(nome, descricao, duracao, valor);
     }
@@ -42,7 +41,7 @@ public class Procedimento {
     }
 
     private boolean isNull(Object param) {
-        return param == null ? true : false;
+        return param == null;
     }
     private boolean isBlank(String param) {
         if (this.isNull(param) || param.isBlank()) return true; 
@@ -59,11 +58,8 @@ public class Procedimento {
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
     }
 
-    // Sofrerá alteracao no futuro
     private boolean isValidValor(Double valor) {
-        this.notNull(valor, "valor");
-        if (valor < VALOR_MINIMO) return false;
-        return true;
+        return this.isNull(valor) || valor < VALOR_MINIMO;
     }
 
     private void setAllWithValidations(String nome, String descricao, LocalTime duracao, Double valor) {
