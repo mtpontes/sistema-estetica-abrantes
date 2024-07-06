@@ -17,14 +17,16 @@ import br.com.karol.sistema.domain.Cliente;
 public class ClienteMapper {
 
     private ModelMapper mapper;
+    private EnderecoMapper enderecoMapper;
 
-    public ClienteMapper(ModelMapper mapper) {
+    public ClienteMapper(ModelMapper mapper, EnderecoMapper enderecoMapper) {
         this.mapper = mapper;
+        this.enderecoMapper = enderecoMapper;
     }
 
     
     public Cliente toCliente(CriarClienteDTO dados) {
-        return new Cliente(dados.getCpf(), dados.getNome(), dados.getTelefone(), dados.getEmail(), dados.getEndereco());
+        return new Cliente(dados.getCpf(), dados.getNome(), dados.getTelefone(), dados.getEmail(), enderecoMapper.toEndereco(dados.getEndereco()));
     }
 
     public DadosCompletosClienteDTO toDadosCompletosClienteDTO(Cliente cliente) {

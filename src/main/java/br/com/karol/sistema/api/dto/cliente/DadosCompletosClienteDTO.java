@@ -1,7 +1,7 @@
 package br.com.karol.sistema.api.dto.cliente;
 
+import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.domain.Cliente;
-import br.com.karol.sistema.domain.Endereco;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class DadosCompletosClienteDTO {
     private String nome;
     private String telefone;
     private String email;
-    private Endereco endereco;
+    private EnderecoDTO endereco;
 
     public DadosCompletosClienteDTO(Cliente cliente) {
         this.id = cliente.getId();
@@ -26,6 +26,6 @@ public class DadosCompletosClienteDTO {
         this.nome = cliente.getNome();
         this.telefone = cliente.getTelefone();
         this.email = cliente.getEmail();
-        this.endereco = cliente.getEndereco();
+        this.endereco = new EnderecoDTO(cliente.getEndereco());
     }
 }
