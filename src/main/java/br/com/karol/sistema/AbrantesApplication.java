@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AbrantesApplication {
 
 	public static void main(String[] args) {
+        // TimeZone.setDefault(TimeZone.getTimeZone("UTC-3"));
 		SpringApplication.run(AbrantesApplication.class, args);
 	}
 }
