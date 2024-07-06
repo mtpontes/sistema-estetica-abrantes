@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Agendamento;
-import br.com.karol.sistema.repository.AgendamentoRepository;
+import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 
 @Component
 public class HorarioDisponivelValidator implements AgendamentoValidator {
