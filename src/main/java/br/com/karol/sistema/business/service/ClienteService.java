@@ -12,29 +12,27 @@ import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.api.mapper.ClienteMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
 import br.com.karol.sistema.domain.Cliente;
+import br.com.karol.sistema.domain.validations.cliente.ClienteValidator;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.ClienteRepository;
+import lombok.AllArgsConstructor;
 
 @Service
-@Transactional
+@AllArgsConstructor
 public class ClienteService {
 
-    private final String NOT_FOUND_MESSAGE = "Cliente não encontrado";
+    private static final String NOT_FOUND_MESSAGE = "Cliente não encontrado";
     
     private ClienteRepository repository;
     private ClienteMapper mapper;
     private EnderecoMapper enderecoMapper;
-
-    public ClienteService(ClienteRepository repository, ClienteMapper mapper, EnderecoMapper enderecoMapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this. enderecoMapper = enderecoMapper;
-    }
+    private List<ClienteValidator> validators;
 
 
     @Transactional
     public DadosCompletosClienteDTO salvarCliente(CriarClienteDTO dadosCriacaoCliente) {
         Cliente cliente = mapper.toCliente(dadosCriacaoCliente);
+        this.validators.forEach(validator -> validator.validate(cliente));
 
         Cliente savedCliente = repository.save(cliente);
         return mapper.toDadosCompletosClienteDTO(savedCliente);
@@ -53,6 +51,8 @@ public class ClienteService {
     public DadosCompletosClienteDTO editarCliente(String clienteId, AtualizarClienteDTO dadosAtualizacao) {
         Cliente cliente = this.buscarPorId(clienteId);
         cliente.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail(), enderecoMapper.toEndereco(dadosAtualizacao.getEndereco()));
+        this.validators.forEach(validator -> validator.validate(cliente));
+
         return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
     }
 
