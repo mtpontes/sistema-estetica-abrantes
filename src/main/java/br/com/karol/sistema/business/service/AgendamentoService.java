@@ -13,42 +13,28 @@ import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.domain.validations.agendamento.agendar.AgendamentoValidator;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
+import lombok.AllArgsConstructor;
 
 @Service
-@Transactional
+@AllArgsConstructor
 public class AgendamentoService {
 
-    private final String NOT_FOUND_DEFAULT_MESSAGE = "Agendamento não encontrado";
+    private static final String NOT_FOUND_MESSAGE = "Agendamento não encontrado";
 
     private AgendamentoRepository agendamentoRepository;
     private ClienteService clienteService;
     private ProcedimentoService procedimentoService;
     private AgendamentoMapper mapper;
+    private List<AgendamentoValidator> validator;
 
-    public AgendamentoService(
-        AgendamentoRepository repository,
-        ClienteService clienteService,
-        ProcedimentoService procedimentoService,
-        AgendamentoMapper mapper) 
-        {
-        this.agendamentoRepository = repository;
-        this.clienteService = clienteService;
-        this.procedimentoService = procedimentoService;
-        this.mapper = mapper;
-    }
 
-    
-    /* ! isso precisará ser readaptado !
-     * 
-     * É necessário fazer validações mais específicas sobre horários de agendamentos. É necessário levar em conta coisas como:
-     * - Horário de abertura
-     * - Horário de fechamento 
-     * - Intervalo de tempo entre os agendamentos, considerando agendamentos anteriores e futuros dentro de um determinado tempo
-     */
+    @Transactional
     public DadosAgendamentoDTO salvarAgendamento(CriarAgendamentoDTO dadosAgendamento, Usuario usuario) {
-        // ----- validações ----- 
+        Agendamento forValidator = mapper.forAgendamentoValidator(dadosAgendamento.getClienteId(), dadosAgendamento.getDataHora(), null);
+        validator.forEach(v -> v.validate(forValidator));
         
         Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getClienteId());
         Procedimento procedimentoAlvo = procedimentoService.getProcedimentoById(dadosAgendamento.getProcedimentoId());
@@ -70,28 +56,28 @@ public class AgendamentoService {
         return mapper.toListDadosAgentamentoDTO(agendamentoRepository.findAll());
     }
 
-    /* Aqui deve ser implementado na entidade um método de update, precisa-se decidir sobre quais atributos de um agendamento
-     * que podem ser modificados.
-     * 
-     * Se for possível alterar o horário do agendamento será necessário rodar as validações de horário assim como foi feito 
-     * na criação de um agendamento
-     */
-    public DadosAgendamentoDTO  editarAgendamento(String id, AtualizarAgendamentoDTO dadosAtualizacao) {
-        Agendamento agendamento = this.getAgendamentoById(id);
+    @Transactional
+    public DadosAgendamentoDTO editarAgendamento(String agendamentoId, AtualizarAgendamentoDTO dadosAtualizacao) {
+        Agendamento alvo = this.getAgendamentoById(agendamentoId);
+        alvo.setDataHora(dadosAtualizacao.getDataHora());
+        validator.forEach(v -> v.validate(alvo));
+
+        Agendamento agendamento = this.getAgendamentoById(agendamentoId);
         agendamento.remarcarAgendamento(dadosAtualizacao.getObservacao(), dadosAtualizacao.getDataHora());
         
         agendamentoRepository.save(agendamento);
         return mapper.toDadosAgendamentoDTO(agendamento);
     }
 
+    @Transactional
     public void removerAgendamento(String agendamentoId) {
         if (!agendamentoRepository.existsById(agendamentoId))
-            throw new EntityNotFoundException(this.NOT_FOUND_DEFAULT_MESSAGE);
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
         agendamentoRepository.deleteById(agendamentoId);
     }
 
     private Agendamento getAgendamentoById(String id) {
         return agendamentoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(this.NOT_FOUND_DEFAULT_MESSAGE));
+            .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
 }

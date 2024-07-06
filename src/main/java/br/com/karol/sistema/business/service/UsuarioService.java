@@ -35,10 +35,12 @@ public class UsuarioService {
     }
 
 
+    @Transactional
     public DadosUsuarioDTO salvarUsuario(CriarUsuarioDTO usuario) {
         Usuario usuarioSalvo = repository.save(mapper.toUsuario(usuario));
         return mapper.toDadosUsuarioDTO(usuarioSalvo);
     }
+    @Transactional
     public DadosUsuarioDTO adminSalvarUsuario(CriarUsuarioDTO dados) {
         Usuario usuario = mapper.toUsuario(dados);
         usuario.setRole(UserRole.ADMIN);
@@ -58,18 +60,21 @@ public class UsuarioService {
         return mapper.toDadosUsuarioDTO(this.getUsuarioById(id));
     }
 
+    @Transactional
     public void removerUsuario(String id) {
         if (!this.repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
         repository.deleteById(id);
     }
 
+    @Transactional
     public DadosUsuarioDTO atualizarUsuarioAtual(Usuario usuario, AtualizarUsuarioDTO update) {
         Usuario alvo = this.getUsuarioById(usuario.getId());
         alvo.atualizarDados(update.getNome(), encoder.encode(update.getSenha()));
 
         return mapper.toDadosUsuarioDTO(repository.save(alvo));
     }
+    @Transactional
     public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(String id, AtualizarSenhaOutroUsuarioDTO update) {
         Usuario alvo = this.getUsuarioById(id);
         alvo.setSenha(encoder.encode(update.getSenha()));

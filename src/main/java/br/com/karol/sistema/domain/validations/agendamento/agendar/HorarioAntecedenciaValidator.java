@@ -10,16 +10,20 @@ import br.com.karol.sistema.domain.Agendamento;
 @Component
 public class HorarioAntecedenciaValidator implements AgendamentoValidator {
 
-    private final Integer ANTECEDENCIA_MINIMA_EM_MINUTOS = 90;
+    private static final Integer ANTECEDENCIA_MINIMA_EM_MINUTOS = 90;
 
     
     @Override
     public void validate(Agendamento dados) {
         var dataAgendamento = dados.getDataHora();
         var agora = LocalDateTime.now();
-        var result = Duration.between(dataAgendamento, agora).toMinutes();
 
-        if (result < 90)
+        if (dataAgendamento.isBefore(agora)) {
+            throw new IllegalArgumentException("A data do agendamento não pode ser no passado.");
+        }
+
+        Long result = Duration.between(agora, dataAgendamento).toMinutes();
+        if (result < ANTECEDENCIA_MINIMA_EM_MINUTOS)
             throw new IllegalArgumentException("O agendamento deve ser feito com antecedência mínima de " + ANTECEDENCIA_MINIMA_EM_MINUTOS + " minutos");
     }
 }
