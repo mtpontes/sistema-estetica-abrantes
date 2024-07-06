@@ -1,5 +1,7 @@
 package br.com.karol.sistema.domain.validations.agendamento.agendar;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Agendamento;
@@ -8,7 +10,7 @@ import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 @Component
 public class LimiteDeAgendamentosNoDiaValidator implements AgendamentoValidator {
 
-    private final Integer LIMITE_AGENDAMENTOS_NO_DIA = 2;
+    private static final Integer LIMITE_AGENDAMENTOS_NO_DIA = 2;
     private AgendamentoRepository repository;
 
     public LimiteDeAgendamentosNoDiaValidator(AgendamentoRepository repository) {
@@ -18,14 +20,14 @@ public class LimiteDeAgendamentosNoDiaValidator implements AgendamentoValidator 
 
     @Override
     public void validate(Agendamento dados) {
-        var dataAgendamento = dados.getDataHora().toLocalDate();
+        LocalDate dataAgendamento = dados.getDataHora().toLocalDate();
 
-        var result = repository.countByClienteAndDataHoraBetween(
+        Long result = repository.countByClienteAndDataHoraBetween(
             dados.getCliente().getId(),
             dataAgendamento.atStartOfDay(),
             dataAgendamento.atTime(23, 59, 59));
 
-        if (result >= LIMITE_AGENDAMENTOS_NO_DIA)
+        if (result != null && result >= LIMITE_AGENDAMENTOS_NO_DIA)
             throw new IllegalArgumentException("Cliente atingiu o limite de agendamentos no dia");
     }
 }
