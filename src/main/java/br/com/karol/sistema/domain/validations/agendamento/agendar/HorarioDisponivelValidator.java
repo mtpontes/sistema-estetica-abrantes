@@ -1,6 +1,6 @@
 package br.com.karol.sistema.domain.validations.agendamento.agendar;
 
-import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 @Component
 public class HorarioDisponivelValidator implements AgendamentoValidator {
 
-    private final Integer INTERVALO_ENTRE_AGENDAMENTOS_EM_MINUTOS = 30;
+    private static final Integer INTERVALO_ENTRE_AGENDAMENTOS_EM_MINUTOS = 29;
     private AgendamentoRepository repository;
 
     public HorarioDisponivelValidator(AgendamentoRepository repository) {
@@ -23,19 +23,22 @@ public class HorarioDisponivelValidator implements AgendamentoValidator {
     @Override
     public void validate(Agendamento dados) {
         LocalTime inicioNovoAgendamento = dados.getDataHora().toLocalTime();
+        LocalDate dataNovoAgendamento = dados.getDataHora().toLocalDate();
+        
         List<Agendamento> agendamentos = repository.findByAgendamentosBetweenDataHora(
-            dados.getDataHora().toLocalDate().atStartOfDay(), 
-            dados.getDataHora().toLocalDate().atTime(23, 59, 59));
+            dataNovoAgendamento.atStartOfDay(), 
+            dataNovoAgendamento.atTime(23, 59, 59));
 
-        agendamentos.forEach(a -> {
-            LocalTime duracao = a.getProcedimento().getDuracao();
-            LocalTime inicio = a.getDataHora().toLocalTime();
+        agendamentos.forEach(agendamento -> {
+            if (agendamento.getId() != null && agendamento.getId().equals(dados.getId())) return;
+            LocalTime inicio = agendamento.getDataHora().toLocalTime();
+            LocalTime duracao = agendamento.getProcedimento().getDuracao();
             LocalTime termino = inicio.plusHours(duracao.getHour()).plusMinutes(duracao.getMinute());
             
-            var result = Duration.between(termino, inicioNovoAgendamento).toMinutes();
-            
-            if (result < INTERVALO_ENTRE_AGENDAMENTOS_EM_MINUTOS) 
+            // Verifica se o novo agendamento começa antes do término do agendamento atual, incluindo o intervalo de 29 minutos
+            if (!inicioNovoAgendamento.isAfter(termino.plusMinutes(INTERVALO_ENTRE_AGENDAMENTOS_EM_MINUTOS))) {
                 throw new IllegalArgumentException("Não atende ao intervalo mínimo de " + INTERVALO_ENTRE_AGENDAMENTOS_EM_MINUTOS + "min entre cada agendamento");
+            }
         });
     }
 }
