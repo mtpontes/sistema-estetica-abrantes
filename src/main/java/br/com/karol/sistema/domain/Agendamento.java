@@ -39,11 +39,17 @@ public class Agendamento {
 
     public void remarcarAgendamento(String observacao, LocalDateTime dataHora) {
         this.observacao = observacao; // pode ser blank
+        this.validateDataHora(dataHora);
         this.setDataHora(dataHora);
     }
 
     private void notNull(Object obj, String nomeCampo) {
         if (obj == null) throw new IllegalArgumentException("Não pode ser nulo: " + nomeCampo);
+    }
+
+    private void validateDataHora(LocalDateTime dataHora) {
+        if (dataHora != null && dataHora.isBefore(LocalDateTime.now()))
+            throw new IllegalArgumentException("Data e hora não podem ser no passado");
     }
 
     private void setAllWithValidations(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
@@ -56,6 +62,7 @@ public class Agendamento {
         this.cliente = cliente;
 
         this.notNull(dataHora, "dataHora");
+        this.validateDataHora(dataHora);
         this.dataHora = dataHora;
 
         this.notNull(usuario, "usuario");
