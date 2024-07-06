@@ -3,7 +3,7 @@ package br.com.karol.sistema.domain.validations.agendamento.agendar;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Agendamento;
-import br.com.karol.sistema.repository.AgendamentoRepository;
+import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 
 @Component
 public class LimiteDeAgendamentosNoDiaValidator implements AgendamentoValidator {
