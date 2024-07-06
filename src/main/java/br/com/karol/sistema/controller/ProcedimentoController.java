@@ -30,17 +30,17 @@ public class ProcedimentoController {
 
 
     @PostMapping
-    public ResponseEntity<DadosProcedimentoDTO > salvarProcedimento(@RequestBody @Valid CriarProcedimentoDTO procedimento) {
+    public ResponseEntity<DadosProcedimentoDTO> criarProcedimento(@RequestBody @Valid CriarProcedimentoDTO procedimento) {
         return ResponseEntity.ok(service.salvarProcedimento(procedimento));
     }
 
     @GetMapping
     public ResponseEntity<List<DadosProcedimentoDTO>> listarProcedimentos() {
-        return ResponseEntity.ok(service.listar());
+        return ResponseEntity.ok(service.listarTodosProcedimentos());
     }
 
     @GetMapping("/{procedimentoId}")
-    public ResponseEntity<DadosProcedimentoDTO> mostrarProcedimento(@PathVariable String procedimentoId) {
+    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(@PathVariable String procedimentoId) {
         return ResponseEntity.ok(service.mostrarProcedimento(procedimentoId));
     }
 
@@ -53,8 +53,8 @@ public class ProcedimentoController {
     }
 
     @DeleteMapping("/{procedimentoId}")
-    public ResponseEntity<Void> removerProcedimento(@PathVariable String procedimentoId) {
-        service.deletarProcedimento(procedimentoId);
+    public ResponseEntity<Void> deletarProcedimento(@PathVariable String procedimentoId) {
+        service.removerProcedimento(procedimentoId);
         return ResponseEntity.noContent().build();
     }
 }

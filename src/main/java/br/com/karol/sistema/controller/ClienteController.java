@@ -33,13 +33,13 @@ public class ClienteController {
 
 
     @PostMapping
-    public ResponseEntity<DadosCompletosClienteDTO> salvarCliente(@RequestBody @Valid CriarClienteDTO cliente) {
+    public ResponseEntity<DadosCompletosClienteDTO> criarCliente(@RequestBody @Valid CriarClienteDTO cliente) {
         DadosCompletosClienteDTO clienteSalvo = service.salvarCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
 
     @GetMapping
-    public ResponseEntity<List<DadosClienteDTO>> listaTodos() {
+    public ResponseEntity<List<DadosClienteDTO>> listarClientes() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listarTodosClientes());
     }
 
@@ -50,13 +50,13 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DadosCompletosClienteDTO> editar(@PathVariable String id, @RequestBody AtualizarClienteDTO cliente) {
-        return ResponseEntity.ok(service.editar(id, cliente));
+    public ResponseEntity<DadosCompletosClienteDTO> atualizarCliente(@PathVariable String id, @RequestBody AtualizarClienteDTO cliente) {
+        return ResponseEntity.ok(service.editarCliente(id, cliente));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable String id) {
-        service.excluirCliente(id);
+    public ResponseEntity<Void> deletarCliente(@PathVariable String id) {
+        service.removerCliente(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

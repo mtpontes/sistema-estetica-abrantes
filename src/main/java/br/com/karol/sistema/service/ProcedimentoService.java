@@ -34,7 +34,7 @@ public class ProcedimentoService {
         return mapper.toDadosProcedimentoDTO(procedimento);
     }
 
-    public List<DadosProcedimentoDTO> listar() {
+    public List<DadosProcedimentoDTO> listarTodosProcedimentos() {
         return mapper.toListDadosProcedimentoDTO(repository.findAll());
     }
 
@@ -44,11 +44,11 @@ public class ProcedimentoService {
 
     public DadosProcedimentoDTO editarProcedimento(String procedimentoId, AtualizarProcedimentoDTO update){
         Procedimento alvo = this.getProcedimentoById(procedimentoId);
-        alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getValor());
+        alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getDuracao(), update.getValor());
         return mapper.toDadosProcedimentoDTO(repository.save(alvo));
     }
 
-    public void deletarProcedimento(String id) {
+    public void removerProcedimento(String id) {
         if (repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
         repository.deleteById(id);

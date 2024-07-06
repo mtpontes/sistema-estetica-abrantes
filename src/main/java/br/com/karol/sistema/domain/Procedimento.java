@@ -1,5 +1,7 @@
 package br.com.karol.sistema.domain;
 
+import java.time.LocalTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,24 +17,27 @@ import lombok.ToString;
 @AllArgsConstructor
 @Document(collection = "procedimentos", collation = "pt", language = "portuguese")
 public class Procedimento {
-
+    
+    private static final Double VALOR_MINIMO = 50.00;
+    
     @Id
     private String id;
     @Indexed(unique = true)
     private String nome;
     private String descricao;
+    private LocalTime duracao;
     private Double valor;
 
-    private static final Double VALOR_MINIMO = 50.00;
 
-    public Procedimento(String nome, String descricao, Double valor) {
-        this.setAllWithValidations(nome, descricao, valor);
+    public Procedimento(String nome, String descricao, LocalTime duracao, Double valor) {
+        this.setAllWithValidations(nome, descricao, duracao, valor);
     }
     
 
-    public void atualizarDados(String nome, String descricao, Double valor) {
+    public void atualizarDados(String nome, String descricao, LocalTime duracao, Double valor) {
         if (!this.isBlank(nome)) this.nome = nome;
         if (!this.isBlank(descricao)) this.descricao = descricao;
+        if (!this.isNull(duracao)) this.duracao = duracao;
         if (!this.isValidValor(valor)) this.valor = valor;
     }
 
@@ -61,9 +66,12 @@ public class Procedimento {
         return true;
     }
 
-    private void setAllWithValidations(String nome, String descricao, Double valor) {
+    private void setAllWithValidations(String nome, String descricao, LocalTime duracao, Double valor) {
         this.notBlank(nome, "nome");
         this.nome = nome;
+
+        this.notNull(duracao, "duracao");
+        this.duracao = duracao;
 
         this.notBlank(descricao, "descricao");
         this.descricao = descricao;

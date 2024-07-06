@@ -10,7 +10,7 @@ import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.dto.agendamento.AtualizarAgendamentoDTO;
-import br.com.karol.sistema.dto.agendamento.CriaAgendamentoDTO;
+import br.com.karol.sistema.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.mapper.AgendamentoMapper;
@@ -47,7 +47,7 @@ public class AgendamentoService {
      * - Horário de fechamento 
      * - Intervalo de tempo entre os agendamentos, considerando agendamentos anteriores e futuros dentro de um determinado tempo
      */
-    public DadosAgendamentoDTO salvarAgendamento(CriaAgendamentoDTO dadosAgendamento, Usuario usuario) {
+    public DadosAgendamentoDTO salvarAgendamento(CriarAgendamentoDTO dadosAgendamento, Usuario usuario) {
         // ----- validações ----- 
         
         Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getClienteId());
@@ -76,7 +76,7 @@ public class AgendamentoService {
      * Se for possível alterar o horário do agendamento será necessário rodar as validações de horário assim como foi feito 
      * na criação de um agendamento
      */
-    public DadosAgendamentoDTO  atualizarAgendamento(String id, AtualizarAgendamentoDTO dadosAtualizacao) {
+    public DadosAgendamentoDTO  editarAgendamento(String id, AtualizarAgendamentoDTO dadosAtualizacao) {
         Agendamento agendamento = this.getAgendamentoById(id);
         agendamento.remarcarAgendamento(dadosAtualizacao.getObservacao(), dadosAtualizacao.getDataHora());
         
@@ -84,7 +84,7 @@ public class AgendamentoService {
         return mapper.toDadosAgendamentoDTO(agendamento);
     }
 
-    public void deletarAgendamento(String agendamentoId) {
+    public void removerAgendamento(String agendamentoId) {
         if (!agendamentoRepository.existsById(agendamentoId))
             throw new EntityNotFoundException(this.NOT_FOUND_DEFAULT_MESSAGE);
         agendamentoRepository.deleteById(agendamentoId);

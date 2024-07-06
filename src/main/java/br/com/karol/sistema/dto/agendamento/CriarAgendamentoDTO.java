@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriaAgendamentoDTO {
+public class CriarAgendamentoDTO {
 
     @NotNull 
     private String procedimentoId;
