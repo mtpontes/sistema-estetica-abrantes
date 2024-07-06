@@ -36,31 +36,21 @@ public class Usuario implements UserDetails {
     private UserRole role;
 
     public Usuario(String nome, String login, String senha) {
-        this.setNome(nome);
-        this.setLogin(login);
-        this.setSenha(senha);
+        this.setAllWithValidations(nome, login, senha);
         this.role = UserRole.USER;
     }
 
 
     public void atualizarDados(String nome, String senha) {
-        this.setNome(nome);
-        this.setSenha(senha);
+        if (!this.isBlank(nome)) this.nome = nome;
+        if (!this.isBlank(senha)) this.senha = senha;
+    }
+    public void atualizarSenha(String senha) {
+        if (!this.isBlank(senha)) this.senha = senha;
     }
 
-    public void setNome(String nome) {
-        this.notBlank(nome, "nome");
-        this.nome = nome;
-    }
-
-    public void setLogin(String login) {
-        this.notBlank(login, "login");
-        this.login = login;
-    }
-
-    public void setSenha(String senha) {
-        this.notBlank(senha, "senha");
-        this.senha = senha;
+    public boolean isBlank(String field) {
+        return field == null || field.isBlank();
     }
 
     private void notNull(Object field, String fieldName) {
@@ -73,6 +63,16 @@ public class Usuario implements UserDetails {
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
     }
 
+    private void setAllWithValidations(String nome, String login, String senha) {
+        this.notBlank(nome, "nome");
+        this.nome = nome;
+
+        this.notBlank(login, "login");
+        this.login = login;
+
+        this.notBlank(senha, "senha");
+        this.senha = senha;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
