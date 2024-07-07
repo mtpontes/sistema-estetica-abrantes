@@ -21,16 +21,16 @@ public class Agendamento {
 
     @Id
     private String id;
-    @DBRef
-    private Procedimento procedimento;
     private String observacao;
-    @DBRef
-    private Cliente cliente;
     @Setter
     private LocalDateTime dataHora;
-    private LocalDateTime dataCriacao;
+    @DBRef
+    private Procedimento procedimento;
+    @DBRef
+    private Cliente cliente;
     @DBRef
     private Usuario usuario;
+    private LocalDateTime dataCriacao;
 
     public Agendamento(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
         this.setAllWithValidations(procedimento, observacao, cliente, dataHora, usuario);
@@ -53,17 +53,18 @@ public class Agendamento {
     }
 
     private void setAllWithValidations(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
-        this.notNull(procedimento, "procedimento");
-        this.procedimento = procedimento;
-
         this.observacao = observacao == null ? "" : observacao;
-
-        this.notNull(cliente, "cliente");
-        this.cliente = cliente;
 
         this.notNull(dataHora, "dataHora");
         this.validateDataHora(dataHora);
         this.dataHora = dataHora;
+        
+        this.notNull(procedimento, "procedimento");
+        this.procedimento = procedimento;
+
+
+        this.notNull(cliente, "cliente");
+        this.cliente = cliente;
 
         this.notNull(usuario, "usuario");
         this.usuario = usuario;

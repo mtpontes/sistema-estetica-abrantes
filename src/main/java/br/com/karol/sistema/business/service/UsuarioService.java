@@ -77,7 +77,7 @@ public class UsuarioService {
     @Transactional
     public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(String id, AtualizarSenhaOutroUsuarioDTO update) {
         Usuario alvo = this.getUsuarioById(id);
-        alvo.setSenha(encoder.encode(update.getSenha()));
+        alvo.atualizarSenha(encoder.encode(update.getSenha()));
         
         return mapper.toDadosUsuarioDTO(repository.save(alvo));
     }
