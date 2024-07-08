@@ -11,46 +11,50 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.karol.sistema.domain.enums.UserRole;
+import br.com.karol.sistema.domain.valueobjects.Login;
+import br.com.karol.sistema.domain.valueobjects.Senha;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "usuarios", collation = "pt", language = "portuguese")
 public class Usuario implements UserDetails {
     
-    @Id
+    @Id @Getter
     private String id;
+    @Getter
     private String nome;
-
     @Indexed(unique = true)
-    private String login;
-    private String senha;
-    
-    @Setter 
+    private Login login;
+    private Senha senha;
+    @Getter @Setter 
     private UserRole role;
 
-    public Usuario(String nome, String login, String senha) {
-        this.setAllWithValidations(nome, login, senha);
+    public Usuario(String nome, Login login, Senha senha) {
+        this.notBlank(nome, "nome");
+        this.nome = nome;
+
+        this.notNull(login, "login");
+        this.login = login;
+
+        this.notNull(senha, "senha");
+        this.senha = senha;
         this.role = UserRole.USER;
     }
 
 
-    public void atualizarDados(String nome, String senha) {
-        if (!this.isBlank(nome)) this.nome = nome;
-        if (!this.isBlank(senha)) this.senha = senha;
+    public void atualizarDados(String nome) {
+        this.notNull(nome, "nome");
+        this.nome = nome;
     }
-    public void atualizarSenha(String senha) {
-        if (!this.isBlank(senha)) this.senha = senha;
-    }
-
-    public boolean isBlank(String field) {
-        return field == null || field.isBlank();
+    public void atualizarSenha(Senha senha) {
+        this.notNull(senha, "senha");
+        this.senha = senha;
     }
 
     private void notNull(Object field, String fieldName) {
@@ -63,15 +67,11 @@ public class Usuario implements UserDetails {
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
     }
 
-    private void setAllWithValidations(String nome, String login, String senha) {
-        this.notBlank(nome, "nome");
-        this.nome = nome;
-
-        this.notBlank(login, "login");
-        this.login = login;
-
-        this.notBlank(senha, "senha");
-        this.senha = senha;
+    public String getLogin() {
+        return this.login.getValue();
+    }
+    public String getSenha() {
+        return this.senha.getValue();
     }
 
     @Override
@@ -86,12 +86,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.senha;
+        return this.senha.getValue();
     }
 
     @Override
     public String getUsername() {
-        return this.login;
+        return this.login.getValue();
     }
 
     @Override
