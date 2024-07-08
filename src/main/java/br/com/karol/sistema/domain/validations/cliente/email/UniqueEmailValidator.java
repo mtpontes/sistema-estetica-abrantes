@@ -20,7 +20,7 @@ public class UniqueEmailValidator implements EmailValidator {
     @Override
     public void validate(String value) {
 
-        if (repository.existsByEmail(value))
+        if (repository.existsByEmailValue(value))
             throw new InvalidVOException(CLASSE, EMAIL_ERROR_MESSAGE);
     }
 }

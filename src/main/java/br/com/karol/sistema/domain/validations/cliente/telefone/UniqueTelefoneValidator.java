@@ -16,7 +16,7 @@ public class UniqueTelefoneValidator implements TelefoneValidator {
 
     @Override
     public void validate(String value) {
-        if (repository.existsByTelefone(value))
+        if (repository.existsByTelefoneValue(value))
             throw new IllegalArgumentException(CPF_ERROR_MESSAGE);
     }
 }

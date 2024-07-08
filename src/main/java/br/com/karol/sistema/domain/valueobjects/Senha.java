@@ -16,12 +16,12 @@ public class Senha {
 
     private String value;
 
-    public Senha(String value, List<SenhaValidator> validators, SenhaEncoder encoder) {
+    public Senha(String value, SenhaValidator validator, SenhaEncoder encoder) {
         if (value == null || value.isBlank()) throw new InvalidVOException(this.getClass(), "Não pode ser null/blank");
         
-        if (validators == null || validators.size() == 0) throw new IllegalArgumentException("Deve fornecedor um ou mais validadores");
+        if (validator == null) throw new IllegalArgumentException("Deve fornecedor um validador");
         if (encoder == null) throw new IllegalArgumentException("Deve fornecedor um encoder");
-        validators.forEach(v -> v.validate(value));
+        validator.validate(value);
 
         this.value = encoder.encode(value);
     }

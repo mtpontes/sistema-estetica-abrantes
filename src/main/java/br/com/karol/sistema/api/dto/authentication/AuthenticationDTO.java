@@ -1,3 +1,12 @@
 package br.com.karol.sistema.api.dto.authentication;
 
-public record AuthenticationDTO(String login, String password) {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class AuthenticationDTO {
+    
+    private String login;
+    private String password;
+}

@@ -19,7 +19,7 @@ public class UniqueCpfValidator implements CpfValidator {
 
     @Override
     public void validate(String value) {
-        if (repository.existsByCpf(value))
+        if (repository.existsByCpfValue(value))
             throw new InvalidVOException(CLASSE, CPF_ERROR_MESSAGE);
     }
 }
