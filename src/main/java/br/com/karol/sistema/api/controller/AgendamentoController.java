@@ -60,14 +60,14 @@ public class AgendamentoController {
     }
 
     @PutMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> atualizarAgendamento(@PathVariable String agendamentoId, @RequestBody AtualizarAgendamentoDTO dadosRemarcacao) {
+    public ResponseEntity<DadosAgendamentoDTO> atualizarAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid AtualizarAgendamentoDTO dadosRemarcacao) {
         DadosAgendamentoDTO agendamentoAtualizado = service.editarAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
     @PatchMapping("/{agendamentoId}/status")
-    public ResponseEntity<DadosAgendamentoDTO> atualizarStatusAgendamento(@PathVariable String agendamentoId, @RequestBody AtualizarStatusAgendamentoDTO dadosRemarcacao) {
-        return ResponseEntity.ok().body(service.editarStatusAgendamento(agendamentoId, dadosRemarcacao));
+    public ResponseEntity<DadosAgendamentoDTO> atualizarStatusAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid AtualizarStatusAgendamentoDTO novoStatus) {
+        return ResponseEntity.ok().body(service.editarStatusAgendamento(agendamentoId, novoStatus));
     }
 
     @DeleteMapping("/{agendamentoId}")

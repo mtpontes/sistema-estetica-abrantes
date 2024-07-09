@@ -72,9 +72,9 @@ public class AgendamentoService {
     }
 
     @Transactional
-    public DadosAgendamentoDTO editarStatusAgendamento(String agendamentoId, AtualizarStatusAgendamentoDTO dadosAtualizacao) {
+    public DadosAgendamentoDTO editarStatusAgendamento(String agendamentoId, AtualizarStatusAgendamentoDTO novoStatus) {
         Agendamento alvo = this.getAgendamentoById(agendamentoId);
-        alvo.atualizarStatus(dadosAtualizacao.getStatus());
+        alvo.atualizarStatus(novoStatus.getStatus());
         return mapper.toDadosAgendamentoDTO(agendamentoRepository.save(alvo));
     }
 

@@ -54,7 +54,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}/endereco")
-    public ResponseEntity<DadosCompletosClienteDTO> atualizarEnderecoCliente(@PathVariable String id, @RequestBody EnderecoDTO cliente) {
+    public ResponseEntity<DadosCompletosClienteDTO> atualizarEnderecoCliente(@PathVariable String id, @RequestBody @Valid EnderecoDTO cliente) {
         return ResponseEntity.ok(service.editarEnderecoCliente(id, cliente));
     }
 
