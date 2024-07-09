@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.karol.sistema.api.dto.agendamento.AtualizarAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.business.service.AgendamentoService;
@@ -61,6 +63,11 @@ public class AgendamentoController {
     public ResponseEntity<DadosAgendamentoDTO> atualizarAgendamento(@PathVariable String agendamentoId, @RequestBody AtualizarAgendamentoDTO dadosRemarcacao) {
         DadosAgendamentoDTO agendamentoAtualizado = service.editarAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
+    }
+
+    @PatchMapping("/{agendamentoId}/status")
+    public ResponseEntity<DadosAgendamentoDTO> atualizarStatusAgendamento(@PathVariable String agendamentoId, @RequestBody AtualizarStatusAgendamentoDTO dadosRemarcacao) {
+        return ResponseEntity.ok().body(service.editarStatusAgendamento(agendamentoId, dadosRemarcacao));
     }
 
     @DeleteMapping("/{agendamentoId}")
