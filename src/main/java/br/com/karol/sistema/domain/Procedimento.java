@@ -29,7 +29,17 @@ public class Procedimento {
     private Double valor;
 
     public Procedimento(String nome, String descricao, LocalTime duracao, Double valor) {
-        this.setAllWithValidations(nome, descricao, duracao, valor);
+        this.notBlank(nome, "nome");
+        this.nome = nome;
+
+        this.notNull(duracao, "duracao");
+        this.duracao = duracao;
+
+        this.notBlank(descricao, "descricao");
+        this.descricao = descricao;
+
+        this.isValidValorForUpdate(valor);
+        this.valor = valor;
     }
     
 
@@ -37,7 +47,7 @@ public class Procedimento {
         if (!this.isBlank(nome)) this.nome = nome;
         if (!this.isBlank(descricao)) this.descricao = descricao;
         if (!this.isNull(duracao)) this.duracao = duracao;
-        if (!this.isValidValor(valor)) this.valor = valor;
+        if (!this.isValidValorForUpdate(valor)) this.valor = valor;
     }
 
     private boolean isNull(Object param) {
@@ -58,21 +68,10 @@ public class Procedimento {
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
     }
 
-    private boolean isValidValor(Double valor) {
-        return this.isNull(valor) || valor < VALOR_MINIMO;
-    }
-
-    private void setAllWithValidations(String nome, String descricao, LocalTime duracao, Double valor) {
-        this.notBlank(nome, "nome");
-        this.nome = nome;
-
-        this.notNull(duracao, "duracao");
-        this.duracao = duracao;
-
-        this.notBlank(descricao, "descricao");
-        this.descricao = descricao;
-
-        this.isValidValor(valor);
-        this.valor = valor;
+    private boolean isValidValorForUpdate(Double valor) {
+        if (this.isNull(valor) || valor == 0.00) return true;
+        if (valor < VALOR_MINIMO) 
+            throw new IllegalArgumentException("Não é possível definir um valor menor que " + VALOR_MINIMO);
+        return false;
     }
 }
