@@ -31,6 +31,6 @@ public class AgendamentoMapper {
 
     public Agendamento forAgendamentoValidator(String clienteId, LocalDateTime dataHora, String agendamentoId) {
         Cliente cliente = new Cliente(clienteId, null, null, null, null, null);
-        return new Agendamento(agendamentoId, null, dataHora, null, cliente, null, null);
+        return new Agendamento(agendamentoId, null, null, dataHora, null, cliente, null, null);
     }
 }
