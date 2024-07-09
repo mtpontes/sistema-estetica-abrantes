@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.karol.sistema.domain.enums.StatusAgendamento;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Agendamento {
     @Id
     private String id;
     private String observacao;
+    private StatusAgendamento status;
     @Setter
     private LocalDateTime dataHora;
     @DBRef
@@ -32,18 +34,22 @@ public class Agendamento {
     private Usuario usuario;
     private LocalDateTime dataCriacao;
 
-    public Agendamento(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
+    public Agendamento(Procedimento procedimento, StatusAgendamento status, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
+        this.notNull(procedimento, "procedimento");
+        this.procedimento = procedimento;
+
+        if (status != StatusAgendamento.PENDENTE && status != StatusAgendamento.CONFIRMADO)
+            throw new IllegalArgumentException("Não é possível criar um agendamento com status diferente de PENDENTE ou CONFIRMADO");
+        this.status = status;
+
         this.observacao = observacao == null ? "" : observacao;
+
+        this.notNull(cliente, "cliente");
+        this.cliente = cliente;
 
         this.notNull(dataHora, "dataHora");
         this.validateDataHora(dataHora);
         this.dataHora = dataHora;
-        
-        this.notNull(procedimento, "procedimento");
-        this.procedimento = procedimento;
-
-        this.notNull(cliente, "cliente");
-        this.cliente = cliente;
 
         this.notNull(usuario, "usuario");
         this.usuario = usuario;
@@ -56,6 +62,11 @@ public class Agendamento {
         this.observacao = observacao; // pode ser blank
         this.validateDataHora(dataHora);
         this.setDataHora(dataHora);
+    }
+
+    public void atualizarStatus(StatusAgendamento novoStatus) {
+        this.status.validateTransition(novoStatus);
+        this.status = novoStatus;
     }
 
     private void notNull(Object obj, String nomeCampo) {

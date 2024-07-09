@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.karol.sistema.api.dto.agendamento.AtualizarAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.api.mapper.AgendamentoMapper;
@@ -41,6 +42,7 @@ public class AgendamentoService {
 
         Agendamento novoAgendamento = new Agendamento(
             procedimentoAlvo,
+            dadosAgendamento.getStatus(),
             dadosAgendamento.getObservacao(),
             clienteAlvo,
             dadosAgendamento.getDataHora(),
@@ -67,6 +69,13 @@ public class AgendamentoService {
         
         agendamentoRepository.save(agendamento);
         return mapper.toDadosAgendamentoDTO(agendamento);
+    }
+
+    @Transactional
+    public DadosAgendamentoDTO editarStatusAgendamento(String agendamentoId, AtualizarStatusAgendamentoDTO dadosAtualizacao) {
+        Agendamento alvo = this.getAgendamentoById(agendamentoId);
+        alvo.atualizarStatus(dadosAtualizacao.getStatus());
+        return mapper.toDadosAgendamentoDTO(agendamentoRepository.save(alvo));
     }
 
     @Transactional

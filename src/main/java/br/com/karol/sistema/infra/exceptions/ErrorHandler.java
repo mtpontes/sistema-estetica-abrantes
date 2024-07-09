@@ -10,6 +10,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,13 +48,17 @@ public class ErrorHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorMessage> handleError400(IllegalArgumentException ex) {
-        ex.printStackTrace();
+        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage()));
+    }
+    
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorMessage> handleError400(HttpRequestMethodNotSupportedException ex) {
         return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage()));
     }
     
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorMessage> handleError400(HttpMessageNotReadableException ex) {
-        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage().split(":")[0]));
+        return ResponseEntity.badRequest().body(new ErrorMessage("Formato de JSON inválido"));
     }
     
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
