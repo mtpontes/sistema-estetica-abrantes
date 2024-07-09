@@ -4,5 +4,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import br.com.karol.sistema.domain.Procedimento;
 
-public interface ProcedimentoRepository extends MongoRepository<Procedimento, String> {
+public interface ProcedimentoRepository extends MongoRepository<Procedimento, String>, ProcedimentoRepositoryCustom {
 }

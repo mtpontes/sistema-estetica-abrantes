@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validations.cliente.cpf;
+package br.com.karol.sistema.domain.validator.cliente.cpf;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.stereotype.Component;

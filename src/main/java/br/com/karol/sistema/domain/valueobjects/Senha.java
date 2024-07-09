@@ -1,7 +1,7 @@
 package br.com.karol.sistema.domain.valueobjects;
 
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validations.usuario.senha.SenhaValidator;
+import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
 import br.com.karol.sistema.infra.exceptions.InvalidVOException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

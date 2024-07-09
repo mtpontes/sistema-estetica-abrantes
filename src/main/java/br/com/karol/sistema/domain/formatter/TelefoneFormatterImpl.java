@@ -21,7 +21,7 @@ public class TelefoneFormatterImpl implements TelefoneFormatter {
 		PhoneNumberUtil utils = PhoneNumberUtil.getInstance();
 		PhoneNumber number = null;
 		try {
-			number = utils.parse("47997424916", "BR");
+			number = utils.parse(value, "BR");
             
 		} catch (NumberParseException e) {
             e.printStackTrace();

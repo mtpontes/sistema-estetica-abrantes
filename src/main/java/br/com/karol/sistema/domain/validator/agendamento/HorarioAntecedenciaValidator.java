@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validations.agendamento;
+package br.com.karol.sistema.domain.validator.agendamento;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

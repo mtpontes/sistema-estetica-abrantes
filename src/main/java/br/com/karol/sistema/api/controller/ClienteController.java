@@ -1,7 +1,8 @@
 package br.com.karol.sistema.api.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.karol.sistema.api.dto.EnderecoDTO;
@@ -38,8 +40,11 @@ public class ClienteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DadosClienteDTO>> listarClientes() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listarTodosClientes());
+    public ResponseEntity<Page<DadosClienteDTO>> listarClientes(
+        @RequestParam(required = false) String nome,
+        @PageableDefault(size = 10) Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.listarTodosClientes(nome, pageable));
     }
 
     @GetMapping("/{id}")
@@ -49,13 +54,13 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DadosCompletosClienteDTO> atualizarCliente(@PathVariable String id, @RequestBody AtualizarClienteDTO cliente) {
-        return ResponseEntity.ok(service.editarContatoCliente(id, cliente));
+    public ResponseEntity<DadosCompletosClienteDTO> atualizarCliente(@PathVariable String id, @RequestBody AtualizarClienteDTO dados) {
+        return ResponseEntity.ok(service.editarContatoCliente(id, dados));
     }
 
     @PutMapping("/{id}/endereco")
-    public ResponseEntity<DadosCompletosClienteDTO> atualizarEnderecoCliente(@PathVariable String id, @RequestBody EnderecoDTO cliente) {
-        return ResponseEntity.ok(service.editarEnderecoCliente(id, cliente));
+    public ResponseEntity<DadosCompletosClienteDTO> atualizarEnderecoCliente(@PathVariable String id, @RequestBody @Valid EnderecoDTO dadosEndereco) {
+        return ResponseEntity.ok(service.editarEnderecoCliente(id, dadosEndereco));
     }
 
     @DeleteMapping("/{id}")

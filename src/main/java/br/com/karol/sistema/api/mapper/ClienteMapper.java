@@ -1,9 +1,7 @@
 package br.com.karol.sistema.api.mapper;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
@@ -50,8 +48,8 @@ public class ClienteMapper {
         return new DadosClienteDTO(cliente);
     }
 
-    public List<DadosClienteDTO> toListDadosClienteDTO(List<Cliente> clienteList) {
-        return clienteList.stream().map(c -> this.toDadosClienteDTO(c)).collect(Collectors.toList());
+    public Page<DadosClienteDTO> toPageDadosClienteDTO(Page<Cliente> clienteList) {
+        return clienteList.map(c -> this.toDadosClienteDTO(c));
     }
 
     public DadosContatoClienteDTO toIdNomeEmailClienteDTO(Cliente cliente) {

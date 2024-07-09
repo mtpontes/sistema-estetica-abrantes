@@ -8,8 +8,8 @@ import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validations.usuario.login.LoginValidator;
-import br.com.karol.sistema.domain.validations.usuario.senha.SenhaValidator;
+import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
+import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 import lombok.AllArgsConstructor;
@@ -32,8 +32,6 @@ public class UsuarioMapper {
     }
 
     public List<DadosUsuarioDTO> toListDadosUsuarioDTO(List<Usuario> usuarios) {
-        return usuarios.stream()
-            .map(this::toDadosUsuarioDTO)
-            .toList();
+        return usuarios.stream().map(this::toDadosUsuarioDTO).toList();
     }
 }

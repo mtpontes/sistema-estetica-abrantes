@@ -1,8 +1,8 @@
 package br.com.karol.sistema.business.service;
 
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +34,13 @@ public class ProcedimentoService {
         return mapper.toDadosProcedimentoDTO(procedimento);
     }
 
-    public List<DadosProcedimentoDTO> listarTodosProcedimentos() {
-        return mapper.toListDadosProcedimentoDTO(repository.findAll());
+    public Page<DadosProcedimentoDTO> listarTodosProcedimentos(
+        String nome,
+        Double min,
+        Double max,
+        Pageable pageable
+    ) {
+        return mapper.toPageDadosProcedimentoDTO(repository.findAllByParams(nome, min, max, pageable));
     }
 
     public DadosProcedimentoDTO mostrarProcedimento(String procedimentoId) {

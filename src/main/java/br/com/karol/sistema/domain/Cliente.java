@@ -52,7 +52,6 @@ public class Cliente {
         if (!this.isBlank(nome)) this.nome = nome;
 
         if (!this.isNull(telefone)) this.telefone = telefone;
-        System.out.println("VALOR DO EMAIL: " + email);
         if (!this.isNull(email)) this.email = email;
     }
     public void atualizarEndereco(Endereco endereco) {

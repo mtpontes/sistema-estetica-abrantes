@@ -3,7 +3,7 @@ package br.com.karol.sistema.domain.valueobjects;
 import java.util.List;
 
 import br.com.karol.sistema.domain.formatter.TelefoneFormatter;
-import br.com.karol.sistema.domain.validations.cliente.telefone.TelefoneValidator;
+import br.com.karol.sistema.domain.validator.cliente.telefone.TelefoneValidator;
 import br.com.karol.sistema.infra.exceptions.InvalidVOException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
