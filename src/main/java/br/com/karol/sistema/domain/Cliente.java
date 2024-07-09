@@ -4,6 +4,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.karol.sistema.domain.valueobjects.Cpf;
+import br.com.karol.sistema.domain.valueobjects.Email;
+import br.com.karol.sistema.domain.valueobjects.Telefone;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,41 +21,42 @@ public class Cliente {
 
     @Id    
     private String id;
-    
-    @Indexed(unique = true)
-    private String cpf;
     private String nome;
-    
     @Indexed(unique = true)
-    private String telefone;
-    
+    private Cpf cpf;
     @Indexed(unique = true)
-    private String email;
+    private Telefone telefone;
+    @Indexed(unique = true)
+    private Email email;
     private Endereco endereco;
 
-    public Cliente(String cpf, String nome, String telefone, String email, Endereco endereco) {
-        this.setAllWithValidations(cpf, nome, telefone, email, endereco);
+    public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco) {
+        this.notBlank(nome, "nome");
+        this.nome = nome;
+
+        this.notNull(cpf, cpf.getClass().getSimpleName());
+        this.cpf = cpf;
+
+        this.notNull(telefone, telefone.getClass().getSimpleName());
+        this.telefone = telefone;
+
+        this.notNull(email, email.getClass().getSimpleName());
+        this.email = email;
+
+        this.notNull(endereco, endereco.getClass().getSimpleName());
+        this.endereco = endereco;
     }
 
     
-    public void atualizarDados(String nome, String telefone, String email, Endereco endereco) {
+    public void atualizarDados(String nome, Telefone telefone, Email email) {
         if (!this.isBlank(nome)) this.nome = nome;
-        if (!this.isBlank(telefone)) this.telefone = telefone;
-        if (!this.isBlank(email)) this.email = email;
 
-        if (!this.isNull(endereco)) {
-            if (this.endereco != null) {
-                this.endereco.atualizarDados(
-                    endereco.getRua(),
-                    endereco.getNumero(), 
-                    endereco.getCidade(), 
-                    endereco.getBairro(), 
-                    endereco.getEstado()
-                );
-                return;
-            }
-            this.endereco = endereco; 
-        }
+        if (!this.isNull(telefone)) this.telefone = telefone;
+        System.out.println("VALOR DO EMAIL: " + email);
+        if (!this.isNull(email)) this.email = email;
+    }
+    public void atualizarEndereco(Endereco endereco) {
+        if (!this.isNull(endereco)) this.endereco = endereco;
     }
 
     private boolean isNull(Object param) {
@@ -72,20 +76,13 @@ public class Cliente {
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
     }
 
-    private void setAllWithValidations(String cpf, String nome, String telefone, String email, Endereco endereco) {
-        this.notBlank(cpf, "cpf");
-        this.cpf = cpf;
-
-        this.notBlank(nome, "nome");
-        this.nome = nome;
-
-        this.notBlank(telefone, "telefone");
-        this.telefone = telefone;
-
-        this.notBlank(email, "email");
-        this.email = email;
-
-        this.notNull(endereco, "endereco");
-        this.endereco = endereco;
+    public String getCpf() {
+        return this.cpf.getValue();
+    }
+    public String getTelefone() {
+        return this.telefone.getValue();
+    }
+    public String getEmail() {
+        return this.email.getValue();
     }
 }

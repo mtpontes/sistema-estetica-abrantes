@@ -17,16 +17,14 @@ import br.com.karol.sistema.api.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/procedimentos")
+@AllArgsConstructor
 public class ProcedimentoController {
     
     private final ProcedimentoService service;
-
-    public ProcedimentoController(ProcedimentoService service) {
-        this.service = service;
-    }
 
 
     @PostMapping

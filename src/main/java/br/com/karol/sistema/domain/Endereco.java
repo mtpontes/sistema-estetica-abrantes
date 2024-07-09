@@ -18,29 +18,6 @@ public class Endereco {
     private String estado;
 
     public Endereco(String rua, String numero, String cidade, String bairro, String estado) {
-        this.setAllWithValidations(rua, numero, cidade, bairro, estado);
-    }
-
-    
-    public void atualizarDados(String rua, String numero, String cidade, String bairro, String estado) {
-        if (!this.isBlank(rua)) this.rua = rua;
-        if (!this.isBlank(numero)) this.numero = numero;
-        if (!this.isBlank(cidade)) this.cidade = cidade;
-        if (!this.isBlank(bairro)) this.bairro = bairro;
-        if (!this.isBlank(estado)) this.estado = estado;
-	}
-
-    private boolean isBlank(String param) {
-        return param == null || param.isBlank();
-    }
-    private void notBlank(String field, String fieldName) {
-        if (field == null)
-            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
-        if (field.isBlank())
-            throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
-    }
-
-    private void setAllWithValidations(String rua, String numero, String cidade, String bairro, String estado) {
         this.notBlank(rua, "rua");
         this.rua = rua;
 
@@ -55,5 +32,12 @@ public class Endereco {
 
         this.notBlank(estado, "estado");
         this.estado = estado;
+    }
+
+    private void notBlank(String field, String fieldName) {
+        if (field == null)
+            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
+        if (field.isBlank())
+            throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
     }
 }

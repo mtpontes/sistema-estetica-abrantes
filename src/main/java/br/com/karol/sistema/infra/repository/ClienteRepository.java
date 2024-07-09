@@ -6,9 +6,9 @@ import br.com.karol.sistema.domain.Cliente;
 
 public interface ClienteRepository extends MongoRepository<Cliente, String> {
 
-    boolean existsByCpf(String cpf);
+    boolean existsByCpfValue(String cpf);
 
-    boolean existsByTelefone(String telefone);
+    boolean existsByTelefoneValue(String telefone);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmailValue(String email);
 }

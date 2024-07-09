@@ -49,10 +49,12 @@ public class ProcedimentoService {
         return mapper.toDadosProcedimentoDTO(repository.save(alvo));
     }
 
+    // Criar uma query que valida se existe algum Agendamento com este procedimento
     @Transactional
     public void removerProcedimento(String id) {
-        if (repository.existsById(id))
+        if (!repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
+            
         repository.deleteById(id);
     }
 

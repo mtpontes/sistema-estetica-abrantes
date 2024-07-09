@@ -16,23 +16,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.karol.sistema.api.dto.authentication.LoginResponseDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
+import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
+import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.domain.Usuario;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/usuarios")
+@AllArgsConstructor
 public class UsuarioController {
 
     private final UsuarioService service;
-
-    public UsuarioController(UsuarioService service) {
-        this.service = service;
-    }
+    private final TokenService tokenService;
 
 
     @PostMapping
@@ -42,7 +44,7 @@ public class UsuarioController {
 
     /* O usuário padrão precisa se autenticar e só consegue consultar os seus próprios dados */
     @GetMapping
-    public ResponseEntity<DadosUsuarioDTO> buscarPorAutenticacao(Authentication authentication) {
+    public ResponseEntity<DadosUsuarioDTO> buscarUsuarioPorAutenticacao(Authentication authentication) {
         return ResponseEntity.ok(service.getDadosUsuarioAtual((Usuario) authentication.getPrincipal()));
     }
 
@@ -50,6 +52,17 @@ public class UsuarioController {
     @PutMapping
     public ResponseEntity<DadosUsuarioDTO> atualizarUsuario(Authentication authentication, @RequestBody AtualizarUsuarioDTO dados) {
         return ResponseEntity.ok(service.atualizarUsuarioAtual((Usuario) authentication.getPrincipal(), dados));
+    }
+
+    @PutMapping("/senha")
+    public ResponseEntity<LoginResponseDTO> atualizarSenhaUsuarioAtual(
+        Authentication authentication,
+        @RequestBody AtualizarSenhaUsuarioDTO dados
+    ) {
+        Usuario usuarioAtual = (Usuario) authentication.getPrincipal();
+        Usuario usuarioValidado = service.atualizarSenhaUsuarioAtual(usuarioAtual, dados);
+        String token = this.tokenService.generateToken(usuarioValidado);
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     
     // --- Rotas de admins -- 
@@ -61,7 +74,7 @@ public class UsuarioController {
     
     @GetMapping("/admin")
     public ResponseEntity<List<DadosUsuarioDTO>> listarUsuarios(@PageableDefault(size = 5) Pageable pageable) {
-        return ResponseEntity.ok(service.listarTodosUsuarios(pageable));
+        return ResponseEntity.ok(service.adminListarTodosUsuarios(pageable));
     }
 
     /* Um usuário com ROLE ADMIN autenticado consegue recuperar dados de outros usuários */
@@ -71,13 +84,13 @@ public class UsuarioController {
     }
 
     @PatchMapping("/admin/{userId}")
-    public ResponseEntity<DadosUsuarioDTO> adminAtualizarUsuario(@PathVariable String userId, @RequestBody AtualizarSenhaOutroUsuarioDTO dados) {
+    public ResponseEntity<DadosUsuarioDTO> adminAtualizarSenhaUsuario(@PathVariable String userId, @RequestBody AtualizarSenhaOutroUsuarioDTO dados) {
         return ResponseEntity.ok(service.adminAtualizarSenhaOutrosUsuarios(userId, dados));
     }
 
     @DeleteMapping("/admin/{userId}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable String userId) {
-        service.removerUsuario(userId);
+        service.adminRemoverUsuario(userId);
         return ResponseEntity.noContent().build();
     }
 }

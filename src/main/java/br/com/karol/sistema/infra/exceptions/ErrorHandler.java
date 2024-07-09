@@ -40,8 +40,14 @@ public class ErrorHandler {
         );
     }
 
+    @ExceptionHandler(InvalidVOException.class)
+    public ResponseEntity<ErrorMessage> handleError400(InvalidVOException ex) {
+        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage()));
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorMessage> handleError400(IllegalArgumentException ex) {
+        ex.printStackTrace();
         return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage()));
     }
     

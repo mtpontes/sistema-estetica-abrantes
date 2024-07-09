@@ -13,23 +13,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.business.service.ClienteService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 
 @RequestMapping("/clientes")
 @RestController
+@AllArgsConstructor
 public class ClienteController {
 
     private final ClienteService service;
-
-    public ClienteController(ClienteService service) {
-        this.service = service;
-    }
 
 
     @PostMapping
@@ -51,7 +50,12 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DadosCompletosClienteDTO> atualizarCliente(@PathVariable String id, @RequestBody AtualizarClienteDTO cliente) {
-        return ResponseEntity.ok(service.editarCliente(id, cliente));
+        return ResponseEntity.ok(service.editarContatoCliente(id, cliente));
+    }
+
+    @PutMapping("/{id}/endereco")
+    public ResponseEntity<DadosCompletosClienteDTO> atualizarEnderecoCliente(@PathVariable String id, @RequestBody EnderecoDTO cliente) {
+        return ResponseEntity.ok(service.editarEnderecoCliente(id, cliente));
     }
 
     @DeleteMapping("/{id}")

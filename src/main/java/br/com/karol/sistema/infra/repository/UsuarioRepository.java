@@ -7,7 +7,7 @@ import br.com.karol.sistema.domain.Usuario;
 
 public interface UsuarioRepository extends MongoRepository<Usuario, String> {
 
-    UserDetails findByLogin(String login);
+    UserDetails findByLoginValue(String login);
     
-    boolean existsByLogin(String login);
+    boolean existsByLoginValue(String login);
 }

@@ -21,16 +21,14 @@ import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.domain.Usuario;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/agendamentos")
+@AllArgsConstructor
 public class AgendamentoController {
 
     private final AgendamentoService service;
-
-    public AgendamentoController(AgendamentoService service) {
-        this.service = service;
-    }
 
 
     @PostMapping

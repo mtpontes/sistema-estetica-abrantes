@@ -33,7 +33,22 @@ public class Agendamento {
     private LocalDateTime dataCriacao;
 
     public Agendamento(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
-        this.setAllWithValidations(procedimento, observacao, cliente, dataHora, usuario);
+        this.observacao = observacao == null ? "" : observacao;
+
+        this.notNull(dataHora, "dataHora");
+        this.validateDataHora(dataHora);
+        this.dataHora = dataHora;
+        
+        this.notNull(procedimento, "procedimento");
+        this.procedimento = procedimento;
+
+        this.notNull(cliente, "cliente");
+        this.cliente = cliente;
+
+        this.notNull(usuario, "usuario");
+        this.usuario = usuario;
+
+        this.dataCriacao = LocalDateTime.now();
     }
 
 
@@ -50,25 +65,5 @@ public class Agendamento {
     private void validateDataHora(LocalDateTime dataHora) {
         if (dataHora != null && dataHora.isBefore(LocalDateTime.now()))
             throw new IllegalArgumentException("Data e hora não podem ser no passado");
-    }
-
-    private void setAllWithValidations(Procedimento procedimento, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
-        this.observacao = observacao == null ? "" : observacao;
-
-        this.notNull(dataHora, "dataHora");
-        this.validateDataHora(dataHora);
-        this.dataHora = dataHora;
-        
-        this.notNull(procedimento, "procedimento");
-        this.procedimento = procedimento;
-
-
-        this.notNull(cliente, "cliente");
-        this.cliente = cliente;
-
-        this.notNull(usuario, "usuario");
-        this.usuario = usuario;
-
-        this.dataCriacao = LocalDateTime.now();
     }
 }

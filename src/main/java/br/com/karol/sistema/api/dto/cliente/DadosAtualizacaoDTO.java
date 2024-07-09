@@ -1,5 +1,7 @@
 package br.com.karol.sistema.api.dto.cliente;
 
+import br.com.karol.sistema.domain.valueobjects.Email;
+import br.com.karol.sistema.domain.valueobjects.Telefone;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class AtualizarClienteDTO {
+public class DadosAtualizacaoDTO {
 
     private String nome;
-    private String telefone;
-    private String email;
+    private Telefone telefone;
+    private Email email;
 }
