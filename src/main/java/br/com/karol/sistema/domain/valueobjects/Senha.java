@@ -1,7 +1,5 @@
 package br.com.karol.sistema.domain.valueobjects;
 
-import java.util.List;
-
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
 import br.com.karol.sistema.domain.validations.usuario.senha.SenhaValidator;
 import br.com.karol.sistema.infra.exceptions.InvalidVOException;
