@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UniqueTelefoneValidator implements TelefoneValidator {
     
-    private static final String CPF_ERROR_MESSAGE = "indisponível";
+    private static final String TELEFONE_ERROR_MESSAGE = "indisponível";
 
     private ClienteRepository repository;
 
@@ -17,6 +17,6 @@ public class UniqueTelefoneValidator implements TelefoneValidator {
     @Override
     public void validate(String value) {
         if (repository.existsByTelefoneValue(value))
-            throw new IllegalArgumentException(CPF_ERROR_MESSAGE);
+            throw new IllegalArgumentException(TELEFONE_ERROR_MESSAGE);
     }
 }

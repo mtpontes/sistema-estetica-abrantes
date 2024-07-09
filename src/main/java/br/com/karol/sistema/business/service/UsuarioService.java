@@ -2,7 +2,6 @@ package br.com.karol.sistema.business.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -56,7 +55,7 @@ public class UsuarioService {
         return mapper.toDadosUsuarioDTO(repository.save(usuario));
     }
 
-    public List<DadosUsuarioDTO> adminListarTodosUsuarios(Pageable pageable) {
+    public List<DadosUsuarioDTO> adminListarTodosUsuarios() {
         return mapper.toListDadosUsuarioDTO(repository.findAll());
     }
 

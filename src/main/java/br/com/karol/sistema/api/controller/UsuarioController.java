@@ -2,8 +2,6 @@ package br.com.karol.sistema.api.controller;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,8 +71,8 @@ public class UsuarioController {
     }
     
     @GetMapping("/admin")
-    public ResponseEntity<List<DadosUsuarioDTO>> listarUsuarios(@PageableDefault(size = 5) Pageable pageable) {
-        return ResponseEntity.ok(service.adminListarTodosUsuarios(pageable));
+    public ResponseEntity<List<DadosUsuarioDTO>> listarUsuarios() {
+        return ResponseEntity.ok(service.adminListarTodosUsuarios());
     }
 
     /* Um usuário com ROLE ADMIN autenticado consegue recuperar dados de outros usuários */
