@@ -58,7 +58,7 @@ public class ErrorHandler {
     
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorMessage> handleError400(HttpMessageNotReadableException ex) {
-        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage().split(":")[0]));
+        return ResponseEntity.badRequest().body(new ErrorMessage("Formato de JSON inválido"));
     }
     
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
