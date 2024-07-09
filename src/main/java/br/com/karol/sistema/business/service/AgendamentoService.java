@@ -1,7 +1,10 @@
 package br.com.karol.sistema.business.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,7 @@ import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.domain.enums.StatusAgendamento;
 import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
@@ -54,8 +58,15 @@ public class AgendamentoService {
         return mapper.toDadosAgendamentoDTO(this.getAgendamentoById(id));
     }
 
-    public List<DadosAgendamentoDTO> listarTodosAgendamentos() {
-        return mapper.toListDadosAgentamentoDTO(agendamentoRepository.findAll());
+    public Page<DadosAgendamentoDTO> listarTodosAgendamentos(
+        StatusAgendamento status, 
+        LocalDateTime minDataHora, 
+        LocalDateTime maxDataHora, 
+        String procedimentoId,
+        String clienteId, 
+        Pageable pageable
+    ) {
+        return mapper.toPageDadosAgentamentoDTO(agendamentoRepository.findAllByParams(status, minDataHora, maxDataHora, procedimentoId, clienteId, pageable));
     }
 
     @Transactional

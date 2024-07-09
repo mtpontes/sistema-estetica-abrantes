@@ -1,10 +1,9 @@
 package br.com.karol.sistema.api.mapper;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
@@ -25,8 +24,8 @@ public class AgendamentoMapper {
         return mapper.map(agendamento, DadosAgendamentoDTO.class);
     }
     
-    public List<DadosAgendamentoDTO> toListDadosAgentamentoDTO(List<Agendamento> agendamentoList) {
-        return agendamentoList.stream().map(this::toDadosAgendamentoDTO).collect(Collectors.toList());
+    public Page<DadosAgendamentoDTO> toPageDadosAgentamentoDTO(Page<Agendamento> agendamentoList) {
+        return agendamentoList.map(this::toDadosAgendamentoDTO);
     }
 
     public Agendamento forAgendamentoValidator(String clienteId, LocalDateTime dataHora, String agendamentoId) {

@@ -1,7 +1,6 @@
 package br.com.karol.sistema.api.mapper;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.api.dto.procedimento.CriarProcedimentoDTO;
@@ -18,10 +17,8 @@ public class ProcedimentoMapper {
     public DadosProcedimentoDTO toDadosProcedimentoDTO(Procedimento dados) {
         return new DadosProcedimentoDTO(dados);
     }
-    
-    public List<DadosProcedimentoDTO> toListDadosProcedimentoDTO(List<Procedimento> dados) {
-        return dados.stream()
-            .map(this::toDadosProcedimentoDTO)
-            .toList();
+
+    public Page<DadosProcedimentoDTO> toPageDadosProcedimentoDTO(Page<Procedimento> dados) {
+        return dados.map(this::toDadosProcedimentoDTO);
     }
 }

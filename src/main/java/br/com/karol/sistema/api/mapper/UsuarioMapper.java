@@ -32,8 +32,6 @@ public class UsuarioMapper {
     }
 
     public List<DadosUsuarioDTO> toListDadosUsuarioDTO(List<Usuario> usuarios) {
-        return usuarios.stream()
-            .map(this::toDadosUsuarioDTO)
-            .toList();
+        return usuarios.stream().map(this::toDadosUsuarioDTO).toList();
     }
 }
