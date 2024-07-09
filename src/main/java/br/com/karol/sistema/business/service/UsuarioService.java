@@ -17,7 +17,7 @@ import br.com.karol.sistema.api.mapper.UsuarioMapper;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validations.usuario.senha.SenhaValidator;
+import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;

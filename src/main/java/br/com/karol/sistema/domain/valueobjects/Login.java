@@ -2,7 +2,7 @@ package br.com.karol.sistema.domain.valueobjects;
 
 import java.util.List;
 
-import br.com.karol.sistema.domain.validations.usuario.login.LoginValidator;
+import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
 import br.com.karol.sistema.infra.exceptions.InvalidVOException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

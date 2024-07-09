@@ -14,7 +14,7 @@ import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.domain.validations.agendamento.AgendamentoValidator;
+import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import lombok.AllArgsConstructor;

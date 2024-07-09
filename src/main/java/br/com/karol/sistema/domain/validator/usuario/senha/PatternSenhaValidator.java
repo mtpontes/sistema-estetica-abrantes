@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validations.usuario.senha;
+package br.com.karol.sistema.domain.validator.usuario.senha;
 
 import java.util.List;
 import java.util.Properties;

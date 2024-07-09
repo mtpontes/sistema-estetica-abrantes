@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validations.cliente.telefone;
+package br.com.karol.sistema.domain.validator.cliente.telefone;
 
 import org.springframework.stereotype.Component;
 
