@@ -19,5 +19,5 @@ public interface AgendamentoRepository extends MongoRepository<Agendamento, Stri
     Long countByClienteAndDataHoraBetween(String clienteId, LocalDateTime inicio, LocalDateTime fim);
     
     @Query("{ 'dataHora' : { $gte : ?0, $lte : ?1 } }")
-    List<Agendamento> findByAgendamentosBetweenDataHora(LocalDateTime inicio, LocalDateTime fim);
+    List<Agendamento> findBetweenDataHora(LocalDateTime inicio, LocalDateTime fim);
 }
