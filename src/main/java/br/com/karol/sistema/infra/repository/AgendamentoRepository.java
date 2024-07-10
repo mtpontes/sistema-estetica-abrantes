@@ -20,4 +20,7 @@ public interface AgendamentoRepository extends MongoRepository<Agendamento, Stri
     
     @Query("{ 'dataHora' : { $gte : ?0, $lte : ?1 } }")
     List<Agendamento> findBetweenDataHora(LocalDateTime inicio, LocalDateTime fim);
+
+    @Query(value = "{ 'procedimento._id' : ?0, 'status': { $nin : ['FINALIZADO', 'CANCELADO']} }", exists = true)
+    boolean existsByProcedimentoIdAndStatusIn(String procedimentoId);
 }
