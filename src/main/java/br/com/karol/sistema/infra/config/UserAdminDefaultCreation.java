@@ -39,10 +39,13 @@ public class UserAdminDefaultCreation {
 	public void createUserAdmin() {
 		if(!userRepository.existsByLoginValue(username)) {
 			Login login = new Login(username, loginValidators);
+
 			Senha senha = new Senha(password, senhaValidators, encoder);
 			senha.setValue(encoder.encode(password));
+
 			Usuario usuario = new Usuario("DefaultAdmin", login, senha);
 			usuario.setRole(UserRole.ADMIN);
+			
 			userRepository.save(usuario);
 		}
 	}

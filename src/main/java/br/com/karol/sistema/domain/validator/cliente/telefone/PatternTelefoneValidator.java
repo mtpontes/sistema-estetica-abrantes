@@ -7,12 +7,12 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import br.com.karol.sistema.domain.valueobjects.Telefone;
-import br.com.karol.sistema.infra.exceptions.InvalidVOException;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 @Component
 public class PatternTelefoneValidator implements TelefoneValidator{
     
-    private static final Class<?> CLASSE = Telefone.class;
+    private static final String CLASSE = Telefone.class.getSimpleName();
     private final PhoneNumberUtil pnUtil = PhoneNumberUtil.getInstance();
 
 
@@ -23,10 +23,10 @@ public class PatternTelefoneValidator implements TelefoneValidator{
 			pn = pnUtil.parse(value, "BR");
 			
 		} catch (NumberParseException e) {
-			throw new InvalidVOException(CLASSE);
+			throw new FieldValidationException(CLASSE);
 		}
 			
         if (!pnUtil.isValidNumberForRegion(pn, "BR"))
-            throw new InvalidVOException(CLASSE);
+            throw new FieldValidationException(CLASSE);
     }
 }

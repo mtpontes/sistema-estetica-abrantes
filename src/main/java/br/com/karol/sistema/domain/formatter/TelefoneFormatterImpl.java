@@ -8,12 +8,12 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import br.com.karol.sistema.domain.valueobjects.Telefone;
-import br.com.karol.sistema.infra.exceptions.InvalidVOException;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 @Component
 public class TelefoneFormatterImpl implements TelefoneFormatter {
 
-    private static final Class<?> CLASSE = Telefone.class;
+    private static final String CLASSE = Telefone.class.getSimpleName();
     
 
     @Override
@@ -25,7 +25,7 @@ public class TelefoneFormatterImpl implements TelefoneFormatter {
             
 		} catch (NumberParseException e) {
             e.printStackTrace();
-            throw new InvalidVOException(CLASSE);
+            throw new FieldValidationException(CLASSE);
 		}
 
         return utils.format(number, PhoneNumberFormat.NATIONAL);
