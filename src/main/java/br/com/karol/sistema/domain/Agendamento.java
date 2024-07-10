@@ -59,7 +59,7 @@ public class Agendamento {
 
 
     public void remarcarAgendamento(String observacao, LocalDateTime dataHora) {
-        this.observacao = observacao; // pode ser blank
+        this.observacao = observacao == null ? "" : observacao; // pode ser blank
         this.validateDataHora(dataHora);
         this.setDataHora(dataHora);
     }

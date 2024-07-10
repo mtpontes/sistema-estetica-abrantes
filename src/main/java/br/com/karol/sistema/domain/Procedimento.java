@@ -32,11 +32,11 @@ public class Procedimento {
         this.notBlank(nome, "nome");
         this.nome = nome;
 
-        this.notNull(duracao, "duracao");
-        this.duracao = duracao;
-
         this.notBlank(descricao, "descricao");
         this.descricao = descricao;
+        
+        this.notNull(duracao, "duracao");
+        this.duracao = duracao;
 
         this.notNull(valor, "valor");
         this.isValidValorForUpdate(valor);

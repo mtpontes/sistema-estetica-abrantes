@@ -14,11 +14,13 @@ import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,7 +51,7 @@ public class Usuario implements UserDetails {
 
 
     public void atualizarDados(String nome) {
-        this.notNull(nome, "nome");
+        this.notBlank(nome, "nome");
         this.nome = nome;
     }
     public void atualizarSenha(Senha senha) {

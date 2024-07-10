@@ -6,8 +6,10 @@ import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@ToString
 @NoArgsConstructor
 public class Login {
 
