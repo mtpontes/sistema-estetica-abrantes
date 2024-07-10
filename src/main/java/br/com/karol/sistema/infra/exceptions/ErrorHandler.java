@@ -19,6 +19,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class ErrorHandler {
+    private static final String GENERIC_INPUT_VALIDATION_ERROR_MESSAGE = "Input validation error";
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleError404() {
@@ -36,14 +37,15 @@ public class ErrorHandler {
     	return ResponseEntity
             .badRequest()
             .body(new ErrorMessageWithFields(
-            "Input validation error",
+            GENERIC_INPUT_VALIDATION_ERROR_MESSAGE,
             fields)
         );
     }
 
-    @ExceptionHandler(InvalidVOException.class)
-    public ResponseEntity<ErrorMessage> handleError400(InvalidVOException ex) {
-        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage()));
+    @ExceptionHandler(FieldValidationException.class)
+    public ResponseEntity<ErrorMessageWithFields> handleError400(FieldValidationException ex) {
+        Map<String, String> details = Map.of(ex.getFieldError(), ex.getErrorMessage());
+        return ResponseEntity.badRequest().body(new ErrorMessageWithFields(GENERIC_INPUT_VALIDATION_ERROR_MESSAGE, details));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
