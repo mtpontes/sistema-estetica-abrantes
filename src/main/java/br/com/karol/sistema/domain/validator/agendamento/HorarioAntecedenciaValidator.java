@@ -6,24 +6,25 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Agendamento;
+import br.com.karol.sistema.domain.constants.AgendamentoConstants;
 
 @Component
 public class HorarioAntecedenciaValidator implements AgendamentoValidator {
-
-    private static final Integer ANTECEDENCIA_MINIMA_EM_MINUTOS = 90;
+    
+    private static final int ANTECEDENCIA = AgendamentoConstants.ANTECEDENCIA_MINIMA_EM_MINUTOS;
 
     
     @Override
     public void validate(Agendamento dados) {
-        var dataAgendamento = dados.getDataHora();
+        var dateTimeNovoAgendamento = dados.getDataHora();
         var agora = LocalDateTime.now();
 
-        if (dataAgendamento.isBefore(agora)) {
+        if (dateTimeNovoAgendamento.isBefore(agora)) {
             throw new IllegalArgumentException("A data do agendamento não pode ser no passado.");
         }
 
-        Long result = Duration.between(agora, dataAgendamento).toMinutes();
-        if (result < ANTECEDENCIA_MINIMA_EM_MINUTOS)
-            throw new IllegalArgumentException("O agendamento deve ser feito com antecedência mínima de " + ANTECEDENCIA_MINIMA_EM_MINUTOS + " minutos");
+        long result = Duration.between(agora, dateTimeNovoAgendamento).toMinutes();
+        if (result < ANTECEDENCIA)
+            throw new IllegalArgumentException("O agendamento deve ser feito com antecedência mínima de " + ANTECEDENCIA + " minutos");
     }
 }
