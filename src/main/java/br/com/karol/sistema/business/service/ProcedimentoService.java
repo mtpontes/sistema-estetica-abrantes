@@ -12,24 +12,27 @@ import br.com.karol.sistema.api.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.api.mapper.ProcedimentoMapper;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
+import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import br.com.karol.sistema.infra.repository.ProcedimentoRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class ProcedimentoService {
 
-    private final String NOT_FOUND_MESSAGE = "Procedimento não encontrado";
+    private static final String NOT_FOUND_MESSAGE = "Procedimento não encontrado";
 
     private final ProcedimentoRepository repository;
     private final ProcedimentoMapper mapper;
-
-    public ProcedimentoService(ProcedimentoRepository repository, ProcedimentoMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
+    private final AgendamentoRepository agendamentoRepository;
 
 
     @Transactional
     public DadosProcedimentoDTO salvarProcedimento(CriarProcedimentoDTO dados) {
+        if (repository.existsByNome(dados.getNome()))
+            throw new FieldValidationException("nome");
+
         Procedimento procedimento = repository.save(mapper.toProcedimento(dados));
         return mapper.toDadosProcedimentoDTO(procedimento);
     }
@@ -48,7 +51,10 @@ public class ProcedimentoService {
     }
 
     @Transactional
-    public DadosProcedimentoDTO editarProcedimento(String procedimentoId, AtualizarProcedimentoDTO update){
+    public DadosProcedimentoDTO editarProcedimento(String procedimentoId, AtualizarProcedimentoDTO update) {
+        if (repository.existsByNome(update.getNome()))
+            throw new FieldValidationException("nome");
+
         Procedimento alvo = this.getProcedimentoById(procedimentoId);
         alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getDuracao(), update.getValor());
         return mapper.toDadosProcedimentoDTO(repository.save(alvo));
@@ -56,15 +62,18 @@ public class ProcedimentoService {
 
     // Criar uma query que valida se existe algum Agendamento com este procedimento
     @Transactional
-    public void removerProcedimento(String id) {
-        if (!repository.existsById(id))
+    public void removerProcedimento(String procedimentoId) {
+        if (!repository.existsById(procedimentoId))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
-            
-        repository.deleteById(id);
+
+        if (agendamentoRepository.existsByProcedimentoIdAndStatusIn(procedimentoId))
+            throw new IllegalArgumentException("Procedimento está vinculado a agendamentos em aberto");
+
+        repository.deleteById(procedimentoId);
     }
 
-    public Procedimento getProcedimentoById(String id) {
-        return this.repository.findById(id)
+    public Procedimento getProcedimentoById(String procedimentoId) {
+        return this.repository.findById(procedimentoId)
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
 }
