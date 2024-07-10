@@ -13,16 +13,17 @@ import org.passay.PasswordData;
 import org.passay.PasswordValidator;
 import org.passay.PropertiesMessageResolver;
 import org.passay.RepeatCharacterRegexRule;
+import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.valueobjects.Senha;
-import br.com.karol.sistema.infra.exceptions.InvalidVOException;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 @Component
 public class PatternSenhaValidator implements SenhaValidator {
 
-    private static final Class<?> CLASSE = Senha.class;
+    private static final String CLASSE = Senha.class.getSimpleName();
 
 
     @Override
@@ -43,9 +44,16 @@ public class PatternSenhaValidator implements SenhaValidator {
             new RepeatCharacterRegexRule(3)
         ));
 
-        var result = validator.validate(password);
+
+
+        RuleResult result = validator.validate(password);
         if (!result.isValid()) {
-            throw new InvalidVOException(CLASSE, validator.getMessages(result).toString().replace("[", "").replace("]", ""));
+            String messageReturn;
+            var messages = validator.getMessages(result);
+            // evita colchetes na mensagem de erro em caso de uma lista singleton
+            messageReturn = messages.size() == 1 ? messages.get(0) : messages.toString();
+
+            throw new FieldValidationException(CLASSE, messageReturn);
         }
     }
 

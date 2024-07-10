@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
-import br.com.karol.sistema.infra.exceptions.InvalidVOException;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 @Component
 public class PatternCpfValidator implements CpfValidator{
 
-    private static final Class<?> CLASSE = CPF.class;
+    private static final String CLASSE = CPF.class.getSimpleName();
 
 
     @Override
@@ -20,7 +20,7 @@ public class PatternCpfValidator implements CpfValidator{
             cpfValidator.assertValid(value); 
 
         } catch(InvalidStateException e) {
-            throw new InvalidVOException(CLASSE);
+            throw new FieldValidationException(CLASSE);
         } 
     }
 }

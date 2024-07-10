@@ -3,12 +3,12 @@ package br.com.karol.sistema.domain.validator.cliente.email;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.valueobjects.Email;
-import br.com.karol.sistema.infra.exceptions.InvalidVOException;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 @Component
 public class PatternEmailValidator implements EmailValidator {
 
-    private static final Class<?> CLASSE = Email.class;
+    private static final String CLASSE = Email.class.getSimpleName();
  
 
     @Override
@@ -16,6 +16,6 @@ public class PatternEmailValidator implements EmailValidator {
         var validator = org.apache.commons.validator.routines.EmailValidator.getInstance();
         
         if (!validator.isValid(value))
-            throw new InvalidVOException(CLASSE);
+            throw new FieldValidationException(CLASSE);
     }
 }
