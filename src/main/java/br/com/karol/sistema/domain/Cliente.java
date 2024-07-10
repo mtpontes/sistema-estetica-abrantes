@@ -34,16 +34,16 @@ public class Cliente {
         this.notBlank(nome, "nome");
         this.nome = nome;
 
-        this.notNull(cpf, cpf.getClass().getSimpleName());
+        this.notNull(cpf, "cpf");
         this.cpf = cpf;
 
-        this.notNull(telefone, telefone.getClass().getSimpleName());
+        this.notNull(telefone, "telefone");
         this.telefone = telefone;
 
-        this.notNull(email, email.getClass().getSimpleName());
+        this.notNull(email, "email");
         this.email = email;
 
-        this.notNull(endereco, endereco.getClass().getSimpleName());
+        this.notNull(endereco, "endereco");
         this.endereco = endereco;
     }
 
@@ -54,6 +54,7 @@ public class Cliente {
         if (!this.isNull(telefone)) this.telefone = telefone;
         if (!this.isNull(email)) this.email = email;
     }
+
     public void atualizarEndereco(Endereco endereco) {
         if (!this.isNull(endereco)) this.endereco = endereco;
     }

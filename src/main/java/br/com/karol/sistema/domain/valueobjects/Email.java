@@ -6,18 +6,20 @@ import br.com.karol.sistema.domain.validator.cliente.email.EmailValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@ToString
 @NoArgsConstructor
 public class Email {
 
     private String value;
 
-    public Email(String value, List<EmailValidator> validator) {
+    public Email(String value, List<EmailValidator> validators) {
         if (value == null || value.isEmpty()) throw new FieldValidationException(this.getClass().getSimpleName(), "Não pode ser null/blank");
 
-        if (validator == null) throw new RuntimeException("Deve fornecer um validador");
-        validator.forEach(v -> v.validate(value));
+        if (validators == null || validators.size() == 0) throw new RuntimeException("Deve fornecer um validador");
+        validators.forEach(v -> v.validate(value));
 
         this.value = value;
     }
