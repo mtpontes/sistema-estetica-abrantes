@@ -38,6 +38,7 @@ public class Procedimento {
         this.notBlank(descricao, "descricao");
         this.descricao = descricao;
 
+        this.notNull(valor, "valor");
         this.isValidValorForUpdate(valor);
         this.valor = valor;
     }

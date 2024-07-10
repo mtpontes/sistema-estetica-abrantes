@@ -19,30 +19,30 @@ import jakarta.annotation.PostConstruct;
 @Component
 public class UserAdminDefaultCreation {
 
-    @Autowired
+	@Autowired
 	private UsuarioRepository userRepository;
 
 	@Autowired
-    private SenhaEncoder encoder;
+	private SenhaEncoder encoder;
 	@Autowired
 	private SenhaValidator senhaValidators;
 	@Autowired
 	private List<LoginValidator> loginValidators;
-	
-    @Value("${admin.default.username}")
+
+	@Value("${admin.default.username}")
 	private String username;
 	@Value("${admin.default.password}")
 	private String password;
-    
-	
+
+
 	@PostConstruct
 	public void createUserAdmin() {
 		if(!userRepository.existsByLoginValue(username)) {
 			Login login = new Login(username, loginValidators);
 			Senha senha = new Senha(password, senhaValidators, encoder);
 			senha.setValue(encoder.encode(password));
-            Usuario usuario = new Usuario("DefaultAdmin", login, senha);
-            usuario.setRole(UserRole.ADMIN);
+			Usuario usuario = new Usuario("DefaultAdmin", login, senha);
+			usuario.setRole(UserRole.ADMIN);
 			userRepository.save(usuario);
 		}
 	}
