@@ -1,11 +1,14 @@
 package br.com.karol.sistema.api.controller;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +28,7 @@ import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.business.service.AgendamentoService;
+import br.com.karol.sistema.business.service.DisponibilidadeService;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
 import jakarta.validation.Valid;
@@ -35,7 +39,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AgendamentoController {
 
-    private final AgendamentoService service;
+    private final AgendamentoService agendamentoService;
+    private final DisponibilidadeService disponibilidadeService;
 
 
     @PostMapping
@@ -45,7 +50,7 @@ public class AgendamentoController {
         @RequestBody @Valid CriarAgendamentoDTO dadosAgendamento
     ) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        DadosAgendamentoDTO agendamentoCriado = service.salvarAgendamento(dadosAgendamento, usuario);
+        DadosAgendamentoDTO agendamentoCriado = agendamentoService.salvarAgendamento(dadosAgendamento, usuario);
 
         var uri = uriBuilder.path("/agendamento/{id}")
             .buildAndExpand(agendamentoCriado.getId())
@@ -63,7 +68,7 @@ public class AgendamentoController {
         @RequestParam(required = false) String clienteId, 
         @PageableDefault(size = 10) Pageable pageable
     ) {
-        return ResponseEntity.ok(service.listarTodosAgendamentos(
+        return ResponseEntity.ok(agendamentoService.listarTodosAgendamentos(
             status, 
             minDataHora, 
             maxDataHora, 
@@ -74,23 +79,31 @@ public class AgendamentoController {
 
     @GetMapping("/{agendamentoId}")
     public ResponseEntity<DadosAgendamentoDTO> buscarAgendamento(@PathVariable String agendamentoId) {
-        return ResponseEntity.ok().body(service.buscarAgendamentoPorId(agendamentoId));
+        return ResponseEntity.ok().body(agendamentoService.buscarAgendamentoPorId(agendamentoId));
+    }
+
+    @GetMapping("/disponibilidade")
+    public ResponseEntity<List<LocalDateTime>> buscarHorariosDisponiveis(
+        @RequestParam(required = true) String procedimentoId, 
+        @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dia
+    ) {
+        return ResponseEntity.ok(disponibilidadeService.filtrarHorariosDisponiveis(procedimentoId, dia));
     }
 
     @PutMapping("/{agendamentoId}")
     public ResponseEntity<DadosAgendamentoDTO> atualizarAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid AtualizarAgendamentoDTO dadosRemarcacao) {
-        DadosAgendamentoDTO agendamentoAtualizado = service.editarAgendamento(agendamentoId, dadosRemarcacao);
+        DadosAgendamentoDTO agendamentoAtualizado = agendamentoService.editarAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
     @PatchMapping("/{agendamentoId}/status")
     public ResponseEntity<DadosAgendamentoDTO> atualizarStatusAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid AtualizarStatusAgendamentoDTO novoStatus) {
-        return ResponseEntity.ok().body(service.editarStatusAgendamento(agendamentoId, novoStatus));
+        return ResponseEntity.ok().body(agendamentoService.editarStatusAgendamento(agendamentoId, novoStatus));
     }
 
     @DeleteMapping("/{agendamentoId}")
     public ResponseEntity<Void> deletarAgendamento(@PathVariable String agendamentoId) {
-        service.removerAgendamento(agendamentoId);
+        agendamentoService.removerAgendamento(agendamentoId);
         return ResponseEntity.noContent().build();
     }
 }
