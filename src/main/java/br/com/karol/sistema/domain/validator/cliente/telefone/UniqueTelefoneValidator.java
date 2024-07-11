@@ -2,6 +2,7 @@ package br.com.karol.sistema.domain.validator.cliente.telefone;
 
 import org.springframework.stereotype.Component;
 
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import br.com.karol.sistema.infra.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 
@@ -17,6 +18,6 @@ public class UniqueTelefoneValidator implements TelefoneValidator {
     @Override
     public void validate(String value) {
         if (repository.existsByTelefoneValue(value))
-            throw new IllegalArgumentException(TELEFONE_ERROR_MESSAGE);
+            throw new FieldValidationException(TELEFONE_ERROR_MESSAGE);
     }
 }
