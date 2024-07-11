@@ -46,12 +46,12 @@ public class AgendamentoTest {
 
 
     @Test
-    void deveCriarAgendamentoTest() {
+    void testDeveCriarAgendamento() {
         assertDoesNotThrow(() -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
     }
 
     @Test
-    void deveLancarExcecaoAoCriarClienteComAtributosNullTest() {
+    void testDeveLancarExcecaoAoCriarClienteComAtributosNull() {
         assertThrows(IllegalArgumentException.class, () -> new Agendamento(null, null, null, null, null, null, null));
         assertThrows(IllegalArgumentException.class, () -> new Agendamento(null, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
         assertThrows(NullPointerException.class, () -> new Agendamento(PROCEDIMENTO, null, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
@@ -62,7 +62,7 @@ public class AgendamentoTest {
     }
 
     @Test
-    void naoDeveCriarAgendamentoComStatusInvalidoTest() {
+    void testNaoDeveCriarAgendamentoComStatusInvalido() {
         for (StatusAgendamento status : StatusAgendamento.values()) {
             if (status != StatusAgendamento.PENDENTE && status != StatusAgendamento.CONFIRMADO) {
 
@@ -73,7 +73,7 @@ public class AgendamentoTest {
     }
 
     @Test
-    void deveCriarAgendamentoComStatusInvalidoTest() {
+    void testDeveCriarAgendamentoComStatusInvalido() {
         for (StatusAgendamento status : StatusAgendamento.values()) {
             if (status == StatusAgendamento.PENDENTE || status == StatusAgendamento.CONFIRMADO) {
                 assertDoesNotThrow(() -> new Agendamento(PROCEDIMENTO, status, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
@@ -82,7 +82,7 @@ public class AgendamentoTest {
     }
 
     @Test
-    void deveCriarAgendamentoComObservacaoNullEBlankTest() {
+    void testDeveCriarAgendamentoComObservacaoNullEBlank() {
         assertDoesNotThrow(() -> {
             var result = new Agendamento(PROCEDIMENTO, STATUS, null, CLIENTE, DATA_HORA, USUARIO, validators);
 
@@ -94,13 +94,13 @@ public class AgendamentoTest {
     }
 
     @Test
-    void naoDeveCriarAgendamentoComDataPassadaTest() {
+    void testNaoDeveCriarAgendamentoComDataPassada() {
         assertThrows(IllegalArgumentException.class, 
             () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, PASSADO, USUARIO, validators));
     }
 
     @Test
-    void deveAlterarObservacaoTest() {
+    void testDeveAlterarObservacao() {
         // arrange
         Agendamento test = new Agendamento();
         var observacaoOriginal = test.getObservacao();
@@ -111,7 +111,7 @@ public class AgendamentoTest {
     }
 
     @Test
-    void deveRemarcarAgendamentoTest() {
+    void testDeveRemarcarAgendamento() {
         // arrange
         Agendamento test = new Agendamento();
         var dataHoraOriginal = test.getDataHora();
@@ -122,7 +122,7 @@ public class AgendamentoTest {
     }
 
     @Test
-    void naoDeveRemarcarAgendamentoQuandoDataInvalidaTest() {
+    void testNaoDeveRemarcarAgendamentoQuandoDataInvalida() {
         // arrange
         Agendamento test = new Agendamento();
         

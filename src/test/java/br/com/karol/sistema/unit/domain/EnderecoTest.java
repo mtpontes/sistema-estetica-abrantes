@@ -17,12 +17,12 @@ public class EnderecoTest {
 
 
     @Test
-    void deveCriarEnderecoComAtributosValidosTest() {
+    void testDeveCriarEnderecoComAtributosValidos() {
         assertDoesNotThrow(() -> new Endereco(RUA, NUMERO, CIDADE, BAIRRO, ESTADO));
     }
 
     @Test
-    void deveLancarNullPointerExceptionAoCriarEnderecoComCamposNull() {
+    void testDeveLancarNullPointerExceptionAoCriarEnderecoComCamposNull() {
         assertThrows(IllegalArgumentException.class, () -> new Endereco(null, null, null, null, null));
         assertThrows(IllegalArgumentException.class, () -> new Endereco(null, NUMERO, CIDADE, BAIRRO, ESTADO));
         assertThrows(IllegalArgumentException.class, () -> new Endereco(RUA, null, CIDADE, BAIRRO, ESTADO));
@@ -32,7 +32,7 @@ public class EnderecoTest {
     }
 
     @Test
-    void deveLancarIllegalArgumentExceptionAoCriarEnderecoComCamposBlank() {
+    void testDeveLancarIllegalArgumentExceptionAoCriarEnderecoComCamposBlank() {
         assertThrows(IllegalArgumentException.class, () -> new Endereco("", "", "", "", ""));
         assertThrows(IllegalArgumentException.class, () -> new Endereco("", NUMERO, CIDADE, BAIRRO, ESTADO));
         assertThrows(IllegalArgumentException.class, () -> new Endereco(RUA, "", CIDADE, BAIRRO, ESTADO));

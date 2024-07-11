@@ -36,24 +36,24 @@ public class TelefoneUnitTest {
 
     
     @Test
-    void deveCriarTelefoneComValoresValidos() {
+    void testDeveCriarTelefoneComValoresValidos() {
         assertDoesNotThrow(() -> new Telefone(VALUE, validators, formatter));
     }
 
     @Test
-    void naoDeveCriarTelefoneQuandoValueForNull() {
+    void testNaoDeveCriarTelefoneQuandoValueForNull() {
         assertThrows(NullPointerException.class, () -> new Telefone(null, validators, formatter));
         assertThrows(FieldValidationException.class, () -> new Telefone("", validators, formatter));
     }
     
     @Test
-    void naoDeveCriarTelefoneSemUmValidator() {
+    void testNaoDeveCriarTelefoneSemUmValidator() {
         assertThrows(NullPointerException.class, () -> new Telefone(VALUE, null, formatter));
         assertThrows(RuntimeException.class, () -> new Telefone(VALUE, Collections.emptyList(), formatter));
     }
 
     @Test
-    void naoDeveCriarTelefoneSemUmFormatter() {
+    void testNaoDeveCriarTelefoneSemUmFormatter() {
         assertThrows(NullPointerException.class, () -> new Telefone(VALUE, validators, null));
     }
 }

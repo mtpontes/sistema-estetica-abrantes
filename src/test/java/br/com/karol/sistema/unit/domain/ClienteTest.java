@@ -26,12 +26,12 @@ public class ClienteTest {
 
 
     @Test
-    void deveCriarClienteComAtributosValidosTest() {
+    void testDeveCriarClienteComAtributosValidos() {
         assertDoesNotThrow(() -> new Cliente(NOME, CPF, TELEFONE, EMAIL, ENDERECO));
     }
 
     @Test
-    void deveLancarExcecaoAoCriarClienteComAtributosNullTest() {
+    void testDeveLancarExcecaoAoCriarClienteComAtributosNull() {
         assertThrows(IllegalArgumentException.class, () -> new Cliente(null, null, null, null, null));
         assertThrows(IllegalArgumentException.class, () -> new Cliente(null, CPF, TELEFONE, EMAIL, ENDERECO));
         assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, null, TELEFONE, EMAIL, ENDERECO));
@@ -41,12 +41,12 @@ public class ClienteTest {
     }
 
     @Test
-    void deveLancarExcecaoAoCriarClienteComAtributosNomeBlankTest() {
+    void testDeveLancarExcecaoAoCriarClienteComAtributosNomeBlank() {
         assertThrows(IllegalArgumentException.class, () -> new Cliente("", CPF, TELEFONE, EMAIL, ENDERECO));
     }
 
     @Test
-    void deveAtualizarDadosClienteTest() {
+    void testDeveAtualizarDadosCliente() {
         // arrange
         Cliente cliente = ClienteUtils.getCliente();
         var nomeOriginal = cliente.getNome();
@@ -62,7 +62,7 @@ public class ClienteTest {
     }
 
     @Test
-    void naoDeveAtualizarDadosClienteQuandoValoresForemNullTest() {
+    void testNaoDeveAtualizarDadosClienteQuandoValoresForemNull() {
         // arrange
         Cliente cliente = ClienteUtils.getCliente();
         var nomeOriginal = cliente.getNome();
@@ -78,7 +78,7 @@ public class ClienteTest {
     }
 
     @Test
-    void deveAtualizarEnderecoTest() {
+    void testDeveAtualizarEndereco() {
         // arrange
         Cliente cliente = ClienteUtils.getCliente();
         var enderecoOriginal = cliente.getEndereco();
@@ -91,7 +91,7 @@ public class ClienteTest {
     }
 
     @Test
-    void naoDeveAtualizarEnderecoTest() {
+    void testNaoDeveAtualizarEndereco() {
         // arrange
         Cliente cliente = ClienteUtils.getCliente();
         var enderecoOriginal = cliente.getEndereco();
@@ -102,7 +102,7 @@ public class ClienteTest {
     }
 
     @Test
-    void getCpfDeveRetornarStringTest() {
+    void testGetCpfDeveRetornarString() {
         // arrange
         Cliente cliente = ClienteUtils.getCliente();
 
@@ -110,7 +110,7 @@ public class ClienteTest {
         assertTrue(cliente.getCpf() instanceof String);
     }
     @Test
-    void getTelefoneDeveRetornarStringTest() {
+    void testGetTelefoneDeveRetornarString() {
         // arrange
         Cliente cliente = ClienteUtils.getCliente();
 
@@ -118,7 +118,7 @@ public class ClienteTest {
         assertTrue(cliente.getTelefone() instanceof String);
     }
     @Test
-    void getEmailDeveRetornarStringTest() {
+    void testGetEmailDeveRetornarString() {
         // arrange
         Cliente cliente = ClienteUtils.getCliente();
 

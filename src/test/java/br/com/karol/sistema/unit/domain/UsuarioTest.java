@@ -21,24 +21,24 @@ public class UsuarioTest {
 
 
     @Test
-    void criarUsuarioComValoresValidosTest() {
+    void testCriarUsuarioComValoresValidos() {
         assertDoesNotThrow(() -> new Usuario(NOME, LOGIN, SENHA));
     }
 
     @Test
-    void criarUsuarioComValoresNullTest() {
+    void testCriarUsuarioComValoresNull() {
         assertThrows(IllegalArgumentException.class, () -> new Usuario(null, null, null));
         assertThrows(IllegalArgumentException.class, () -> new Usuario(NOME, null, SENHA));
         assertThrows(IllegalArgumentException.class, () -> new Usuario(NOME, LOGIN, null));
     }
 
     @Test
-    void criarUsuarioComStringBlankTest() {
+    void testCriarUsuarioComStringBlank() {
         assertThrows(IllegalArgumentException.class, () -> new Usuario("", LOGIN, SENHA));
     }
     
     @Test
-    void deveAtualizarDadosUsuarioTest() {
+    void testDeveAtualizarDadosUsuario() {
         // arrange
         Usuario test = user;
         String nomeAtual = test.getNome();
@@ -49,7 +49,7 @@ public class UsuarioTest {
     }
     
     @Test
-    void naoDeveAtualizarDadosUsuarioComValoresInvalidosTest() {
+    void testNaoDeveAtualizarDadosUsuarioComValoresInvalidos() {
         // act and assert
         Usuario test = user;
 
@@ -59,7 +59,7 @@ public class UsuarioTest {
     }
 
     @Test
-    void deveAtualizarSenhaUsuarioTest() {
+    void testDeveAtualizarSenhaUsuario() {
         // arrange
         Usuario test = user;
         String senhaOriginal = test.getSenha();
@@ -70,7 +70,7 @@ public class UsuarioTest {
     }
 
     @Test
-    void atualizarSenhaUsuarioComValorNullDeveLancarExceptionTest() {
+    void testAtualizarSenhaUsuarioComValorNullDeveLancarException() {
         // arrange
         Usuario test = user;
 
@@ -79,7 +79,7 @@ public class UsuarioTest {
     }
     
     @Test
-    void getLoginDeveRetornarStringTest() {
+    void testGetLoginDeveRetornarString() {
         // arrange
         Usuario user = UsuarioUtils.getUser();
 
@@ -88,7 +88,7 @@ public class UsuarioTest {
     }
 
     @Test
-    void getSenhaDeveRetornarStringTest() {
+    void testGetSenhaDeveRetornarString() {
         // assert
         Usuario user = UsuarioUtils.getUser();
 
