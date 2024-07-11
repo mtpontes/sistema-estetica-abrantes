@@ -47,12 +47,12 @@ public class UsuarioController {
     }
 
     /* A atualização do usuário é baseada na recuperação da identificação desse usuário através do token de autenticação */
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<DadosUsuarioDTO> atualizarUsuario(Authentication authentication, @RequestBody AtualizarUsuarioDTO dados) {
         return ResponseEntity.ok(service.atualizarUsuarioAtual((Usuario) authentication.getPrincipal(), dados));
     }
 
-    @PutMapping("/senha")
+    @PatchMapping("/senha")
     public ResponseEntity<LoginResponseDTO> atualizarSenhaUsuarioAtual(
         Authentication authentication,
         @RequestBody AtualizarSenhaUsuarioDTO dados
