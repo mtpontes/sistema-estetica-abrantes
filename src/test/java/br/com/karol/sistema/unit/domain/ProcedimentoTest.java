@@ -28,11 +28,11 @@ public class ProcedimentoTest {
 
     @Test
     void naoDeveCriarProcedimentoComValoresNullTest() {
-        assertThrows(NullPointerException.class, () -> new Procedimento(null, null, null, null));
-        assertThrows(NullPointerException.class, () -> new Procedimento(null, DESCRICAO, DURACAO, VALOR));
-        assertThrows(NullPointerException.class, () -> new Procedimento(NOME, null, DURACAO, VALOR));
-        assertThrows(NullPointerException.class, () -> new Procedimento(NOME, DESCRICAO, null, VALOR));
-        assertThrows(NullPointerException.class, () -> new Procedimento(NOME, DESCRICAO, DURACAO, null));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(null, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(null, DESCRICAO, DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, null, DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, null, VALOR));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, DURACAO, null));
     }
 
     @Test

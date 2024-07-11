@@ -52,12 +52,12 @@ public class AgendamentoTest {
 
     @Test
     void deveLancarExcecaoAoCriarClienteComAtributosNullTest() {
-        assertThrows(NullPointerException.class, () -> new Agendamento(null, null, null, null, null, null, null));
-        assertThrows(NullPointerException.class, () -> new Agendamento(null, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
+        assertThrows(IllegalArgumentException.class, () -> new Agendamento(null, null, null, null, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new Agendamento(null, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
         assertThrows(NullPointerException.class, () -> new Agendamento(PROCEDIMENTO, null, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
-        assertThrows(NullPointerException.class, () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, null, DATA_HORA, USUARIO, validators));
-        assertThrows(NullPointerException.class, () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, null, USUARIO, validators));
-        assertThrows(NullPointerException.class, () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, null, validators));
+        assertThrows(IllegalArgumentException.class, () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, null, DATA_HORA, USUARIO, validators));
+        assertThrows(IllegalArgumentException.class, () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, null, USUARIO, validators));
+        assertThrows(IllegalArgumentException.class, () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, null, validators));
         assertThrows(NullPointerException.class, () -> new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, null));
     }
 
@@ -68,6 +68,15 @@ public class AgendamentoTest {
 
                 assertThrows(IllegalArgumentException.class, 
                     () -> new Agendamento(PROCEDIMENTO, status, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
+            }
+        }
+    }
+
+    @Test
+    void deveCriarAgendamentoComStatusInvalidoTest() {
+        for (StatusAgendamento status : StatusAgendamento.values()) {
+            if (status == StatusAgendamento.PENDENTE || status == StatusAgendamento.CONFIRMADO) {
+                assertDoesNotThrow(() -> new Agendamento(PROCEDIMENTO, status, OBSERVACAO, CLIENTE, DATA_HORA, USUARIO, validators));
             }
         }
     }

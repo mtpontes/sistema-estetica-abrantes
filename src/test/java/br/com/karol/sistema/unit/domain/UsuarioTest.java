@@ -27,9 +27,9 @@ public class UsuarioTest {
 
     @Test
     void criarUsuarioComValoresNullTest() {
-        assertThrows(NullPointerException.class, () -> new Usuario(null, null, null));
-        assertThrows(NullPointerException.class, () -> new Usuario(NOME, null, SENHA));
-        assertThrows(NullPointerException.class, () -> new Usuario(NOME, LOGIN, null));
+        assertThrows(IllegalArgumentException.class, () -> new Usuario(null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new Usuario(NOME, null, SENHA));
+        assertThrows(IllegalArgumentException.class, () -> new Usuario(NOME, LOGIN, null));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class UsuarioTest {
         Usuario test = user;
 
         // act and assert
-        assertThrows(NullPointerException.class, () -> test.atualizarDados(null));
+        assertThrows(IllegalArgumentException.class, () -> test.atualizarDados(null));
         assertThrows(IllegalArgumentException.class, () -> test.atualizarDados(""));
     }
 
@@ -75,7 +75,7 @@ public class UsuarioTest {
         Usuario test = user;
 
         // act and assert
-        assertThrows(NullPointerException.class, () -> test.atualizarSenha(null));
+        assertThrows(IllegalArgumentException.class, () -> test.atualizarSenha(null));
     }
     
     @Test

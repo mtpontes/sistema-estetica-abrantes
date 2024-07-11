@@ -23,12 +23,12 @@ public class EnderecoTest {
 
     @Test
     void deveLancarNullPointerExceptionAoCriarEnderecoComCamposNull() {
-        assertThrows(NullPointerException.class, () -> new Endereco(null, null, null, null, null));
-        assertThrows(NullPointerException.class, () -> new Endereco(null, NUMERO, CIDADE, BAIRRO, ESTADO));
-        assertThrows(NullPointerException.class, () -> new Endereco(RUA, null, CIDADE, BAIRRO, ESTADO));
-        assertThrows(NullPointerException.class, () -> new Endereco(RUA, NUMERO, null, BAIRRO, ESTADO));
-        assertThrows(NullPointerException.class, () -> new Endereco(RUA, NUMERO, CIDADE, null, ESTADO));
-        assertThrows(NullPointerException.class, () -> new Endereco(RUA, NUMERO, CIDADE, BAIRRO, null));
+        assertThrows(IllegalArgumentException.class, () -> new Endereco(null, null, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new Endereco(null, NUMERO, CIDADE, BAIRRO, ESTADO));
+        assertThrows(IllegalArgumentException.class, () -> new Endereco(RUA, null, CIDADE, BAIRRO, ESTADO));
+        assertThrows(IllegalArgumentException.class, () -> new Endereco(RUA, NUMERO, null, BAIRRO, ESTADO));
+        assertThrows(IllegalArgumentException.class, () -> new Endereco(RUA, NUMERO, CIDADE, null, ESTADO));
+        assertThrows(IllegalArgumentException.class, () -> new Endereco(RUA, NUMERO, CIDADE, BAIRRO, null));
     }
 
     @Test

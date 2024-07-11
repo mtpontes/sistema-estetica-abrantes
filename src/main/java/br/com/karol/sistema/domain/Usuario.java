@@ -2,7 +2,6 @@ package br.com.karol.sistema.domain;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -57,7 +56,9 @@ public class Usuario implements UserDetails {
     }
 
     private <T> T notNull(T field, String fieldName) {
-        return Objects.requireNonNull(field, "Não pode ser null: " + fieldName);
+        if (field == null)
+            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
+        return field;
     }
     private String notBlank(String field, String fieldName) {
         this.notNull(field, fieldName);
