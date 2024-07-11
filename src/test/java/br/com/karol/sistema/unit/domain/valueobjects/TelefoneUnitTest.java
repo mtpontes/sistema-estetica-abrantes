@@ -44,14 +44,18 @@ public class TelefoneUnitTest {
 
     @Test
     void naoDeveCriarTelefoneQuandoValueForNull() {
-        assertThrows(FieldValidationException.class, () -> new Telefone(null, validators, formatter));
+        assertThrows(NullPointerException.class, () -> new Telefone(null, validators, formatter));
         assertThrows(FieldValidationException.class, () -> new Telefone("", validators, formatter));
     }
     
     @Test
-    void naoDeveCriarTelefoneSemUmValidatorEFormatter() {
-        assertThrows(RuntimeException.class, () -> new Telefone(VALUE, null, formatter));
+    void naoDeveCriarTelefoneSemUmValidator() {
+        assertThrows(NullPointerException.class, () -> new Telefone(VALUE, null, formatter));
         assertThrows(RuntimeException.class, () -> new Telefone(VALUE, Collections.emptyList(), formatter));
-        assertThrows(RuntimeException.class, () -> new Telefone(VALUE, validators, null));
+    }
+
+    @Test
+    void naoDeveCriarTelefoneSemUmFormatter() {
+        assertThrows(NullPointerException.class, () -> new Telefone(VALUE, validators, null));
     }
 }

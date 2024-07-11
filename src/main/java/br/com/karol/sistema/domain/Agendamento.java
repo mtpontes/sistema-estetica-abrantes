@@ -1,12 +1,15 @@
 package br.com.karol.sistema.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
+import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,34 +37,35 @@ public class Agendamento {
     private Usuario usuario;
     private LocalDateTime dataCriacao;
 
-    public Agendamento(Procedimento procedimento, StatusAgendamento status, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario) {
-        this.notNull(procedimento, "procedimento");
-        this.procedimento = procedimento;
+    public Agendamento(Procedimento procedimento, StatusAgendamento status, String observacao, Cliente cliente, LocalDateTime dataHora, Usuario usuario, List<AgendamentoValidator> validators) {
+        this.procedimento = this.notNull(procedimento, "procedimento");
 
-        if (status != StatusAgendamento.PENDENTE && status != StatusAgendamento.CONFIRMADO)
-            throw new IllegalArgumentException("Não é possível criar um agendamento com status diferente de PENDENTE ou CONFIRMADO");
+        List<StatusAgendamento> statusesPermitidos = List.of(StatusAgendamento.PENDENTE, StatusAgendamento.CONFIRMADO);
+        if (!statusesPermitidos.contains(status))
+            throw new IllegalArgumentException("Não é possível criar um agendamento com status diferente de: " + statusesPermitidos.toString());
         this.status = status;
 
-        this.observacao = observacao == null ? "" : observacao;
+        this.setObservacao(observacao);
+        
+        this.cliente = this.notNull(cliente, "cliente");
 
-        this.notNull(cliente, "cliente");
-        this.cliente = cliente;
+        this.mustBeBeforeNow(dataHora);
+        this.dataHora = this.notNull(dataHora, "dataHora");
 
-        this.notNull(dataHora, "dataHora");
-        this.validateDataHora(dataHora);
-        this.dataHora = dataHora;
-
-        this.notNull(usuario, "usuario");
-        this.usuario = usuario;
-
+        this.usuario = this.notNull(usuario, "usuario");
         this.dataCriacao = LocalDateTime.now();
+
+        validators.forEach(validator -> validator.validate(this));
     }
 
-
-    public void remarcarAgendamento(String observacao, LocalDateTime dataHora) {
+    public void setObservacao(String observacao) {
         this.observacao = observacao == null ? "" : observacao; // pode ser blank
-        this.validateDataHora(dataHora);
-        this.setDataHora(dataHora);
+    }
+
+    public void remarcar(LocalDateTime novaDataHora, List<AgendamentoValidator> validators) {
+        this.dataHora = novaDataHora;
+        this.mustBeBeforeNow(novaDataHora);
+        validators.forEach(validator -> validator.validate(this));
     }
 
     public void atualizarStatus(StatusAgendamento novoStatus) {
@@ -69,11 +73,11 @@ public class Agendamento {
         this.status = novoStatus;
     }
 
-    private void notNull(Object obj, String nomeCampo) {
-        if (obj == null) throw new IllegalArgumentException("Não pode ser nulo: " + nomeCampo);
+    private <T> T notNull(T obj, String fieldName) {
+        return Objects.requireNonNull(obj, "Não pode ser null: " + fieldName);
     }
 
-    private void validateDataHora(LocalDateTime dataHora) {
+    private void mustBeBeforeNow(LocalDateTime dataHora) {
         if (dataHora != null && dataHora.isBefore(LocalDateTime.now()))
             throw new IllegalArgumentException("Data e hora não podem ser no passado");
     }

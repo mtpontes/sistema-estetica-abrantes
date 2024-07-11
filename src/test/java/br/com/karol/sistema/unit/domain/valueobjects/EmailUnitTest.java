@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.domain.validator.cliente.email.EmailValidator;
@@ -29,7 +28,6 @@ public class EmailUnitTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         validators = List.of(validator);
     }
 
@@ -41,13 +39,13 @@ public class EmailUnitTest {
 
     @Test
     void naoDeveCriarEmailQuandoValueForNull() {
-        assertThrows(FieldValidationException.class, () -> new Email(null, validators));
+        assertThrows(NullPointerException.class, () -> new Email(null, validators));
         assertThrows(FieldValidationException.class, () -> new Email("", validators));
     }
     
     @Test
     void naoDeveCriarEmailSemUmValidator() {
-        assertThrows(RuntimeException.class, () -> new Email(VALUE, null));
+        assertThrows(NullPointerException.class, () -> new Email(VALUE, null));
         assertThrows(RuntimeException.class, () -> new Email(VALUE, Collections.emptyList()));
     }
 }

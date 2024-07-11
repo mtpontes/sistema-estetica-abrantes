@@ -8,10 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.karol.sistema.api.dto.agendamento.AtualizarAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.RemarcarAgendamentoDTO;
 import br.com.karol.sistema.api.mapper.AgendamentoMapper;
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
@@ -33,14 +34,11 @@ public class AgendamentoService {
     private ClienteService clienteService;
     private ProcedimentoService procedimentoService;
     private AgendamentoMapper mapper;
-    private List<AgendamentoValidator> validator;
+    private List<AgendamentoValidator> validators;
 
 
     @Transactional
     public DadosAgendamentoDTO salvarAgendamento(CriarAgendamentoDTO dadosAgendamento, Usuario usuario) {
-        Agendamento forValidator = mapper.forAgendamentoValidator(dadosAgendamento.getClienteId(), dadosAgendamento.getDataHora(), null);
-        validator.forEach(v -> v.validate(forValidator));
-        
         Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getClienteId());
         Procedimento procedimentoAlvo = procedimentoService.getProcedimentoById(dadosAgendamento.getProcedimentoId());
 
@@ -50,7 +48,8 @@ public class AgendamentoService {
             dadosAgendamento.getObservacao(),
             clienteAlvo,
             dadosAgendamento.getDataHora(),
-            usuario);
+            usuario,
+            validators);
         return mapper.toDadosAgendamentoDTO(agendamentoRepository.save(novoAgendamento));
     }
 
@@ -70,16 +69,17 @@ public class AgendamentoService {
     }
 
     @Transactional
-    public DadosAgendamentoDTO editarAgendamento(String agendamentoId, AtualizarAgendamentoDTO dadosAtualizacao) {
+    public DadosAgendamentoDTO editarDataHoraAgendamento(String agendamentoId, RemarcarAgendamentoDTO dadosNovaDataHora) {
         Agendamento alvo = this.getAgendamentoById(agendamentoId);
-        alvo.setDataHora(dadosAtualizacao.getDataHora());
-        validator.forEach(v -> v.validate(alvo));
+        alvo.remarcar(dadosNovaDataHora.getDataHora(), validators);
+        return mapper.toDadosAgendamentoDTO(agendamentoRepository.save(alvo));
+    }
 
-        Agendamento agendamento = this.getAgendamentoById(agendamentoId);
-        agendamento.remarcarAgendamento(dadosAtualizacao.getObservacao(), dadosAtualizacao.getDataHora());
-        
-        agendamentoRepository.save(agendamento);
-        return mapper.toDadosAgendamentoDTO(agendamento);
+    @Transactional
+    public DadosAgendamentoDTO editarObservacaoAgendamento(String agendamentoId, AtualizarObservacaoAgendamentoDTO dadosNovaObservacao) {
+        Agendamento alvo = this.getAgendamentoById(agendamentoId);
+        alvo.setObservacao(dadosNovaObservacao.getObservacao());
+        return mapper.toDadosAgendamentoDTO(agendamentoRepository.save(alvo));
     }
 
     @Transactional

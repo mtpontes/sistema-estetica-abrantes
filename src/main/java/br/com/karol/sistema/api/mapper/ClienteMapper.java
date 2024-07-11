@@ -35,6 +35,7 @@ public class ClienteMapper {
 
         return new Cliente(dados.getNome(), cpf, telefone, email, endereco);
     }
+    
     public DadosAtualizacaoDTO toDadosAtualizacaoDTO(AtualizarClienteDTO dados) {
         Telefone telefone = this.telefoneMapper.toTelefoneOrNull(dados.getTelefone());
         Email email = this.emailMapper.toEmailOrNull(dados.getEmail());

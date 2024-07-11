@@ -2,6 +2,7 @@ package br.com.karol.sistema.domain;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -38,14 +39,10 @@ public class Usuario implements UserDetails {
     private UserRole role;
 
     public Usuario(String nome, Login login, Senha senha) {
-        this.notBlank(nome, "nome");
-        this.nome = nome;
+        this.nome = this.notBlank(nome, "nome");
+        this.login = this.notNull(login, "login");
+        this.senha = this.notNull(senha, "senha");
 
-        this.notNull(login, "login");
-        this.login = login;
-
-        this.notNull(senha, "senha");
-        this.senha = senha;
         this.role = UserRole.USER;
     }
 
@@ -59,14 +56,14 @@ public class Usuario implements UserDetails {
         this.senha = senha;
     }
 
-    private void notNull(Object field, String fieldName) {
-        if (field == null) 
-            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
+    private <T> T notNull(T field, String fieldName) {
+        return Objects.requireNonNull(field, "Não pode ser null: " + fieldName);
     }
-    private void notBlank(String field, String fieldName) {
+    private String notBlank(String field, String fieldName) {
         this.notNull(field, fieldName);
         if (field.isBlank())
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
+        return field;
     }
 
     public String getLogin() {

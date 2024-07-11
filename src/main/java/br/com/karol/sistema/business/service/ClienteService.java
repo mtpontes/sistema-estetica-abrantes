@@ -57,7 +57,6 @@ public class ClienteService {
 
     @Transactional
     public DadosCompletosClienteDTO editarEnderecoCliente(String clienteId, EnderecoDTO dadosAtualizacao) {
-        System.out.println("DTO: " + dadosAtualizacao);
         Cliente alvo = this.buscarPorId(clienteId);
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         alvo.atualizarEndereco(novoEndereco);

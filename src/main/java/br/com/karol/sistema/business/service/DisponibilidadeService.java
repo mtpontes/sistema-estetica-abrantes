@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 public class DisponibilidadeService {
 
     private static final Integer INTERVALO = AgendamentoConstants.INTERVALO_ENTRE_AGENDAMENTOS_EM_MINUTOS;
+    private static final LocalTime ABERTURA = AgendamentoConstants.HORARIO_ABERTURA;
+    private static final LocalTime FECHAMENTO = AgendamentoConstants.HORARIO_FECHAMENTO;
 
     private AgendamentoRepository agendamentoRepository;
     private ProcedimentoService procedimentoService;
@@ -29,21 +31,23 @@ public class DisponibilidadeService {
         List<Agendamento> agendamentos = agendamentoRepository.findBetweenDataHora(
             dataHora.atStartOfDay(), 
             dataHora.atTime(23, 59, 59));
-
         List<LocalDateTime> horariosDisponiveis = new ArrayList<>();
-        LocalTime horarioAbertura = LocalTime.of(8, 0);
-        LocalTime horarioFechamento = LocalTime.of(18, 0);
 
-        LocalTime horarioAtual = horarioAbertura
+        LocalTime horarioAtual = ABERTURA
             .plusHours(procedimento.getDuracao().getHour())
             .plusMinutes(procedimento.getDuracao().getMinute())
             .plusMinutes(INTERVALO);
-        while (horarioAtual.isBefore(horarioFechamento)) {
+        while (horarioAtual.isBefore(FECHAMENTO)) {
             boolean disponivel = true;
             LocalDateTime inicioNovoAgendamento = dataHora.atTime(horarioAtual);
             LocalDateTime terminoNovoAgendamento = inicioNovoAgendamento
                 .plusHours(procedimento.getDuracao().getHour())
                 .plusMinutes(procedimento.getDuracao().getMinute());
+            
+            if (terminoNovoAgendamento.toLocalTime().isAfter(FECHAMENTO)) {
+                disponivel = false;
+                break;
+            }
 
             for (Agendamento agendamento : agendamentos) {
                 LocalDateTime inicioAgendamentoAtual = agendamento.getDataHora();

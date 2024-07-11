@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.domain.formatter.CpfFormatter;
@@ -32,7 +31,6 @@ public class CpfUnitTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         validators = List.of(validator);
     }
 
@@ -44,14 +42,18 @@ public class CpfUnitTest {
 
     @Test
     void naoDeveCriarCpfQuandoValueForNull() {
-        assertThrows(FieldValidationException.class, () -> new Cpf(null, validators, formatter));
+        assertThrows(NullPointerException.class, () -> new Cpf(null, validators, formatter));
         assertThrows(FieldValidationException.class, () -> new Cpf("", validators, formatter));
     }
     
     @Test
     void naoDeveCriarCpfSemUmValidator() {
-        assertThrows(RuntimeException.class, () -> new Cpf(VALUE, null, formatter));
+        assertThrows(NullPointerException.class, () -> new Cpf(VALUE, null, formatter));
         assertThrows(RuntimeException.class, () -> new Cpf(VALUE, Collections.emptyList(), formatter));
-        assertThrows(RuntimeException.class, () -> new Cpf(VALUE, validators, null));
+    }
+
+    @Test
+    void naoDeveCriarCpfSemUmFormatter() {
+        assertThrows(NullPointerException.class, () -> new Cpf(VALUE, validators, null));
     }
 }

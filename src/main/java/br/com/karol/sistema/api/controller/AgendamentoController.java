@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.karol.sistema.api.dto.agendamento.AtualizarAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.RemarcarAgendamentoDTO;
 import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.business.service.DisponibilidadeService;
 import br.com.karol.sistema.domain.Usuario;
@@ -90,9 +90,18 @@ public class AgendamentoController {
         return ResponseEntity.ok(disponibilidadeService.filtrarHorariosDisponiveis(procedimentoId, dia));
     }
 
-    @PutMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> atualizarAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid AtualizarAgendamentoDTO dadosRemarcacao) {
-        DadosAgendamentoDTO agendamentoAtualizado = agendamentoService.editarAgendamento(agendamentoId, dadosRemarcacao);
+    @PatchMapping("/{agendamentoId}")
+    public ResponseEntity<DadosAgendamentoDTO> remarcarAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid RemarcarAgendamentoDTO dadosRemarcacao) {
+        DadosAgendamentoDTO agendamentoAtualizado = agendamentoService.editarDataHoraAgendamento(agendamentoId, dadosRemarcacao);
+        return ResponseEntity.ok().body(agendamentoAtualizado);
+    }
+    
+    @PatchMapping("/{agendamentoId}/observacao")
+    public ResponseEntity<DadosAgendamentoDTO> atualizarObservacaoAgendamento(
+        @PathVariable String agendamentoId, 
+        @RequestBody @Valid AtualizarObservacaoAgendamentoDTO dadosRemarcacao
+    ) {
+        DadosAgendamentoDTO agendamentoAtualizado = agendamentoService.editarObservacaoAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
