@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
@@ -30,7 +29,6 @@ public class LoginUnitTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         validators = List.of(validator);
     }
 
@@ -42,13 +40,13 @@ public class LoginUnitTest {
 
     @Test
     void naoDeveCriarLoginQuandoValueForNull() {
-        assertThrows(FieldValidationException.class, () -> new Login(null, validators));
+        assertThrows(NullPointerException.class, () -> new Login(null, validators));
         assertThrows(FieldValidationException.class, () -> new Login("", validators));
     }
     
     @Test
     void naoDeveCriarLoginSemUmValidator() {
-        assertThrows(RuntimeException.class, () -> new Login(VALUE, null));
+        assertThrows(NullPointerException.class, () -> new Login(VALUE, null));
         assertThrows(RuntimeException.class, () -> new Login(VALUE, Collections.emptyList()));
     }
 }

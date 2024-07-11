@@ -1,5 +1,7 @@
 package br.com.karol.sistema.domain;
 
+import java.util.Objects;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -31,25 +33,17 @@ public class Cliente {
     private Endereco endereco;
 
     public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco) {
-        this.notBlank(nome, "nome");
-        this.nome = nome;
+        this.nome = this.notBlank(nome, "nome");
 
-        this.notNull(cpf, "cpf");
-        this.cpf = cpf;
-
-        this.notNull(telefone, "telefone");
-        this.telefone = telefone;
-
-        this.notNull(email, "email");
-        this.email = email;
-
-        this.notNull(endereco, "endereco");
-        this.endereco = endereco;
+        this.cpf = this.notNull(cpf, "cpf");
+        this.telefone = this.notNull(telefone, "telefone");
+        this.email = this.notNull(email, "email");
+        this.endereco = this.notNull(endereco, "endereco");
     }
 
     
     public void atualizarDados(String nome, Telefone telefone, Email email) {
-        if (!this.isBlank(nome)) this.nome = nome;
+        if (!this.isNull(nome) && !nome.isBlank()) this.nome = nome;
 
         if (!this.isNull(telefone)) this.telefone = telefone;
         if (!this.isNull(email)) this.email = email;
@@ -58,22 +52,19 @@ public class Cliente {
     public void atualizarEndereco(Endereco endereco) {
         if (!this.isNull(endereco)) this.endereco = endereco;
     }
-
+    
     private boolean isNull(Object param) {
         return param == null;
     }
-    private boolean isBlank(String param) {
-        return this.isNull(param) || param.isBlank();
-    }
 
-    private void notNull(Object param, String nomeCampo) {
-        if (this.isNull(param)) 
-            throw new IllegalArgumentException("Não pode ser null: " + nomeCampo);
+    private <T> T notNull(T obj, String fieldName) {
+        return Objects.requireNonNull(obj, "Não pode ser null: " + fieldName);
     }
-    private void notBlank(String param, String fieldName) {
+    private String notBlank(String param, String fieldName) {
         this.notNull(param, fieldName);
-        if (this.isBlank(param))
+        if (param.isBlank())
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
+        return param;
     }
 
     public String getCpf() {

@@ -31,13 +31,13 @@ public class SenhaUnitTest {
 
     @Test
     void naoDeveCriarSenhaQuandoValueForNull() {
-        assertThrows(FieldValidationException.class, () -> new Senha(null, validator, encoder));
+        assertThrows(NullPointerException.class, () -> new Senha(null, validator, encoder));
         assertThrows(FieldValidationException.class, () -> new Senha("", validator, encoder));
     }
     
     @Test
     void naoDeveCriarSenhaSemUmValidatorEEncoder() {
-        assertThrows(RuntimeException.class, () -> new Senha(VALUE, null, encoder));
-        assertThrows(RuntimeException.class, () -> new Senha(VALUE, validator, null));
+        assertThrows(NullPointerException.class, () -> new Senha(VALUE, null, encoder));
+        assertThrows(NullPointerException.class, () -> new Senha(VALUE, validator, null));
     }
 }

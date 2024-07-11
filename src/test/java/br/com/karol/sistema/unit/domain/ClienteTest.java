@@ -32,12 +32,12 @@ public class ClienteTest {
 
     @Test
     void deveLancarExcecaoAoCriarClienteComAtributosNullTest() {
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(null, null, null, null, null));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(null, CPF, TELEFONE, EMAIL, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, null, TELEFONE, EMAIL, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, CPF, null, EMAIL, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, CPF, TELEFONE, null, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, CPF, TELEFONE, EMAIL, null));
+        assertThrows(NullPointerException.class, () -> new Cliente(null, null, null, null, null));
+        assertThrows(NullPointerException.class, () -> new Cliente(null, CPF, TELEFONE, EMAIL, ENDERECO));
+        assertThrows(NullPointerException.class, () -> new Cliente(NOME, null, TELEFONE, EMAIL, ENDERECO));
+        assertThrows(NullPointerException.class, () -> new Cliente(NOME, CPF, null, EMAIL, ENDERECO));
+        assertThrows(NullPointerException.class, () -> new Cliente(NOME, CPF, TELEFONE, null, ENDERECO));
+        assertThrows(NullPointerException.class, () -> new Cliente(NOME, CPF, TELEFONE, EMAIL, null));
     }
 
     @Test

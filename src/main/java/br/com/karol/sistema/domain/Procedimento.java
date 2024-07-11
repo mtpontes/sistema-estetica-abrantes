@@ -1,6 +1,7 @@
 package br.com.karol.sistema.domain;
 
 import java.time.LocalTime;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -29,18 +30,12 @@ public class Procedimento {
     private Double valor;
 
     public Procedimento(String nome, String descricao, LocalTime duracao, Double valor) {
-        this.notBlank(nome, "nome");
-        this.nome = nome;
-
-        this.notBlank(descricao, "descricao");
-        this.descricao = descricao;
+        this.nome = this.notBlank(nome, "nome");
+        this.descricao = this.notBlank(descricao, "descricao");
+        this.duracao = this.notNull(duracao, "duracao");
         
-        this.notNull(duracao, "duracao");
-        this.duracao = duracao;
-
-        this.notNull(valor, "valor");
         this.isValidValorForUpdate(valor);
-        this.valor = valor;
+        this.valor = this.notNull(valor, "valor");
     }
     
 
@@ -59,20 +54,23 @@ public class Procedimento {
         return false;
     }
 
-    private void notNull(Object param, String fieldName) {
-        if (this.isNull(param)) 
-            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
+    private <T> T notNull(T param, String fieldName) {
+        return Objects.requireNonNull(param, "Não pode se null: " + fieldName);
     }
-    private void notBlank(String param, String fieldName) {
+    private String notBlank(String param, String fieldName) {
         this.notNull(param, fieldName);
         if (this.isBlank(param))
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
+        return param;
     }
 
-    private boolean isValidValorForUpdate(Double valor) {
-        if (this.isNull(valor) || valor == 0.00) return true;
+    private void validateValor(Double valor) {
         if (valor < VALOR_MINIMO) 
             throw new IllegalArgumentException("Não é possível definir um valor menor que " + VALOR_MINIMO);
+    }
+    private boolean isValidValorForUpdate(Double valor) {
+        if (this.isNull(valor) || valor == 0.00) return true;
+        this.validateValor(valor);
         return false;
     }
 }
