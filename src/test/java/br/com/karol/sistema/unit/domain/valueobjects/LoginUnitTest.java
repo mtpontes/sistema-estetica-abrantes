@@ -34,18 +34,18 @@ public class LoginUnitTest {
 
     
     @Test
-    void deveCriarLoginComValoresValidos() {
+    void testDeveCriarLoginComValoresValidos() {
         assertDoesNotThrow(() -> new Login(VALUE, validators));
     }
 
     @Test
-    void naoDeveCriarLoginQuandoValueForNull() {
+    void testNaoDeveCriarLoginQuandoValueForNull() {
         assertThrows(NullPointerException.class, () -> new Login(null, validators));
         assertThrows(FieldValidationException.class, () -> new Login("", validators));
     }
     
     @Test
-    void naoDeveCriarLoginSemUmValidator() {
+    void testNaoDeveCriarLoginSemUmValidator() {
         assertThrows(NullPointerException.class, () -> new Login(VALUE, null));
         assertThrows(RuntimeException.class, () -> new Login(VALUE, Collections.emptyList()));
     }

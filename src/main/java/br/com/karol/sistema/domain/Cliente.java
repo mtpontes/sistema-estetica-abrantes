@@ -1,7 +1,5 @@
 package br.com.karol.sistema.domain;
 
-import java.util.Objects;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -57,8 +55,10 @@ public class Cliente {
         return param == null;
     }
 
-    private <T> T notNull(T obj, String fieldName) {
-        return Objects.requireNonNull(obj, "Não pode ser null: " + fieldName);
+    private <T> T notNull(T field, String fieldName) {
+        if (field == null)
+            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
+        return field;
     }
     private String notBlank(String param, String fieldName) {
         this.notNull(param, fieldName);

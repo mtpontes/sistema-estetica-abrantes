@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.domain.formatter.TelefoneFormatter;
@@ -32,30 +31,29 @@ public class TelefoneUnitTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         validators = List.of(validator);
     }
 
     
     @Test
-    void deveCriarTelefoneComValoresValidos() {
+    void testDeveCriarTelefoneComValoresValidos() {
         assertDoesNotThrow(() -> new Telefone(VALUE, validators, formatter));
     }
 
     @Test
-    void naoDeveCriarTelefoneQuandoValueForNull() {
+    void testNaoDeveCriarTelefoneQuandoValueForNull() {
         assertThrows(NullPointerException.class, () -> new Telefone(null, validators, formatter));
         assertThrows(FieldValidationException.class, () -> new Telefone("", validators, formatter));
     }
     
     @Test
-    void naoDeveCriarTelefoneSemUmValidator() {
+    void testNaoDeveCriarTelefoneSemUmValidator() {
         assertThrows(NullPointerException.class, () -> new Telefone(VALUE, null, formatter));
         assertThrows(RuntimeException.class, () -> new Telefone(VALUE, Collections.emptyList(), formatter));
     }
 
     @Test
-    void naoDeveCriarTelefoneSemUmFormatter() {
+    void testNaoDeveCriarTelefoneSemUmFormatter() {
         assertThrows(NullPointerException.class, () -> new Telefone(VALUE, validators, null));
     }
 }

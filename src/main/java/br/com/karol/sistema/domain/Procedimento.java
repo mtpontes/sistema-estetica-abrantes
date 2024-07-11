@@ -1,7 +1,6 @@
 package br.com.karol.sistema.domain;
 
 import java.time.LocalTime;
-import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -54,8 +53,10 @@ public class Procedimento {
         return false;
     }
 
-    private <T> T notNull(T param, String fieldName) {
-        return Objects.requireNonNull(param, "Não pode se null: " + fieldName);
+    private <T> T notNull(T field, String fieldName) {
+        if (field == null)
+            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
+        return field;
     }
     private String notBlank(String param, String fieldName) {
         this.notNull(param, fieldName);

@@ -1,7 +1,5 @@
 package br.com.karol.sistema.domain;
 
-import java.util.Objects;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +26,8 @@ public class Endereco {
     }
 
     private String notBlank(String field, String fieldName) {
-        Objects.requireNonNull(field, "Não pode ser null: " + fieldName);
+        if (field == null)
+            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
         if (field.isBlank())
             throw new IllegalArgumentException("Não pode ser blank: " + fieldName);
         return field;

@@ -36,24 +36,24 @@ public class CpfUnitTest {
 
     
     @Test
-    void deveCriarCpfComValoresValidos() {
+    void testCriarCpfComValoresValidos() {
         assertDoesNotThrow(() -> new Cpf(VALUE, validators, formatter));
     }
 
     @Test
-    void naoDeveCriarCpfQuandoValueForNull() {
+    void testNaoDeveCriarCpfQuandoValueForNull() {
         assertThrows(NullPointerException.class, () -> new Cpf(null, validators, formatter));
         assertThrows(FieldValidationException.class, () -> new Cpf("", validators, formatter));
     }
     
     @Test
-    void naoDeveCriarCpfSemUmValidator() {
+    void testNaoDeveCriarCpfSemUmValidator() {
         assertThrows(NullPointerException.class, () -> new Cpf(VALUE, null, formatter));
         assertThrows(RuntimeException.class, () -> new Cpf(VALUE, Collections.emptyList(), formatter));
     }
 
     @Test
-    void naoDeveCriarCpfSemUmFormatter() {
+    void testNaoDeveCriarCpfSemUmFormatter() {
         assertThrows(NullPointerException.class, () -> new Cpf(VALUE, validators, null));
     }
 }

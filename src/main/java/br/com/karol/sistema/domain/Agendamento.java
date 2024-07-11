@@ -2,7 +2,6 @@ package br.com.karol.sistema.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -73,8 +72,10 @@ public class Agendamento {
         this.status = novoStatus;
     }
 
-    private <T> T notNull(T obj, String fieldName) {
-        return Objects.requireNonNull(obj, "Não pode ser null: " + fieldName);
+    private <T> T notNull(T field, String fieldName) {
+        if (field == null)
+            throw new IllegalArgumentException("Não pode ser null: " + fieldName);
+        return field;
     }
 
     private void mustBeBeforeNow(LocalDateTime dataHora) {

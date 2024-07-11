@@ -33,18 +33,18 @@ public class EmailUnitTest {
 
     
     @Test
-    void deveCriarEmailComValoresValidos() {
+    void testDeveCriarEmailComValoresValidos() {
         assertDoesNotThrow(() -> new Email(VALUE, validators));
     }
 
     @Test
-    void naoDeveCriarEmailQuandoValueForNull() {
+    void testNaoDeveCriarEmailQuandoValueForNull() {
         assertThrows(NullPointerException.class, () -> new Email(null, validators));
         assertThrows(FieldValidationException.class, () -> new Email("", validators));
     }
     
     @Test
-    void naoDeveCriarEmailSemUmValidator() {
+    void testNaoDeveCriarEmailSemUmValidator() {
         assertThrows(NullPointerException.class, () -> new Email(VALUE, null));
         assertThrows(RuntimeException.class, () -> new Email(VALUE, Collections.emptyList()));
     }

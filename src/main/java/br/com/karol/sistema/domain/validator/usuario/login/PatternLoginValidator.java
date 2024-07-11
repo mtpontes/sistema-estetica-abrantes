@@ -36,8 +36,8 @@ public class PatternLoginValidator implements LoginValidator {
     }
 
     private void validateTamanhoDaString(String login) {
-        if (login.length() < TAMANHO_MINIMO && login.length() > TAMANHO_MAXIMO)
-            throw new FieldValidationException(CLASSE, String.format("Login deve ter entre %d a  d% caracteres", TAMANHO_MINIMO, TAMANHO_MAXIMO));
+        if (login.length() < TAMANHO_MINIMO || login.length() > TAMANHO_MAXIMO)
+            throw new FieldValidationException(CLASSE, String.format("Login deve ter entre %d a %d caracteres", TAMANHO_MINIMO, TAMANHO_MAXIMO));
     }
     
     private void validateCaracteresPermitidos(String login) {

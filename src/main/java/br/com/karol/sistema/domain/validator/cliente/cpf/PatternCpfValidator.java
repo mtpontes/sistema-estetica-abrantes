@@ -17,7 +17,7 @@ public class PatternCpfValidator implements CpfValidator{
     public void validate(String value) {
         CPFValidator cpfValidator = new CPFValidator(); 
         try{ 
-            cpfValidator.assertValid(value); 
+            cpfValidator.assertValid(value);
 
         } catch(InvalidStateException e) {
             throw new FieldValidationException(CLASSE);

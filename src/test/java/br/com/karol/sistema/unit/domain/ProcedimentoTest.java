@@ -22,32 +22,32 @@ public class ProcedimentoTest {
 
 
     @Test
-    void criarComAtributosValidosTest() {
+    void testCriarComAtributosValidos() {
         assertDoesNotThrow(() -> new Procedimento(NOME, DESCRICAO, DURACAO, VALOR));
     }
 
     @Test
-    void naoDeveCriarProcedimentoComValoresNullTest() {
-        assertThrows(NullPointerException.class, () -> new Procedimento(null, null, null, null));
-        assertThrows(NullPointerException.class, () -> new Procedimento(null, DESCRICAO, DURACAO, VALOR));
-        assertThrows(NullPointerException.class, () -> new Procedimento(NOME, null, DURACAO, VALOR));
-        assertThrows(NullPointerException.class, () -> new Procedimento(NOME, DESCRICAO, null, VALOR));
-        assertThrows(NullPointerException.class, () -> new Procedimento(NOME, DESCRICAO, DURACAO, null));
+    void testNaoDeveCriarProcedimentoComValoresNull() {
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(null, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(null, DESCRICAO, DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, null, DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, null, VALOR));
+        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, DURACAO, null));
     }
 
     @Test
-    void naoDeveCriarProcedimentoComValoresBlankTest() {
+    void testNaoDeveCriarProcedimentoComValoresBlank() {
         assertThrows(IllegalArgumentException.class, () -> new Procedimento("", DESCRICAO, DURACAO, VALOR));
         assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, "", DURACAO, VALOR));
     }
 
     @Test
-    void deveLancarExcecaoAoTentarCriarProcedimentoComAtributoValorAbaixoDoValorMinimoTest() {
+    void testDeveLancarExcecaoAoTentarCriarProcedimentoComAtributoValorAbaixoDoValorMinimo() {
         assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, DURACAO, VALOR_INVALIDO));
     }
 
     @Test
-    void deveAtualizarDadosTest() {
+    void testDeveAtualizarDados() {
         // arrange
         Procedimento test = this.getProcedimento();
 
@@ -61,7 +61,7 @@ public class ProcedimentoTest {
     }
 
     @Test
-    void atualizarDadosComStringsBlankDeveLancarExceptionTest() {
+    void testAtualizarDadosComStringsBlankDeveLancarException() {
         // arrange
         Procedimento test = new Procedimento();
 
@@ -71,7 +71,7 @@ public class ProcedimentoTest {
     }
 
     @Test
-    void atualizarDadosComAtributoValorAbaixoDoValorMinimoDeveLancarExceptionTest() {
+    void testAtualizarDadosComAtributoValorAbaixoDoValorMinimoDeveLancarException() {
         // arrange
         Procedimento test = new Procedimento();
 
