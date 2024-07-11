@@ -1,8 +1,10 @@
 package br.com.karol.sistema.domain.formatter;
 
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.stereotype.Component;
 
 import br.com.caelum.stella.format.CPFFormatter;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 @Component
 public class CpfFormatterImpl implements CpfFormatter {
@@ -13,6 +15,11 @@ public class CpfFormatterImpl implements CpfFormatter {
             .replace(".", "")
             .replace(".", "")
             .replace("-", "");
-        return new CPFFormatter().format(value);
+        try {
+            return new CPFFormatter().format(value);
+            
+        } catch (IllegalArgumentException ex) {
+            throw new FieldValidationException(CPF.class.getSimpleName(), "formato inválido");
+        }
     }
 }
