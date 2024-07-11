@@ -22,10 +22,19 @@ public class HorarioDeFuncionamentoValidator implements AgendamentoValidator {
         LocalTime horaNovoAgendamento = dateTimeNovoAgendamento.toLocalTime();
         DayOfWeek diaDaSemana = dateTimeNovoAgendamento.getDayOfWeek();
 
+        LocalTime duracaoProcedimento = dados.getProcedimento().getDuracao();
+        LocalTime terminoProcedimento = horaNovoAgendamento
+            .plusHours(duracaoProcedimento.getHour())
+            .plusMinutes(duracaoProcedimento.getMinute());
+
+        boolean terminaDepoisDoFechamento = terminoProcedimento.isAfter(FECHAMENTO);
+        if (terminaDepoisDoFechamento)
+            throw new IllegalArgumentException("Duração do procedimento excede o horário de funcionamento");
+
         boolean isDiaInvalido = diaDaSemana.equals(DayOfWeek.SATURDAY) || diaDaSemana.equals(DayOfWeek.SUNDAY);
-        boolean isHoraInvalida = horaNovoAgendamento.isBefore(ABERTURA) && horaNovoAgendamento.isAfter(FECHAMENTO);
+        boolean isHoraInvalida = horaNovoAgendamento.isBefore(ABERTURA) || horaNovoAgendamento.isAfter(FECHAMENTO);
 
         if (isDiaInvalido || isHoraInvalida)
-            throw new IllegalArgumentException("Agendamento fora do horário de funcionamento.");
+            throw new IllegalArgumentException("Agendamento fora do horário de funcionamento");
     }
 }
