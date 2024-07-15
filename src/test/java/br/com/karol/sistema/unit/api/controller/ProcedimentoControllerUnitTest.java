@@ -272,7 +272,7 @@ public class ProcedimentoControllerUnitTest {
             .andExpect(status().isNoContent());
     }
     @TestTemplate
-    @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
+    @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "CLIENT"})
     void testDeletarProcedimentoComCredenciaisInvalidas() throws Exception {
         // act
         ControllerTestUtils

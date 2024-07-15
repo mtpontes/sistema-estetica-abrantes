@@ -47,12 +47,14 @@ import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.DisponibilidadeService;
 import br.com.karol.sistema.business.service.ProcedimentoService;
+import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.config.ContextualizeUsuarioTypeWithRoles;
 import br.com.karol.sistema.constants.TestConstants;
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
 import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
+import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
 import br.com.karol.sistema.unit.utils.AgendamentoUtils;
 import br.com.karol.sistema.unit.utils.ControllerTestUtils;
@@ -71,11 +73,6 @@ public class AgendamentoControllerUnitTest {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
-    private AgendamentoService service;
-    @MockBean
-    private DisponibilidadeService disponibilidadeService;
-
     @Autowired
     private JacksonTester<CriarAgendamentoDTO> criarAgendamentoDTOJson;
     @Autowired
@@ -86,6 +83,10 @@ public class AgendamentoControllerUnitTest {
     private JacksonTester<AtualizarStatusAgendamentoDTO> atualizarStatusAgendamentoDTOJson;
 
     @MockBean
+    private AgendamentoService service;
+    @MockBean
+    private DisponibilidadeService disponibilidadeService;
+    @MockBean
     private AgendamentoRepository agendamentoRepository;
     @MockBean
     private ClienteService clienteService;
@@ -95,6 +96,12 @@ public class AgendamentoControllerUnitTest {
     private AgendamentoMapper mapper;
     @MockBean
     private List<AgendamentoValidator> validators;
+
+    // Dependências do SecurityFilter
+    @MockBean
+    private TokenService tokenService;
+    @MockBean
+    private UsuarioRepository usuarioRepository;
 
 
     @TestTemplate
@@ -539,10 +546,8 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarStatusAgendamentoComRoleNaoAutorizadas(String role) throws IOException, Exception {
+    void testAtualizarStatusAgendamentoComRoleNaoAutorizadas() throws IOException, Exception {
         // arrange
-        ControllerTestUtils.withMockUserManual(role);
-
         var requestBody = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
 
         // act
@@ -599,7 +604,7 @@ public class AgendamentoControllerUnitTest {
     // -- Rotas de Cliente
 
     @TestTemplate
-    @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
+    @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
     void testListarAgendamentoMeComRolesAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = new PageImpl<>(List.of(new DadosBasicosAgendamentoDTO(AGENDAMENTO_DEFAULT)));
