@@ -29,15 +29,27 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                
-                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                .requestMatchers(HttpMethod.GET, "/usuarios").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/usuarios").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/usuarios/clientes").permitAll()
+
+
+                .requestMatchers(HttpMethod.GET, "/usuarios").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/usuarios/nome").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/usuarios/senha").authenticated()
+
+                .requestMatchers(HttpMethod.POST, "/usuarios").hasRole("ADMIN")
                 .requestMatchers("/usuarios/admin/**").hasRole("ADMIN")                
 
-                .requestMatchers("/clientes/**").hasAnyRole("USER", "ADMIN")
 
+                .requestMatchers("/clientes/me/**").hasAnyRole("CLIENT")
+                .requestMatchers("/clientes/**").hasAnyRole("USER", "ADMIN")
+                
+                .requestMatchers(HttpMethod.GET, "/procedimentos/**").permitAll()
                 .requestMatchers("/procedimentos/**").hasRole("ADMIN")
+
+                .requestMatchers("/agendamentos/disponibilidade").authenticated()
+                .requestMatchers("/agendamentos/me/**").hasRole("CLIENT")
+                .requestMatchers("/agendamentos/**").hasAnyRole("USER", "ADMIN")
+            
 
                 .anyRequest().authenticated()
             )
