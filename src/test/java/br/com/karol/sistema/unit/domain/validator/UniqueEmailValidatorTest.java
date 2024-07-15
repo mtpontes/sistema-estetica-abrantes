@@ -36,5 +36,4 @@ public class UniqueEmailValidatorTest {
         when(repository.existsByEmailValue(anyString())).thenReturn(false);
         assertDoesNotThrow(() -> validator.validate("login"));
     }
-    
 }

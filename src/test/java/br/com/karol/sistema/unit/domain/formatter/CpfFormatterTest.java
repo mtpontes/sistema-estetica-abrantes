@@ -5,13 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import br.com.karol.sistema.constants.TestConstants;
 import br.com.karol.sistema.domain.formatter.CpfFormatter;
 import br.com.karol.sistema.domain.formatter.CpfFormatterImpl;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 public class CpfFormatterTest {
 
-    private final String CPF_FORMATADO = "123.456.789-01";
+    private final String CPF_FORMATADO = TestConstants.CPF_FORMATADO;
     private final CpfFormatter formatter = new CpfFormatterImpl();
 
 

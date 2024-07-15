@@ -36,5 +36,4 @@ public class UniqueCpfValidatorTest {
         when(repository.existsByCpfValue(anyString())).thenReturn(false);
         assertDoesNotThrow(() -> validator.validate("login"));
     }
-    
 }

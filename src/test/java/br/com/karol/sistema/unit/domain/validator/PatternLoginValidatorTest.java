@@ -40,7 +40,8 @@ public class PatternLoginValidatorTest {
 
     @Test
     void testLoginLongo() {
-        assertThrows(FieldValidationException.class, () -> validator.validate("llooggiinnLLoonnggG21"));
+        assertThrows(FieldValidationException.class, 
+            () -> validator.validate("llooggiinnLLoonnggG21"));
     }
 
     @Test

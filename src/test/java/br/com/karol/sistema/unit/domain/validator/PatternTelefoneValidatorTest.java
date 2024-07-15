@@ -68,7 +68,8 @@ public class PatternTelefoneValidatorTest {
     @Test
     void testTelefoneComCaracteresEspeciais() {
         String telefoneComCaracteresEspeciais = "+55 (11) &* 98765-4321";
-        assertThrows(FieldValidationException.class, () -> validator.validate(telefoneComCaracteresEspeciais));
+        assertThrows(FieldValidationException.class, 
+            () -> validator.validate(telefoneComCaracteresEspeciais));
     }
 
     @Test

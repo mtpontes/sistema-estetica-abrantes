@@ -36,5 +36,4 @@ public class UniqueLoginValidatorTest {
         when(repository.existsByLoginValue(anyString())).thenReturn(false);
         assertDoesNotThrow(() -> validator.validate("login"));
     }
-    
 }
