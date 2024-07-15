@@ -1,12 +1,24 @@
 package br.com.karol.sistema.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.HashSet;
+import java.util.Set;
 
 import br.com.karol.sistema.domain.valueobjects.Cpf;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,19 +28,36 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "clientes", collation = "pt", language = "portuguese")
+@Entity(name = "Cliente")
+@Table(name = "clientes")
 public class Cliente {
 
-    @Id    
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
-    @Indexed(unique = true)
+    
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "cpf", unique = true))
     private Cpf cpf;
-    @Indexed(unique = true)
+    
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "telefone", unique = true))
     private Telefone telefone;
-    @Indexed(unique = true)
+    
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "email", unique = true))
     private Email email;
+
+    @Embedded
     private Endereco endereco;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", unique = true)
+    private Usuario usuario;
+
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    private Set<Agendamento> agendamentos = new HashSet<>();
 
     public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco) {
         this.nome = this.notBlank(nome, "nome");
@@ -37,6 +66,11 @@ public class Cliente {
         this.telefone = this.notNull(telefone, "telefone");
         this.email = this.notNull(email, "email");
         this.endereco = this.notNull(endereco, "endereco");
+    }
+
+    public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco, Usuario usuario) {
+        this(nome, cpf, telefone, email, endereco);
+        this.usuario = this.notNull(usuario, "usuario");
     }
 
     

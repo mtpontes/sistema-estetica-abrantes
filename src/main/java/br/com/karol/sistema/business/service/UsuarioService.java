@@ -14,7 +14,6 @@ import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.api.mapper.UsuarioMapper;
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
 import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
 import br.com.karol.sistema.domain.valueobjects.Senha;
@@ -29,12 +28,11 @@ public class UsuarioService {
 
     private final String NOT_FOUND_MESSAGE = "Usuario não encontrado";
 
-
-    private UsuarioRepository repository;
-    private UsuarioMapper mapper;
-    private SenhaValidator senhaValidator;
-    private SenhaEncoder senhaEncoder;
-    private AuthenticationManager authenticationManager;
+    private final UsuarioRepository repository;
+    private final UsuarioMapper mapper;
+    private final SenhaValidator senhaValidator;
+    private final SenhaEncoder senhaEncoder;
+    private final AuthenticationManager authenticationManager;
 
 
     public Usuario autenticarUsuario(String login, String senha) {
@@ -43,16 +41,19 @@ public class UsuarioService {
     }
  
     @Transactional
-    public DadosUsuarioDTO salvarUsuario(CriarUsuarioDTO usuario) {
-        Usuario usuarioSalvo = repository.save(mapper.toUsuario(usuario));
-        return mapper.toDadosUsuarioDTO(usuarioSalvo);
+    public Usuario salvarUsuarioCliente(CriarUsuarioDTO dados) {
+        Usuario client = mapper.toUsuarioClient(dados);
+        return repository.save(client);
+    }
+    @Transactional
+    public DadosUsuarioDTO salvarUsuario(CriarUsuarioDTO dados) {
+        Usuario user = mapper.toUsuarioUser(dados);
+        return mapper.toDadosUsuarioDTO(repository.save(user));
     }
     @Transactional
     public DadosUsuarioDTO adminSalvarUsuario(CriarUsuarioDTO dados) {
-        Usuario usuario = mapper.toUsuario(dados);
-        usuario.setRole(UserRole.ADMIN);
-        
-        return mapper.toDadosUsuarioDTO(repository.save(usuario));
+        Usuario admin = mapper.toUsuarioAdmin(dados);
+        return mapper.toDadosUsuarioDTO(repository.save(admin));
     }
 
     public List<DadosUsuarioDTO> adminListarTodosUsuarios() {
@@ -63,12 +64,12 @@ public class UsuarioService {
         return mapper.toDadosUsuarioDTO(usuario);
     }
 
-    public DadosUsuarioDTO adminBuscarUsuarioPorID(String id) {
+    public DadosUsuarioDTO adminBuscarUsuarioPorID(Long id) {
         return mapper.toDadosUsuarioDTO(this.getUsuarioById(id));
     }
 
     @Transactional
-    public DadosUsuarioDTO atualizarUsuarioAtual(Usuario usuario, AtualizarUsuarioDTO update) {
+    public DadosUsuarioDTO atualizarNomeUsuarioAtual(Usuario usuario, AtualizarUsuarioDTO update) {
         usuario.atualizarDados(update.getNome());
         return mapper.toDadosUsuarioDTO(repository.save(usuario));
     }
@@ -81,8 +82,11 @@ public class UsuarioService {
     }
 
     @Transactional
-    public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(String id, AtualizarSenhaOutroUsuarioDTO update) {
-        Usuario alvo = this.getUsuarioById(id);
+    public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(
+        Long usuarioAlvoId, 
+        AtualizarSenhaOutroUsuarioDTO update
+    ) {
+        Usuario alvo = this.getUsuarioById(usuarioAlvoId);
 
         alvo.atualizarSenha(new Senha(update.getSenha(), senhaValidator, senhaEncoder));
         
@@ -90,13 +94,13 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void adminRemoverUsuario(String id) {
+    public void adminRemoverUsuario(Long id) {
         if (!this.repository.existsById(id))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
         repository.deleteById(id);
     }
 
-    private Usuario getUsuarioById(String id) {
+    private Usuario getUsuarioById(Long id) {
         return this.repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }

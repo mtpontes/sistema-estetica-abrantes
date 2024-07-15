@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +16,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CriarAgendamentoDTO {
 
-    @NotBlank
-    private String procedimentoId;
+    @NotNull
+    private Long procedimentoId;
     @NotNull
     private StatusAgendamento status;
     private String observacao; // pode ser blank
-    @NotBlank
-    private String clienteId;
+    @NotNull
+    private Long clienteId;
     @NotNull 
     @Future
     private LocalDateTime dataHora;

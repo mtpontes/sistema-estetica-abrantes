@@ -36,5 +36,4 @@ public class UniqueTelefoneValidatorTest {
         when(repository.existsByTelefoneValue(anyString())).thenReturn(false);
         assertDoesNotThrow(() -> validator.validate("login"));
     }
-    
 }

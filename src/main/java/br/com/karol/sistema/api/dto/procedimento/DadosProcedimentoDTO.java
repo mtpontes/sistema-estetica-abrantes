@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosProcedimentoDTO {
 
-    private String id;
+    private Long id;
     private String nome;
     private String descricao;
     private LocalTime duracao;

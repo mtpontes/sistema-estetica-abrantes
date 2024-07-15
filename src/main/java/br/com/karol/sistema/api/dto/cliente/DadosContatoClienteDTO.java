@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosContatoClienteDTO {
 
-    private String id;
+    private Long id;
     private String nome;
     private String telefone;
     private String email;

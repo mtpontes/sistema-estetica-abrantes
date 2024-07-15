@@ -30,34 +30,37 @@ public class ProcedimentoController {
 
 
     @PostMapping
-    public ResponseEntity<DadosProcedimentoDTO> criarProcedimento(@RequestBody @Valid CriarProcedimentoDTO procedimento) {
+    public ResponseEntity<DadosProcedimentoDTO> criarProcedimento(
+        @RequestBody @Valid CriarProcedimentoDTO procedimento
+    ) {
         return ResponseEntity.ok(service.salvarProcedimento(procedimento));
     }
 
     @GetMapping
     public ResponseEntity<Page<DadosProcedimentoDTO>> listarProcedimentos(
         @RequestParam(required = false) String nome,
-        @RequestParam(required = false) Double min,
-        @RequestParam(required = false) Double max,
-        @PageableDefault(size = 10) Pageable pageable) {
-        return ResponseEntity.ok(service.listarTodosProcedimentos(nome, min, max, pageable));
+        @RequestParam(required = false) Double valorMin,
+        @RequestParam(required = false) Double valorMax,
+        @PageableDefault(size = 10) Pageable pageable
+    ) {
+        return ResponseEntity.ok(service.listarTodosProcedimentos(nome, valorMin, valorMax, pageable));
     }
 
     @GetMapping("/{procedimentoId}")
-    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(@PathVariable String procedimentoId) {
+    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(@PathVariable Long procedimentoId) {
         return ResponseEntity.ok(service.mostrarProcedimento(procedimentoId));
     }
 
     @PutMapping("/{procedimentoId}")
     public ResponseEntity<DadosProcedimentoDTO> atualizarProcedimento(
-        @PathVariable String procedimentoId, 
+        @PathVariable Long procedimentoId, 
         @RequestBody AtualizarProcedimentoDTO procedimento
     ) {
         return ResponseEntity.ok(service.editarProcedimento(procedimentoId, procedimento));
     }
 
     @DeleteMapping("/{procedimentoId}")
-    public ResponseEntity<Void> deletarProcedimento(@PathVariable String procedimentoId) {
+    public ResponseEntity<Void> deletarProcedimento(@PathVariable Long procedimentoId) {
         service.removerProcedimento(procedimentoId);
         return ResponseEntity.noContent().build();
     }

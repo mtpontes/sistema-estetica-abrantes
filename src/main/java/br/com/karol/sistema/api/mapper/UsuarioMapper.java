@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
-import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
+import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 import lombok.AllArgsConstructor;
@@ -18,13 +16,29 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UsuarioMapper {
 
-    private final SenhaEncoder encoder;
-    private final List<LoginValidator> loginValidators;
-    private final SenhaValidator senhaValidator;
+    private final LoginMapper loginMapper;
+    private final SenhaMapper senhaMapper;
 
 
-    public Usuario toUsuario(CriarUsuarioDTO dto) {
-        return new Usuario(dto.getNome(), new Login(dto.getLogin(), loginValidators), new Senha(dto.getSenha(), senhaValidator, encoder));
+    public Usuario toUsuarioUser(CriarUsuarioDTO dto) {
+        Login login = this.loginMapper.toLogin(dto.getLogin());
+        Senha senha = this.senhaMapper.toSenha(dto.getSenha());
+
+        return new Usuario(dto.getNome(), login, senha, UserRole.USER);
+    }
+
+    public Usuario toUsuarioAdmin(CriarUsuarioDTO dto) {
+        Login login = this.loginMapper.toLogin(dto.getLogin());
+        Senha senha = this.senhaMapper.toSenha(dto.getSenha());
+
+        return new Usuario(dto.getNome(), login, senha, UserRole.ADMIN);
+    }
+
+    public Usuario toUsuarioClient(CriarUsuarioDTO dto) {
+        Login login = this.loginMapper.toLogin(dto.getLogin());
+        Senha senha = this.senhaMapper.toSenha(dto.getSenha());
+
+        return new Usuario(dto.getNome(), login, senha, UserRole.CLIENT);
     }
 
     public DadosUsuarioDTO toDadosUsuarioDTO(Usuario usuario) {

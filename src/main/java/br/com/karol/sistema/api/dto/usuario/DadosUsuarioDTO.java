@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosUsuarioDTO {
 
-    private String id;
+    private Long id;
     private String nome;
     private UserRole role;
 

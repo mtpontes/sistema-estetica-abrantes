@@ -2,6 +2,7 @@ package br.com.karol.sistema.unit.domain;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalTime;
@@ -23,27 +24,40 @@ public class ProcedimentoTest {
 
     @Test
     void testCriarComAtributosValidos() {
-        assertDoesNotThrow(() -> new Procedimento(NOME, DESCRICAO, DURACAO, VALOR));
+        Procedimento result = new Procedimento(NOME, DESCRICAO, DURACAO, VALOR);
+
+        assertNotNull(result.getNome());
+        assertNotNull(result.getDescricao());
+        assertNotNull(result.getDuracao());
+        assertNotNull(result.getValor());
     }
 
     @Test
     void testNaoDeveCriarProcedimentoComValoresNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento(null, null, null, null));
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento(null, DESCRICAO, DURACAO, VALOR));
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, null, DURACAO, VALOR));
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, null, VALOR));
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, DURACAO, null));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento(null, null, null, null));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento(null, DESCRICAO, DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento(NOME, null, DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento(NOME, DESCRICAO, null, VALOR));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento(NOME, DESCRICAO, DURACAO, null));
     }
 
     @Test
     void testNaoDeveCriarProcedimentoComValoresBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento("", DESCRICAO, DURACAO, VALOR));
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, "", DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento("", DESCRICAO, DURACAO, VALOR));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento(NOME, "", DURACAO, VALOR));
     }
 
     @Test
     void testDeveLancarExcecaoAoTentarCriarProcedimentoComAtributoValorAbaixoDoValorMinimo() {
-        assertThrows(IllegalArgumentException.class, () -> new Procedimento(NOME, DESCRICAO, DURACAO, VALOR_INVALIDO));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Procedimento(NOME, DESCRICAO, DURACAO, VALOR_INVALIDO));
     }
 
     @Test
@@ -76,7 +90,8 @@ public class ProcedimentoTest {
         Procedimento test = new Procedimento();
 
         // act and assert
-        assertThrows(IllegalArgumentException.class, () -> test.atualizarDados(NOME, DESCRICAO, DURACAO, VALOR_INVALIDO));
+        assertThrows(IllegalArgumentException.class, 
+            () -> test.atualizarDados(NOME, DESCRICAO, DURACAO, VALOR_INVALIDO));
     }
 
     private Procedimento getProcedimento() {

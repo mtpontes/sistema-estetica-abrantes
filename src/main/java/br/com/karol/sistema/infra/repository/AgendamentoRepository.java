@@ -4,23 +4,47 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import br.com.karol.sistema.domain.Agendamento;
+import br.com.karol.sistema.domain.enums.StatusAgendamento;
 
-public interface AgendamentoRepository extends MongoRepository<Agendamento, String>, AgendamentoRepositoryCustom{
+public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
     Optional<Agendamento> findByDataHora(LocalDateTime dataHora);
 
-    @Query(value = "{ '_id' : ?0 }", fields = "{ 'procedimento._id' : 1 }")
-    Optional<Agendamento> findProcedimentoByAgendamentoId(String agendamentoId);
-
-    @Query(value = "{ 'cliente' : ?0, 'dataHora' : { $gte : ?1, $lte : ?2 } }", count = true)
-    Long countByClienteAndDataHoraBetween(String clienteId, LocalDateTime inicio, LocalDateTime fim);
+    Long countByClienteIdAndDataHoraBetween(Long clienteId, LocalDateTime inicio, LocalDateTime fim);
     
-    @Query("{ 'dataHora' : { $gte : ?0, $lte : ?1 } }")
-    List<Agendamento> findBetweenDataHora(LocalDateTime inicio, LocalDateTime fim);
+    List<Agendamento> findByDataHoraBetween(LocalDateTime inicio, LocalDateTime fim);
 
-    @Query(value = "{ 'procedimento._id' : ?0, 'status': { $nin : ['FINALIZADO', 'CANCELADO']} }", exists = true)
-    boolean existsByProcedimentoIdAndStatusIn(String procedimentoId);
+    @Query("SELECT COUNT(a) > 0 FROM Agendamento a WHERE a.procedimento.id = ?1 AND a.status NOT IN ('FINALIZADO', 'CANCELADO')")
+    boolean existsByProcedimentoIdAndStatusIn(Long procedimentoId);
+
+    @Query("""
+    SELECT p FROM Agendamento p WHERE
+    (:procedimentoId IS NULL OR p.procedimento.id = :procedimentoId)
+    AND (:procedimentoNome IS NULL OR LOWER(p.procedimento.nome) LIKE LOWER(CONCAT('%', :procedimentoNome, '%')))
+    AND (:status IS NULL OR p.status = :status)
+    AND (:minDataHora IS NULL OR p.dataHora >= :minDataHora)
+    AND (:maxDataHora IS NULL OR p.dataHora <= :minDataHora)
+    AND (:clienteNome IS NULL OR LOWER(p.cliente.nome) LIKE LOWER(CONCAT('%', :clienteNome, '%')))
+    AND (:clienteId IS NULL OR p.cliente.id = :clienteId)
+    AND (:clienteCpf IS NULL OR p.cliente.cpf = :clienteCpf)
+    """)
+    Page<Agendamento> findAllByParams(
+        Long procedimentoId, 
+        String procedimentoNome, 
+        StatusAgendamento status, 
+        LocalDateTime minDataHora, 
+        LocalDateTime maxDataHora, 
+        String clienteNome,
+        Long clienteId,
+        String clienteCpf,
+        Pageable pageable);
+
+    Page<Agendamento> findByClienteUsuarioId(Long usuarioId, Pageable pageable);
+
+    Optional<Agendamento> findByIdAndClienteUsuarioId(Long agendamentoId, Long usuarioId);
 }

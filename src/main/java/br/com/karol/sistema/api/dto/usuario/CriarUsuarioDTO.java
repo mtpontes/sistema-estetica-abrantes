@@ -17,10 +17,10 @@ public class CriarUsuarioDTO {
     private String nome;
     
     @NotBlank
-    @Size(min = 3)
+    @Size(min = 3, max = 20)
     private String login;
 
     @NotBlank
-    @Size(min = 8)
+    @Size(min = 8, max = 20)
     private String senha;
 }

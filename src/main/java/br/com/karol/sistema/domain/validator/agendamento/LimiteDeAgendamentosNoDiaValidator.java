@@ -15,14 +15,15 @@ public class LimiteDeAgendamentosNoDiaValidator implements AgendamentoValidator 
     
     private static final Integer LIMITE = AgendamentoConstants.LIMITE_AGENDAMENTOS_NO_DIA;
 
-    private AgendamentoRepository repository;
+    private final AgendamentoRepository repository;
 
 
     @Override
     public void validate(Agendamento dados) {
         LocalDate dataAgendamento = dados.getDataHora().toLocalDate();
 
-        Long result = repository.countByClienteAndDataHoraBetween(
+
+        Long result = repository.countByClienteIdAndDataHoraBetween(
             dados.getCliente().getId(),
             dataAgendamento.atStartOfDay(),
             dataAgendamento.atTime(23, 59, 59));

@@ -3,9 +3,6 @@ package br.com.karol.sistema.domain;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +10,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.domain.valueobjects.Senha;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,17 +31,28 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "usuarios", collation = "pt", language = "portuguese")
+@Entity(name = "Usuario")
+@Table(name = "usuarios")
 public class Usuario implements UserDetails {
     
-    @Id @Getter
-    private String id;
+    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Getter
     private String nome;
-    @Indexed(unique = true)
+
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "login", unique = true))
     private Login login;
+
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "senha"))
     private Senha senha;
-    @Getter @Setter 
+
+    @Getter @Setter
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     public Usuario(String nome, Login login, Senha senha) {
@@ -43,6 +61,10 @@ public class Usuario implements UserDetails {
         this.senha = this.notNull(senha, "senha");
 
         this.role = UserRole.USER;
+    }
+    public Usuario(String nome, Login login, Senha senha, UserRole role) {
+        this(nome, login, senha);
+        this.role = this.notNull(role, "role");
     }
 
 
@@ -81,7 +103,11 @@ public class Usuario implements UserDetails {
                 new SimpleGrantedAuthority("ROLE_ADMIN"),
                 new SimpleGrantedAuthority("ROLE_USER")
             );
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == UserRole.USER)
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == UserRole.CLIENT)
+            return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));
+        return null;
     }
 
     @Override

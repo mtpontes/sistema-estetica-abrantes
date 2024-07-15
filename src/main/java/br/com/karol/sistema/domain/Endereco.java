@@ -1,5 +1,6 @@
 package br.com.karol.sistema.domain;
 
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@Embeddable
 public class Endereco {
 
     private String rua;

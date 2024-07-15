@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DadosClienteDTO {
 
-    private String id;
+    private Long id;
     private String cpf;
     private String nome;
 
