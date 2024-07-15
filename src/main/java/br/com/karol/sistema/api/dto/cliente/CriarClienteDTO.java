@@ -16,14 +16,14 @@ import lombok.Setter;
 public class CriarClienteDTO {
 
     @NotBlank
-    @Size(min = 11)
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @NotBlank
     private String nome;
 
     @NotBlank
-    @Size(min = 11)
+    @Size(min = 11, max = 13)
     private String telefone;
 
     @NotBlank
