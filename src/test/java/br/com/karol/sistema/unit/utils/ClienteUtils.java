@@ -13,11 +13,12 @@ public class ClienteUtils {
     public static Cliente getCliente() {
         Cliente cliente = new Cliente();
 
-        Cpf cpf = getCpf("umCpf");
-        Telefone telefone = getTelefone("umTelefone");
-        Email email = getEmail("umEmail");
-        Endereco endereco = new Endereco();
+        Cpf cpf = getCpf();
+        Telefone telefone = getTelefone();
+        Email email = getEmail();
+        Endereco endereco = getEndereco();
         
+        ReflectionTestUtils.setField(cliente, "id", 1L);
         ReflectionTestUtils.setField(cliente, "nome", "umNome");
         ReflectionTestUtils.setField(cliente, "cpf", cpf);
         ReflectionTestUtils.setField(cliente, "telefone", telefone);
@@ -27,22 +28,31 @@ public class ClienteUtils {
         return cliente;
     }
     
-
-    private static Cpf getCpf(String value) {
+    public static Cpf getCpf() {
         Cpf cpf = new Cpf();
-        ReflectionTestUtils.setField(cpf, "value", value);
+        ReflectionTestUtils.setField(cpf, "value", "12345678911"); // 11 caracteres
         return cpf;
     }
     
-    private static Telefone getTelefone(String value) {
+    public static Telefone getTelefone() {
         Telefone telefone = new Telefone();
-        ReflectionTestUtils.setField(telefone, "value", value);
+        ReflectionTestUtils.setField(telefone, "value", "12345678911"); // 11 caracteres
         return telefone;
     }
 
-    private static Email getEmail(String value) {
+    public static Email getEmail() {
         Email email = new Email();
-        ReflectionTestUtils.setField(email, "value", value);
+        ReflectionTestUtils.setField(email, "value", "cliente@email.com");
         return email;
+    }
+
+    public static Endereco getEndereco() {
+        Endereco endereco = new Endereco();
+        ReflectionTestUtils.setField(endereco, "rua", "umaRua");
+        ReflectionTestUtils.setField(endereco, "numero", "umNumero");
+        ReflectionTestUtils.setField(endereco, "cidade", "umaCidade");
+        ReflectionTestUtils.setField(endereco, "bairro", "umBairro");
+        ReflectionTestUtils.setField(endereco, "estado", "umEstado");
+        return endereco;
     }
 }
