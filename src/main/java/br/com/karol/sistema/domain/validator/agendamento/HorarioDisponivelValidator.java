@@ -17,7 +17,7 @@ public class HorarioDisponivelValidator implements AgendamentoValidator {
     
     private static final Integer INTERVALO = AgendamentoConstants.INTERVALO_ENTRE_AGENDAMENTOS_EM_MINUTOS;
 
-    private AgendamentoRepository repository;
+    private final AgendamentoRepository repository;
 
 
     @Override
@@ -25,7 +25,7 @@ public class HorarioDisponivelValidator implements AgendamentoValidator {
         LocalTime inicioNovoAgendamento = dados.getDataHora().toLocalTime();
         LocalDate dataNovoAgendamento = dados.getDataHora().toLocalDate();
         
-        List<Agendamento> agendamentos = repository.findBetweenDataHora(
+        List<Agendamento> agendamentos = repository.findByDataHoraBetween(
             dataNovoAgendamento.atStartOfDay(), 
             dataNovoAgendamento.atTime(23, 59, 59));
 
@@ -37,7 +37,8 @@ public class HorarioDisponivelValidator implements AgendamentoValidator {
             
             // Verifica se o novo agendamento começa antes do término do agendamento atual, incluindo o INTERVALO
             if (!inicioNovoAgendamento.isAfter(termino.plusMinutes(INTERVALO))) {
-                throw new IllegalArgumentException("Não atende ao intervalo mínimo de " + INTERVALO + "min entre cada agendamento");
+                throw new IllegalArgumentException("Não atende ao intervalo mínimo de " + 
+                INTERVALO + "min entre cada agendamento");
             }
         });
     }
