@@ -22,13 +22,13 @@ public class DisponibilidadeService {
     private static final LocalTime ABERTURA = AgendamentoConstants.HORARIO_ABERTURA;
     private static final LocalTime FECHAMENTO = AgendamentoConstants.HORARIO_FECHAMENTO;
 
-    private AgendamentoRepository agendamentoRepository;
-    private ProcedimentoService procedimentoService;
+    private final AgendamentoRepository agendamentoRepository;
+    private final ProcedimentoService procedimentoService;
 
         
-    public List<LocalDateTime> filtrarHorariosDisponiveis(String procedimentoId, LocalDate dataHora) {
+    public List<LocalDateTime> filtrarHorariosDisponiveis(Long procedimentoId, LocalDate dataHora) {
         Procedimento procedimento = this.procedimentoService.getProcedimentoById(procedimentoId);
-        List<Agendamento> agendamentos = agendamentoRepository.findBetweenDataHora(
+        List<Agendamento> agendamentos = agendamentoRepository.findByDataHoraBetween(
             dataHora.atStartOfDay(), 
             dataHora.atTime(23, 59, 59));
         List<LocalDateTime> horariosDisponiveis = new ArrayList<>();
@@ -56,7 +56,8 @@ public class DisponibilidadeService {
                     .plusMinutes(agendamento.getProcedimento().getDuracao().getMinute())
                     .plusMinutes(INTERVALO);
                 
-                if (inicioNovoAgendamento.isBefore(terminoAgendamentoAtual) && terminoNovoAgendamento.isAfter(inicioAgendamentoAtual)) {
+                if (inicioNovoAgendamento.isBefore(terminoAgendamentoAtual) 
+                && terminoNovoAgendamento.isAfter(inicioAgendamentoAtual)) {
                     disponivel = false;
                     break;
                 }

@@ -38,20 +38,24 @@ public class ProcedimentoService {
     }
 
     public Page<DadosProcedimentoDTO> listarTodosProcedimentos(
-        String nome,
-        Double min,
-        Double max,
+        String nomeProcedimento,
+        Double valorMin,
+        Double valorMax,
         Pageable pageable
     ) {
-        return mapper.toPageDadosProcedimentoDTO(repository.findAllByParams(nome, min, max, pageable));
+        return mapper.toPageDadosProcedimentoDTO(repository.findAllByParams(
+            nomeProcedimento, 
+            valorMin, 
+            valorMax, 
+            pageable));
     }
 
-    public DadosProcedimentoDTO mostrarProcedimento(String procedimentoId) {
+    public DadosProcedimentoDTO mostrarProcedimento(Long procedimentoId) {
         return this.mapper.toDadosProcedimentoDTO(this.getProcedimentoById(procedimentoId));
     }
 
     @Transactional
-    public DadosProcedimentoDTO editarProcedimento(String procedimentoId, AtualizarProcedimentoDTO update) {
+    public DadosProcedimentoDTO editarProcedimento(Long procedimentoId, AtualizarProcedimentoDTO update) {
         if (repository.existsByNome(update.getNome()))
             throw new FieldValidationException("nome");
 
@@ -62,7 +66,7 @@ public class ProcedimentoService {
 
     // Criar uma query que valida se existe algum Agendamento com este procedimento
     @Transactional
-    public void removerProcedimento(String procedimentoId) {
+    public void removerProcedimento(Long procedimentoId) {
         if (!repository.existsById(procedimentoId))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
 
@@ -72,7 +76,7 @@ public class ProcedimentoService {
         repository.deleteById(procedimentoId);
     }
 
-    public Procedimento getProcedimentoById(String procedimentoId) {
+    public Procedimento getProcedimentoById(Long procedimentoId) {
         return this.repository.findById(procedimentoId)
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
