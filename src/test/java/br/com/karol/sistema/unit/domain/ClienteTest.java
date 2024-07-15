@@ -3,9 +3,11 @@ package br.com.karol.sistema.unit.domain;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -24,25 +26,45 @@ public class ClienteTest {
     private final Email EMAIL = new Email();
     private final Endereco ENDERECO = new Endereco();
 
+    @BeforeEach
+    void setup() {
+        ReflectionTestUtils.setField(CPF, "value", "12345678999");
+        ReflectionTestUtils.setField(TELEFONE, "value", "12345678999");
+        ReflectionTestUtils.setField(EMAIL, "value", "email_san@email.com");
+        ReflectionTestUtils.setField(ENDERECO, "rua", "dos bobos");
+    }
+
 
     @Test
     void testDeveCriarClienteComAtributosValidos() {
-        assertDoesNotThrow(() -> new Cliente(NOME, CPF, TELEFONE, EMAIL, ENDERECO));
+        Cliente result = new Cliente(NOME, CPF, TELEFONE, EMAIL, ENDERECO);
+
+        assertNotNull(result.getNome());
+        assertNotNull(result.getTelefone());
+        assertNotNull(result.getEmail());
+        assertNotNull(result.getEndereco());
     }
 
     @Test
     void testDeveLancarExcecaoAoCriarClienteComAtributosNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(null, null, null, null, null));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(null, CPF, TELEFONE, EMAIL, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, null, TELEFONE, EMAIL, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, CPF, null, EMAIL, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, CPF, TELEFONE, null, ENDERECO));
-        assertThrows(IllegalArgumentException.class, () -> new Cliente(NOME, CPF, TELEFONE, EMAIL, null));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Cliente(null, null, null, null, null));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Cliente(null, CPF, TELEFONE, EMAIL, ENDERECO));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Cliente(NOME, null, TELEFONE, EMAIL, ENDERECO));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Cliente(NOME, CPF, null, EMAIL, ENDERECO));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Cliente(NOME, CPF, TELEFONE, null, ENDERECO));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Cliente(NOME, CPF, TELEFONE, EMAIL, null));
     }
 
     @Test
     void testDeveLancarExcecaoAoCriarClienteComAtributosNomeBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new Cliente("", CPF, TELEFONE, EMAIL, ENDERECO));
+        assertThrows(IllegalArgumentException.class, 
+            () -> new Cliente("", CPF, TELEFONE, EMAIL, ENDERECO));
     }
 
     @Test

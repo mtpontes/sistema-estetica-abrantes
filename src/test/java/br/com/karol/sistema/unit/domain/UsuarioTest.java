@@ -2,6 +2,7 @@ package br.com.karol.sistema.unit.domain;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,13 +17,17 @@ public class UsuarioTest {
 
     private static final Usuario user = Usuario.builder().login(new Login()).senha(new Senha()).build();
     private final String NOME = "Nome";
-    private final Login LOGIN = new Login();
-    private final Senha SENHA = new Senha();
+    private final Login LOGIN = UsuarioUtils.getLogin();
+    private final Senha SENHA = UsuarioUtils.getSenha();
 
 
     @Test
     void testCriarUsuarioComValoresValidos() {
-        assertDoesNotThrow(() -> new Usuario(NOME, LOGIN, SENHA));
+        Usuario result = new Usuario(NOME, LOGIN, SENHA);
+
+        assertNotNull(result.getNome());
+        assertNotNull(result.getLogin());
+        assertNotNull(result.getSenha());
     }
 
     @Test
@@ -81,7 +86,7 @@ public class UsuarioTest {
     @Test
     void testGetLoginDeveRetornarString() {
         // arrange
-        Usuario user = UsuarioUtils.getUser();
+        Usuario user = UsuarioUtils.getUsuario();
 
         // act and assert
         assertTrue(user.getLogin() instanceof String);
@@ -90,7 +95,7 @@ public class UsuarioTest {
     @Test
     void testGetSenhaDeveRetornarString() {
         // assert
-        Usuario user = UsuarioUtils.getUser();
+        Usuario user = UsuarioUtils.getUsuario();
 
         // act and assert
         assertTrue(user.getSenha() instanceof String);
