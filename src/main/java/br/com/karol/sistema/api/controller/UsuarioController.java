@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.authentication.LoginResponseDTO;
+import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
+import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.domain.Usuario;
@@ -31,8 +34,11 @@ import lombok.AllArgsConstructor;
 public class UsuarioController {
 
     private final UsuarioService service;
+    private final ClienteService clienteService;    
     private final TokenService tokenService;
 
+
+    // -- Rotas comuns --
 
     @PostMapping
     public ResponseEntity<DadosUsuarioDTO> criarUsuario(@RequestBody @Valid CriarUsuarioDTO dados) {
@@ -46,15 +52,18 @@ public class UsuarioController {
     }
 
     /* A atualização do usuário é baseada na recuperação da identificação desse usuário através do token de autenticação */
-    @PatchMapping
-    public ResponseEntity<DadosUsuarioDTO> atualizarUsuario(Authentication authentication, @RequestBody AtualizarUsuarioDTO dados) {
-        return ResponseEntity.ok(service.atualizarUsuarioAtual((Usuario) authentication.getPrincipal(), dados));
+    @PatchMapping("/nome")
+    public ResponseEntity<DadosUsuarioDTO> atualizarNomeUsuario(
+        Authentication authentication, 
+        @RequestBody @Valid AtualizarUsuarioDTO dados
+    ) {
+        return ResponseEntity.ok(service.atualizarNomeUsuarioAtual((Usuario) authentication.getPrincipal(), dados));
     }
 
     @PatchMapping("/senha")
     public ResponseEntity<LoginResponseDTO> atualizarSenhaUsuarioAtual(
         Authentication authentication,
-        @RequestBody AtualizarSenhaUsuarioDTO dados
+        @RequestBody @Valid AtualizarSenhaUsuarioDTO dados
     ) {
         Usuario usuarioAtual = (Usuario) authentication.getPrincipal();
         Usuario usuarioValidado = service.atualizarSenhaUsuarioAtual(usuarioAtual, dados);
@@ -62,7 +71,7 @@ public class UsuarioController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     
-    // --- Rotas de admins -- 
+    // --- Rotas de ADMIN -- 
 
     @PostMapping("/admin")
     public ResponseEntity<DadosUsuarioDTO> adminCriarUsuario(@RequestBody @Valid CriarUsuarioDTO dados) {
@@ -76,18 +85,30 @@ public class UsuarioController {
 
     /* Um usuário com ROLE ADMIN autenticado consegue recuperar dados de outros usuários */
     @GetMapping("/admin/{userId}")
-    public ResponseEntity<DadosUsuarioDTO> adminBuscarUsuario(@PathVariable String userId) {
+    public ResponseEntity<DadosUsuarioDTO> adminBuscarUsuario(@PathVariable Long userId) {
         return ResponseEntity.ok(service.adminBuscarUsuarioPorID(userId));
     }
 
     @PatchMapping("/admin/{userId}")
-    public ResponseEntity<DadosUsuarioDTO> adminAtualizarSenhaUsuario(@PathVariable String userId, @RequestBody AtualizarSenhaOutroUsuarioDTO dados) {
+    public ResponseEntity<DadosUsuarioDTO> adminAtualizarSenhaUsuario(
+        @PathVariable Long userId, 
+        @RequestBody @Valid AtualizarSenhaOutroUsuarioDTO dados
+    ) {
         return ResponseEntity.ok(service.adminAtualizarSenhaOutrosUsuarios(userId, dados));
     }
 
     @DeleteMapping("/admin/{userId}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable String userId) {
+    public ResponseEntity<Void> deletarUsuario(@PathVariable Long userId) {
         service.adminRemoverUsuario(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    // --- Rotas de CLIENT -- 
+
+    @PostMapping("/clientes")
+    public ResponseEntity<DadosCompletosClienteDTO> criarUsuarioCliente(
+        @RequestBody @Valid CriarUsuarioClienteDTO dados
+    ) {
+        return ResponseEntity.ok(clienteService.salvarClienteComUsuario(dados));
     }
 }

@@ -26,7 +26,11 @@ import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDT
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.DadosBasicosAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.MeDadosAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.ObservacaoAtualizadaAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.RemarcarAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.StatusAtualizadoAgendamentoDTO;
 import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.business.service.DisponibilidadeService;
 import br.com.karol.sistema.domain.Usuario;
@@ -50,7 +54,7 @@ public class AgendamentoController {
         @RequestBody @Valid CriarAgendamentoDTO dadosAgendamento
     ) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        DadosAgendamentoDTO agendamentoCriado = agendamentoService.salvarAgendamento(dadosAgendamento, usuario);
+        DadosAgendamentoDTO agendamentoCriado = agendamentoService.salvarAgendamento(dadosAgendamento, usuario.getLogin());
 
         var uri = uriBuilder.path("/agendamento/{id}")
             .buildAndExpand(agendamentoCriado.getId())
@@ -60,59 +64,130 @@ public class AgendamentoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosAgendamentoDTO>> listarAgendamento(
-        @RequestParam(required = false) StatusAgendamento status, 
+    public ResponseEntity<Page<DadosBasicosAgendamentoDTO>> listarAgendamento(
+        @RequestParam(required = false) Long idProcedimento,
+        @RequestParam(required = false) String nomeProcedimento,
+        @RequestParam(required = false) StatusAgendamento status,
         @RequestParam(required = false) LocalDateTime minDataHora, 
-        @RequestParam(required = false) LocalDateTime maxDataHora, 
-        @RequestParam(required = false) String procedimentoId,
-        @RequestParam(required = false) String clienteId, 
+        @RequestParam(required = false) LocalDateTime maxDataHora,
+        @RequestParam(required = false) String nomeCliente,
+        @RequestParam(required = false) Long idCliente,
+        @RequestParam(required = false) String cpfCliente,
         @PageableDefault(size = 10) Pageable pageable
     ) {
         return ResponseEntity.ok(agendamentoService.listarTodosAgendamentos(
-            status, 
-            minDataHora, 
-            maxDataHora, 
-            procedimentoId,
-            clienteId, 
+            idProcedimento,
+            nomeProcedimento,
+            status,
+            minDataHora,
+            maxDataHora,
+            nomeCliente,
+            idCliente,
+            cpfCliente,
             pageable));
     }
 
     @GetMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> buscarAgendamento(@PathVariable String agendamentoId) {
+    public ResponseEntity<DadosAgendamentoDTO> mostrarAgendamento(@PathVariable Long agendamentoId) {
         return ResponseEntity.ok().body(agendamentoService.buscarAgendamentoPorId(agendamentoId));
     }
 
     @GetMapping("/disponibilidade")
     public ResponseEntity<List<LocalDateTime>> buscarHorariosDisponiveis(
-        @RequestParam(required = true) String procedimentoId, 
-        @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dia
+        @RequestParam(required = true) Long procedimentoId, 
+        @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate diaHora
     ) {
-        return ResponseEntity.ok(disponibilidadeService.filtrarHorariosDisponiveis(procedimentoId, dia));
+        return ResponseEntity.ok(disponibilidadeService.filtrarHorariosDisponiveis(procedimentoId, diaHora));
     }
 
     @PatchMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> remarcarAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid RemarcarAgendamentoDTO dadosRemarcacao) {
-        DadosAgendamentoDTO agendamentoAtualizado = agendamentoService.editarDataHoraAgendamento(agendamentoId, dadosRemarcacao);
+    public ResponseEntity<DadosAgendamentoDTO> remarcarAgendamento(
+        @PathVariable Long agendamentoId, 
+        @RequestBody @Valid RemarcarAgendamentoDTO dadosRemarcacao
+    ) {
+        DadosAgendamentoDTO agendamentoAtualizado = 
+            agendamentoService.editarDataHoraAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
     
     @PatchMapping("/{agendamentoId}/observacao")
-    public ResponseEntity<DadosAgendamentoDTO> atualizarObservacaoAgendamento(
-        @PathVariable String agendamentoId, 
+    public ResponseEntity<ObservacaoAtualizadaAgendamentoDTO> atualizarObservacaoAgendamento(
+        @PathVariable Long agendamentoId, 
         @RequestBody @Valid AtualizarObservacaoAgendamentoDTO dadosRemarcacao
     ) {
-        DadosAgendamentoDTO agendamentoAtualizado = agendamentoService.editarObservacaoAgendamento(agendamentoId, dadosRemarcacao);
+        ObservacaoAtualizadaAgendamentoDTO agendamentoAtualizado = 
+            agendamentoService.editarObservacaoAgendamento(agendamentoId, dadosRemarcacao);
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
     @PatchMapping("/{agendamentoId}/status")
-    public ResponseEntity<DadosAgendamentoDTO> atualizarStatusAgendamento(@PathVariable String agendamentoId, @RequestBody @Valid AtualizarStatusAgendamentoDTO novoStatus) {
+    public ResponseEntity<StatusAtualizadoAgendamentoDTO> atualizarStatusAgendamento(
+        @PathVariable Long agendamentoId, 
+        @RequestBody @Valid AtualizarStatusAgendamentoDTO novoStatus
+    ) {
         return ResponseEntity.ok().body(agendamentoService.editarStatusAgendamento(agendamentoId, novoStatus));
     }
 
     @DeleteMapping("/{agendamentoId}")
-    public ResponseEntity<Void> deletarAgendamento(@PathVariable String agendamentoId) {
+    public ResponseEntity<Void> deletarAgendamento(@PathVariable Long agendamentoId) {
         agendamentoService.removerAgendamento(agendamentoId);
         return ResponseEntity.noContent().build();
+    }
+
+    // -- Rotas para clientes autenticados --
+
+    @GetMapping("/me")
+    public ResponseEntity<Page<DadosBasicosAgendamentoDTO>> listarAgendamentoMe(
+        Authentication auth,
+        @PageableDefault(size = 10) Pageable pageable
+    ) {
+        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
+        return ResponseEntity.ok(
+            agendamentoService.listarTodosAgendamentosUsuarioAtual(usuarioAtual.getId(), pageable));
+    }
+
+    @GetMapping("/me/{agendamentoId}")
+    public ResponseEntity<MeDadosAgendamentoDTO> mostrarAgendamentoMe(
+        @PathVariable Long agendamentoId,
+        Authentication auth
+    ) {
+        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
+        return ResponseEntity.ok().body(
+            agendamentoService.buscarAgendamentoPorIdEUsuarioId(agendamentoId, usuarioAtual.getId()));
+    }
+
+    @PatchMapping("/me/{agendamentoId}")
+    public ResponseEntity<MeDadosAgendamentoDTO> remarcarAgendamentoMe(
+        @PathVariable Long agendamentoId, 
+        Authentication auth,
+        @RequestBody @Valid RemarcarAgendamentoDTO dadosRemarcacao
+    ) {
+        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
+        MeDadosAgendamentoDTO agendamentoAtualizado = agendamentoService
+            .editarDataHoraAgendamentoUsuarioAtual(agendamentoId, usuarioAtual.getId(), dadosRemarcacao);
+        return ResponseEntity.ok().body(agendamentoAtualizado);
+    }
+    
+    @PatchMapping("/me/{agendamentoId}/observacao")
+    public ResponseEntity<ObservacaoAtualizadaAgendamentoDTO> atualizarObservacaoAgendamentoMe(
+        @PathVariable Long agendamentoId, 
+        Authentication auth,
+        @RequestBody @Valid AtualizarObservacaoAgendamentoDTO dadosRemarcacao
+    ) {
+        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
+        ObservacaoAtualizadaAgendamentoDTO agendamentoAtualizado = agendamentoService
+            .editarObservacaoAgendamentoUsuarioAtual(agendamentoId, usuarioAtual.getId(), dadosRemarcacao);
+        return ResponseEntity.ok().body(agendamentoAtualizado);
+    }
+
+    @PatchMapping("/me/{agendamentoId}/status")
+    public ResponseEntity<StatusAtualizadoAgendamentoDTO> atualizarStatusAgendamentoMe(
+        @PathVariable Long agendamentoId, 
+        Authentication auth,
+        @RequestBody @Valid AtualizarStatusAgendamentoDTO novoStatus
+    ) {
+        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
+        return ResponseEntity.ok().body(
+            agendamentoService.editarStatusAgendamentoUsuarioAtual(agendamentoId, usuarioAtual.getId(), novoStatus));
     }
 }
