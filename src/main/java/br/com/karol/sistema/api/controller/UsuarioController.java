@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.authentication.LoginResponseDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
+import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
-import br.com.karol.sistema.api.dto.usuario.AtualizarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.business.service.ClienteService;
@@ -55,7 +55,7 @@ public class UsuarioController {
     @PatchMapping("/nome")
     public ResponseEntity<DadosUsuarioDTO> atualizarNomeUsuario(
         Authentication authentication, 
-        @RequestBody @Valid AtualizarUsuarioDTO dados
+        @RequestBody @Valid AtualizarNomeUsuarioDTO dados
     ) {
         return ResponseEntity.ok(service.atualizarNomeUsuarioAtual((Usuario) authentication.getPrincipal(), dados));
     }

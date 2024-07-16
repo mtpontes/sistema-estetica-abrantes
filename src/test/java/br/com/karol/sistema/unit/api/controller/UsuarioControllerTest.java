@@ -26,7 +26,7 @@ import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
-import br.com.karol.sistema.api.dto.usuario.AtualizarUsuarioDTO;
+import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.business.service.ClienteService;
@@ -76,7 +76,7 @@ public class UsuarioControllerTest {
     @Autowired
     private JacksonTester<CriarUsuarioDTO> criarUsuarioDTOJson;
     @Autowired
-    private JacksonTester<AtualizarUsuarioDTO> atualizarUsuarioDTOJson;
+    private JacksonTester<AtualizarNomeUsuarioDTO> atualizarUsuarioDTOJson;
     @Autowired
     private JacksonTester<AtualizarSenhaUsuarioDTO> atualizarSenhaUsuarioDTOJson;
     @Autowired
@@ -192,7 +192,7 @@ public class UsuarioControllerTest {
     @CsvSource(value = {"USER", "CLIENT", "ADMIN"})
     void testAtualizarUsuarioAtualComRolesAutorizadas(String role) throws IOException, Exception {
         // arrange
-        var requestBody = new AtualizarUsuarioDTO(DEFAULT_USUARIO.getNome());
+        var requestBody = new AtualizarNomeUsuarioDTO(DEFAULT_USUARIO.getNome());
 
         ControllerTestUtils.withMockUserManual(role);
         when(service.atualizarNomeUsuarioAtual(any(), any())).thenReturn(new DadosUsuarioDTO(DEFAULT_USUARIO));
@@ -213,7 +213,7 @@ public class UsuarioControllerTest {
     @WithMockUser
     void testAtualizarUsuarioAtualComBodyInvalido() throws IOException, Exception {
         // arrange
-        var requestBody = new AtualizarUsuarioDTO("");
+        var requestBody = new AtualizarNomeUsuarioDTO("");
 
         // act
         ControllerTestUtils.patchRequest(

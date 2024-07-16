@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class AtualizarUsuarioDTO {
+public class AtualizarNomeUsuarioDTO {
 
     @NotBlank
     private String nome;
