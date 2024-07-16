@@ -10,7 +10,6 @@ import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosAtualizacaoDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
-import br.com.karol.sistema.api.dto.cliente.DadosContatoClienteDTO;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.Usuario;
@@ -37,7 +36,7 @@ public class ClienteMapper {
 
         return new Cliente(dados.getNome(), cpf, telefone, email, endereco);
     }
-    public Cliente toCliente(CriarUsuarioClienteDTO dados, Usuario usuario) {
+    public Cliente toClienteComUsuario(CriarUsuarioClienteDTO dados, Usuario usuario) {
         Cpf cpf = this.cpfMapper.toCpf(dados.getCpf());
         Telefone telefone = this.telefoneMapper.toTelefone(dados.getTelefone());
         Email email = this.emailMapper.toEmail(dados.getEmail());
@@ -60,9 +59,5 @@ public class ClienteMapper {
 
     public Page<DadosClienteDTO> toPageDadosClienteDTO(Page<Cliente> clienteList) {
         return clienteList.map(c -> this.toDadosClienteDTO(c));
-    }
-
-    public DadosContatoClienteDTO toIdNomeEmailClienteDTO(Cliente cliente) {
-        return new DadosContatoClienteDTO(cliente);
     }
 }
