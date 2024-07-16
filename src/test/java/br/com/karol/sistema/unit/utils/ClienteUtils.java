@@ -33,16 +33,31 @@ public class ClienteUtils {
         ReflectionTestUtils.setField(cpf, "value", "12345678911"); // 11 caracteres
         return cpf;
     }
+    public static Cpf getCpf(String value) {
+        Cpf cpf = new Cpf();
+        ReflectionTestUtils.setField(cpf, "value", value); // 11 caracteres
+        return cpf;
+    }
     
     public static Telefone getTelefone() {
         Telefone telefone = new Telefone();
         ReflectionTestUtils.setField(telefone, "value", "12345678911"); // 11 caracteres
         return telefone;
     }
+    public static Telefone getTelefone(String value) {
+        Telefone telefone = new Telefone();
+        ReflectionTestUtils.setField(telefone, "value", value); // 11 caracteres
+        return telefone;
+    }
 
     public static Email getEmail() {
         Email email = new Email();
         ReflectionTestUtils.setField(email, "value", "cliente@email.com");
+        return email;
+    }
+    public static Email getEmail(String value) {
+        Email email = new Email();
+        ReflectionTestUtils.setField(email, "value", value);
         return email;
     }
 
