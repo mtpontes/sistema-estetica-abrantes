@@ -9,15 +9,18 @@ import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
-import br.com.karol.sistema.api.dto.cliente.DadosAtualizacaoDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.mapper.ClienteMapper;
+import br.com.karol.sistema.api.mapper.EmailMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
+import br.com.karol.sistema.api.mapper.TelefoneMapper;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.domain.valueobjects.Email;
+import br.com.karol.sistema.domain.valueobjects.Telefone;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
@@ -30,6 +33,8 @@ public class ClienteService {
     
     private final ClienteRepository repository;
     private final ClienteMapper mapper;
+    private final TelefoneMapper telefoneMapper;
+    private final EmailMapper emailMapper;
     private final EnderecoMapper enderecoMapper;
     private final UsuarioService usuarioService;
 
@@ -62,15 +67,29 @@ public class ClienteService {
     @Transactional
     public DadosCompletosClienteDTO editarContatoCliente(Long clienteId, AtualizarClienteDTO dados) {
         Cliente alvo = this.buscarPorId(clienteId);
-        DadosAtualizacaoDTO dadosAtualizacao = mapper.toDadosAtualizacaoDTO(dados);
-        alvo.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail());
+        
+        String novoNome = dados.getNome();
+        Telefone novoTelefone = telefoneMapper.toTelefone(dados.getTelefone());
+        Email novoEmail = emailMapper.toEmail(dados.getEmail());
+        alvo.atualizarDados(
+            novoNome, 
+            novoTelefone, 
+            novoEmail
+        );
 
         return mapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
     @Transactional
-    public DadosCompletosClienteDTO editarContatoCliente(Cliente cliente, AtualizarClienteDTO dados) {
-        DadosAtualizacaoDTO dadosAtualizacao = mapper.toDadosAtualizacaoDTO(dados);
-        cliente.atualizarDados(dadosAtualizacao.getNome(), dadosAtualizacao.getTelefone(), dadosAtualizacao.getEmail());
+    public DadosCompletosClienteDTO editarContatoClienteAtual(Cliente cliente, AtualizarClienteDTO dados) {
+        String novoNome = dados.getNome();
+        Telefone novoTelefone = telefoneMapper.toTelefone(dados.getTelefone());
+        Email novoEmail = emailMapper.toEmail(dados.getEmail());
+        
+        cliente.atualizarDados(
+            novoNome, 
+            novoTelefone, 
+            novoEmail
+        );
 
         return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
     }
@@ -84,7 +103,7 @@ public class ClienteService {
         return mapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
     @Transactional
-    public DadosCompletosClienteDTO editarEnderecoCliente(Cliente cliente, EnderecoDTO dadosAtualizacao) {
+    public DadosCompletosClienteDTO editarEnderecoClienteAtual(Cliente cliente, EnderecoDTO dadosAtualizacao) {
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         cliente.atualizarEndereco(novoEndereco);
 

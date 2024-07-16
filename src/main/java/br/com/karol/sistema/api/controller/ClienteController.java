@@ -96,7 +96,7 @@ public class ClienteController {
     ) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
-        return ResponseEntity.ok(service.editarContatoCliente(cliente, dados));
+        return ResponseEntity.ok(service.editarContatoClienteAtual(cliente, dados));
     }
 
     @PutMapping("/me/endereco")
@@ -106,6 +106,6 @@ public class ClienteController {
     ) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
-        return ResponseEntity.ok(service.editarEnderecoCliente(cliente, dadosEndereco));
+        return ResponseEntity.ok(service.editarEnderecoClienteAtual(cliente, dadosEndereco));
     }
 }
