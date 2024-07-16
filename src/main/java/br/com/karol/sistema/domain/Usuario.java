@@ -69,12 +69,10 @@ public class Usuario implements UserDetails {
 
 
     public void atualizarDados(String nome) {
-        this.notBlank(nome, "nome");
-        this.nome = nome;
+        this.nome = this.notBlank(nome, "nome");
     }
     public void atualizarSenha(Senha senha) {
-        this.notNull(senha, "senha");
-        this.senha = senha;
+        this.senha = this.notNull(senha, "senha");;
     }
 
     private <T> T notNull(T field, String fieldName) {
