@@ -7,15 +7,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
-import br.com.karol.sistema.api.dto.usuario.AtualizarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
+import br.com.karol.sistema.api.mapper.SenhaMapper;
 import br.com.karol.sistema.api.mapper.UsuarioMapper;
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
@@ -30,14 +29,15 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final UsuarioMapper mapper;
-    private final SenhaValidator senhaValidator;
-    private final SenhaEncoder senhaEncoder;
+    private final SenhaMapper senhaMapper;
     private final AuthenticationManager authenticationManager;
 
 
     public Usuario autenticarUsuario(String login, String senha) {
         var usernamePasswordToken = new UsernamePasswordAuthenticationToken(login, senha);
-        return (Usuario) authenticationManager.authenticate(usernamePasswordToken).getPrincipal();
+        return (Usuario) authenticationManager
+            .authenticate(usernamePasswordToken)
+                .getPrincipal();
     }
  
     @Transactional
@@ -69,14 +69,15 @@ public class UsuarioService {
     }
 
     @Transactional
-    public DadosUsuarioDTO atualizarNomeUsuarioAtual(Usuario usuario, AtualizarUsuarioDTO update) {
+    public DadosUsuarioDTO atualizarNomeUsuarioAtual(Usuario usuario, AtualizarNomeUsuarioDTO update) {
         usuario.atualizarDados(update.getNome());
         return mapper.toDadosUsuarioDTO(repository.save(usuario));
     }
     @Transactional
     public Usuario atualizarSenhaUsuarioAtual(Usuario usuarioAtual, AtualizarSenhaUsuarioDTO dados) {
+        Senha novaSenha = senhaMapper.toSenha(dados.getNovaSenha());
         Usuario usuarioValidado = this.autenticarUsuario(usuarioAtual.getLogin(), dados.getSenhaAtual());
-        usuarioValidado.atualizarSenha(new Senha(dados.getNovaSenha(), senhaValidator, senhaEncoder));
+        usuarioValidado.atualizarSenha(novaSenha);
         
         return repository.save(usuarioValidado);
     }
@@ -86,9 +87,9 @@ public class UsuarioService {
         Long usuarioAlvoId, 
         AtualizarSenhaOutroUsuarioDTO update
     ) {
+        Senha novaSenha = senhaMapper.toSenha(update.getSenha());
         Usuario alvo = this.getUsuarioById(usuarioAlvoId);
-
-        alvo.atualizarSenha(new Senha(update.getSenha(), senhaValidator, senhaEncoder));
+        alvo.atualizarSenha(novaSenha);
         
         return mapper.toDadosUsuarioDTO(repository.save(alvo));
     }
