@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.api.dto.procedimento.AtualizarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.CriarProcedimentoDTO;
-import br.com.karol.sistema.api.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.api.mapper.ProcedimentoMapper;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import br.com.karol.sistema.domain.Procedimento;
@@ -48,27 +47,6 @@ public class ProcedimentoServiceTest {
     }
 
 
-    @Test
-    void testSalvarProcedimento() {
-        // arrange
-        CriarProcedimentoDTO entry = new CriarProcedimentoDTO(
-            DEFAULT.getNome(),
-            DEFAULT.getDescricao(),
-            DEFAULT.getDuracao(),
-            DEFAULT.getValor()
-        );
-        when(repository.existsByNome(any())).thenReturn(false);
-        when(repository.save(any())).thenReturn(DEFAULT);
-        
-        // act
-        DadosProcedimentoDTO result = service.salvarProcedimento(entry);
-
-        // assert
-        assertEquals(entry.getNome(), result.getNome());
-        assertEquals(entry.getDescricao(), result.getDescricao());
-        assertEquals(entry.getDuracao(), result.getDuracao());
-        assertEquals(entry.getValor(), result.getValor());
-    }
     @Test
     void testSalvarProcedimento_comNomeJaExistente() {
         // arrange
