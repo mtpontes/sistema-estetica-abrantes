@@ -8,8 +8,10 @@ import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@ToString
 @NoArgsConstructor
 @Embeddable
 public class Telefone {

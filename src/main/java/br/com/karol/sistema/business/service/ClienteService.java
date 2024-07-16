@@ -44,7 +44,7 @@ public class ClienteService {
     public DadosCompletosClienteDTO salvarClienteComUsuario (CriarUsuarioClienteDTO dados) {
         Usuario usuario = this.usuarioService.salvarUsuarioCliente(
             new CriarUsuarioDTO(dados.getNome(), dados.getLogin(), dados.getSenha()));
-        Cliente cliente = mapper.toCliente(dados, usuario);
+        Cliente cliente = mapper.toClienteComUsuario(dados, usuario);
 
         Cliente savedCliente = repository.save(cliente);
         return mapper.toDadosCompletosClienteDTO(savedCliente);
