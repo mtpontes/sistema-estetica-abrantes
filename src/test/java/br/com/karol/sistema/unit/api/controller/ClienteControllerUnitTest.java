@@ -396,7 +396,7 @@ public class ClienteControllerUnitTest {
         
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
         when(service.getClienteByUsuarioId(any())).thenReturn(CLIENTE_DEFAULT);
-        when(service.editarContatoCliente(any(Cliente.class), any())).thenReturn(responseBody);
+        when(service.editarContatoClienteAtual(any(Cliente.class), any())).thenReturn(responseBody);
 
         // act
         ControllerTestUtils.putRequest(mvc, ME_ROUTE, atualizarClienteDTOJson.write(requestBody).getJson())
@@ -437,7 +437,7 @@ public class ClienteControllerUnitTest {
         var requestBody = new EnderecoDTO(CLIENTE_DEFAULT.getEndereco());
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
         when(service.getClienteByUsuarioId(anyLong())).thenReturn(CLIENTE_DEFAULT);
-        when(service.editarEnderecoCliente(any(Cliente.class), any())).thenReturn(responseBody);
+        when(service.editarEnderecoClienteAtual(any(Cliente.class), any())).thenReturn(responseBody);
 
         // act
         ControllerTestUtils.putRequest(
