@@ -1,6 +1,5 @@
 package br.com.karol.sistema.api.mapper;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -10,31 +9,26 @@ import br.com.karol.sistema.api.dto.agendamento.MeDadosAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.ObservacaoAtualizadaAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.StatusAtualizadoAgendamentoDTO;
 import br.com.karol.sistema.domain.Agendamento;
+import lombok.AllArgsConstructor;
 
 @Component
+@AllArgsConstructor
 public class AgendamentoMapper {
 
-    private final ModelMapper mapper;
-
-    public AgendamentoMapper(ModelMapper mapper) {
-        this.mapper = mapper;
-    }
-
-
     public DadosAgendamentoDTO toDadosAgendamentoDTO(Agendamento agendamento) {
-        return mapper.map(agendamento, DadosAgendamentoDTO.class);
+        return new DadosAgendamentoDTO(agendamento);
     }
     
     public MeDadosAgendamentoDTO toMeDadosAgendamentoDTO(Agendamento agendamento) {
-        return mapper.map(agendamento, MeDadosAgendamentoDTO.class);
+        return new MeDadosAgendamentoDTO(agendamento);
     }
 
     public ObservacaoAtualizadaAgendamentoDTO toObservacaoAtualizadaAgendamentoDTO(Agendamento agendamento) {
-        return mapper.map(agendamento, ObservacaoAtualizadaAgendamentoDTO.class);
+        return new ObservacaoAtualizadaAgendamentoDTO(agendamento);
     }
 
     public StatusAtualizadoAgendamentoDTO toStatusAtualizadoAgendamentoDTO(Agendamento agendamento) {
-        return mapper.map(agendamento, StatusAtualizadoAgendamentoDTO.class);
+        return new StatusAtualizadoAgendamentoDTO(agendamento);
     }
     
     public Page<DadosAgendamentoDTO> toPageDadosAgentamentoDTO(Page<Agendamento> agendamentoPage) {
