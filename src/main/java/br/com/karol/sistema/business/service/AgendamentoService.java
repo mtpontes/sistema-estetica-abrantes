@@ -41,9 +41,13 @@ public class AgendamentoService {
 
 
     @Transactional
-    public DadosAgendamentoDTO salvarAgendamento(CriarAgendamentoDTO dadosAgendamento, String usuarioLogin) {
+    public DadosAgendamentoDTO salvarAgendamento(
+        CriarAgendamentoDTO dadosAgendamento, 
+        String usuarioLogin
+    ) {
         Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getClienteId());
-        Procedimento procedimentoAlvo = procedimentoService.getProcedimentoById(dadosAgendamento.getProcedimentoId());
+        Procedimento procedimentoAlvo = procedimentoService
+            .getProcedimentoById(dadosAgendamento.getProcedimentoId());
 
         Agendamento novoAgendamento = new Agendamento(
             procedimentoAlvo,
@@ -60,7 +64,8 @@ public class AgendamentoService {
         return mapper.toDadosAgendamentoDTO(this.getAgendamentoById(agendamentoId));
     }
     public MeDadosAgendamentoDTO buscarAgendamentoPorIdEUsuarioId(Long agendamentoId, Long usuarioId) {
-        Agendamento agendamento = agendamentoRepository.findByIdAndClienteUsuarioId(agendamentoId, usuarioId)
+        Agendamento agendamento = agendamentoRepository
+            .findByIdAndClienteUsuarioId(agendamentoId, usuarioId)
             .orElseThrow(EntityNotFoundException::new);
         return mapper.toMeDadosAgendamentoDTO(agendamento);
     }
@@ -87,9 +92,11 @@ public class AgendamentoService {
             cpfCliente, 
             pageable));
     }
-    public Page<DadosBasicosAgendamentoDTO> listarTodosAgendamentosUsuarioAtual(Long usuarioId, Pageable pageable) {
-        var seila = agendamentoRepository.findByClienteUsuarioId(usuarioId, pageable);
-        return mapper.toPageDadosBasicosAgentamentoDTO(seila);
+    public Page<DadosBasicosAgendamentoDTO> listarTodosAgendamentosUsuarioAtual(
+        Long usuarioId, Pageable pageable
+    ) {
+        return mapper.toPageDadosBasicosAgentamentoDTO(
+            agendamentoRepository.findByClienteUsuarioId(usuarioId, pageable));
     }
 
     @Transactional

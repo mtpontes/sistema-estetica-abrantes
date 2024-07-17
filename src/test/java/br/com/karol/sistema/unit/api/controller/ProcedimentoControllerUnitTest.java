@@ -103,7 +103,7 @@ public class ProcedimentoControllerUnitTest {
     }
     @Test
     @WithMockUser(roles = "ADMIN")
-    void testCriarProcedimentoComBodyInvalido() throws Exception {
+    void testCriarProcedimento_comBodyInvalido() throws Exception {
         // arrange
         var requestBody = new CriarProcedimentoDTO(
             null,
@@ -131,7 +131,7 @@ public class ProcedimentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "CLIENT"})
-    void testCriarProcedimentoComRolesNaoAutorizadas() throws Exception {
+    void testCriarProcedimento_comRolesNaoAutorizadas() throws Exception {
         // arrange
         var requestBody = new CriarProcedimentoDTO(
             DEFAULT_PROCEDIMENTO.getNome(),
@@ -167,7 +167,7 @@ public class ProcedimentoControllerUnitTest {
             .andExpect(jsonPath("$.content[0]valor").exists());
     }
     @Test
-    void testListarProcedimentosComQueryParams() throws Exception {
+    void testListarProcedimentos_comQueryParams() throws Exception {
         // arrange
         var PARAM_NOME = "Nome";
         var PARAM_VALOR_MIN = Double.valueOf("51.00");
@@ -243,7 +243,7 @@ public class ProcedimentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "CLIENT"})
-    void testAtualizarProcedimentoComRolesNaoAutorizadas() throws Exception {
+    void testAtualizarProcedimento_comRolesNaoAutorizadas() throws Exception {
         // arrange
         var requestBody = new AtualizarProcedimentoDTO(
             DEFAULT_PROCEDIMENTO.getNome(),

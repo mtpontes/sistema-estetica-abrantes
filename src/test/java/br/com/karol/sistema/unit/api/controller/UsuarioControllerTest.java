@@ -26,7 +26,7 @@ import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
-import br.com.karol.sistema.api.dto.usuario.AtualizarUsuarioDTO;
+import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.business.service.ClienteService;
@@ -76,7 +76,7 @@ public class UsuarioControllerTest {
     @Autowired
     private JacksonTester<CriarUsuarioDTO> criarUsuarioDTOJson;
     @Autowired
-    private JacksonTester<AtualizarUsuarioDTO> atualizarUsuarioDTOJson;
+    private JacksonTester<AtualizarNomeUsuarioDTO> atualizarUsuarioDTOJson;
     @Autowired
     private JacksonTester<AtualizarSenhaUsuarioDTO> atualizarSenhaUsuarioDTOJson;
     @Autowired
@@ -109,7 +109,7 @@ public class UsuarioControllerTest {
     }
     @Test
     @WithMockUser(roles = "ADMIN")
-    void testCriarUsuarioComBodyInvalido01() throws IOException, Exception {
+    void testCriarUsuario_comBodyInvalido01() throws IOException, Exception {
         // arrange
         CriarUsuarioDTO requestBody = new CriarUsuarioDTO(
             TestConstants.NOME_VAZIO,
@@ -130,7 +130,7 @@ public class UsuarioControllerTest {
     }
     @Test
     @WithMockUser(roles = "ADMIN")
-    void testCriarUsuarioComBodyInvalido02() throws IOException, Exception {
+    void testCriarUsuario_comBodyInvalido02() throws IOException, Exception {
         // arrange
         CriarUsuarioDTO requestBody = new CriarUsuarioDTO(
             TestConstants.NOME_VAZIO,
@@ -151,7 +151,7 @@ public class UsuarioControllerTest {
     }
     @ParameterizedTest
     @CsvSource(value = {"USER", "CLIENT"})
-    void testCriarUsuarioComRolesNaoAutorizadas(String role) throws IOException, Exception {
+    void testCriarUsuario_comRolesNaoAutorizadas(String role) throws IOException, Exception {
         // arrange
         ControllerTestUtils.withMockUserManual(role);
         
@@ -190,9 +190,9 @@ public class UsuarioControllerTest {
 
     @ParameterizedTest
     @CsvSource(value = {"USER", "CLIENT", "ADMIN"})
-    void testAtualizarUsuarioAtualComRolesAutorizadas(String role) throws IOException, Exception {
+    void testAtualizarUsuarioAtual_comRolesAutorizadas(String role) throws IOException, Exception {
         // arrange
-        var requestBody = new AtualizarUsuarioDTO(DEFAULT_USUARIO.getNome());
+        var requestBody = new AtualizarNomeUsuarioDTO(DEFAULT_USUARIO.getNome());
 
         ControllerTestUtils.withMockUserManual(role);
         when(service.atualizarNomeUsuarioAtual(any(), any())).thenReturn(new DadosUsuarioDTO(DEFAULT_USUARIO));
@@ -211,9 +211,9 @@ public class UsuarioControllerTest {
     }
     @Test
     @WithMockUser
-    void testAtualizarUsuarioAtualComBodyInvalido() throws IOException, Exception {
+    void testAtualizarUsuarioAtual_comBodyInvalido() throws IOException, Exception {
         // arrange
-        var requestBody = new AtualizarUsuarioDTO("");
+        var requestBody = new AtualizarNomeUsuarioDTO("");
 
         // act
         ControllerTestUtils.patchRequest(
@@ -227,7 +227,7 @@ public class UsuarioControllerTest {
 
     @ParameterizedTest
     @CsvSource(value = {"USER", "CLIENT", "ADMIN"})
-    void testAtualizarSenhaUsuarioAtualComRolesAutorizadas(String role) throws IOException, Exception {
+    void testAtualizarSenhaUsuarioAtual_comRolesAutorizadas(String role) throws IOException, Exception {
         // arrange
         ControllerTestUtils.withMockUserManual(role);
         
@@ -248,7 +248,7 @@ public class UsuarioControllerTest {
     }
     @Test
     @WithMockUser
-    void testAtualizarSenhaUsuarioAtualComBodyInvalido() throws IOException, Exception {
+    void testAtualizarSenhaUsuarioAtual_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarSenhaUsuarioDTO("", "");
 
@@ -290,7 +290,7 @@ public class UsuarioControllerTest {
     }
     @Test
     @WithMockUser(roles = "ADMIN")
-    void testAdminCriarUsuarioComBodyInvalido() throws IOException, Exception {
+    void testAdminCriarUsuario_comBodyInvalido() throws IOException, Exception {
         // arrange
         CriarUsuarioDTO requestBody = new CriarUsuarioDTO(
             null,
@@ -310,7 +310,7 @@ public class UsuarioControllerTest {
     }
     @ParameterizedTest
     @CsvSource(value = {"USER", "CLIENT"})
-    void testAdminCriarUsuarioComRolesNaoAutorizadas(String role) throws IOException, Exception {
+    void testAdminCriarUsuario_comRolesNaoAutorizadas(String role) throws IOException, Exception {
         // arrange
         ControllerTestUtils.withMockUserManual(role);
         
@@ -383,7 +383,7 @@ public class UsuarioControllerTest {
     }
     @Test
     @WithMockUser(roles = "ADMIN")
-    void testAdminAtualizarSenhaUsuarioComBodyInvalido() throws IOException, Exception {
+    void testAdminAtualizarSenhaUsuario_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarSenhaOutroUsuarioDTO(null);
 
@@ -401,7 +401,7 @@ public class UsuarioControllerTest {
     }
     @ParameterizedTest
     @CsvSource(value = {"USER", "CLIENT"})
-    void testAdminAtualizarSenhaUsuarioComRolesNaoAutorizadas(String role) throws IOException, Exception {
+    void testAdminAtualizarSenhaUsuario_comRolesNaoAutorizadas(String role) throws IOException, Exception {
         // arrange
         ControllerTestUtils.withMockUserManual(role);
         var requestBody = new AtualizarSenhaUsuarioDTO(DEFAULT_USUARIO.getLogin(), DEFAULT_USUARIO.getSenha());
@@ -424,7 +424,7 @@ public class UsuarioControllerTest {
     }
     @ParameterizedTest
     @CsvSource(value = {"USER", "CLIENT"})
-    void testDeletarUsuarioComRolesNaoAutorizadas(String role) throws IOException, Exception {
+    void testDeletarUsuario_comRolesNaoAutorizadas(String role) throws IOException, Exception {
         // arrange
         ControllerTestUtils.withMockUserManual(role);
         
@@ -470,7 +470,7 @@ public class UsuarioControllerTest {
         .andExpect(status().isOk());
     }
     @Test
-    void testCriarUsuarioClienteComBodyInvalido01() throws Exception {
+    void testCriarUsuarioCliente_comBodyInvalido01() throws Exception {
         // arrange
         var requestBody = new CriarUsuarioClienteDTO(
             TestConstants.NOME_VAZIO,
@@ -501,7 +501,7 @@ public class UsuarioControllerTest {
         .andExpect(jsonPath("$.fields.endereco").exists());
     }
     @Test
-    void testCriarUsuarioClienteComBodyInvalido02() throws Exception {
+    void testCriarUsuarioCliente_comBodyInvalido02() throws Exception {
         // arrange
         var requestBody = new CriarUsuarioClienteDTO(
             TestConstants.NOME_VAZIO,

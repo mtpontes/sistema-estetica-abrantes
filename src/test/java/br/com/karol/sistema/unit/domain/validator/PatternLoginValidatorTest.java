@@ -14,48 +14,48 @@ public class PatternLoginValidatorTest {
 
 
     @Test
-    void testLoginValido() {
+    void testLogin_valido() {
         assertDoesNotThrow(() -> validator.validate("login"));
     }
     
     @Test
-    void testLoginVazio() {
+    void testLogin_vazio() {
         assertThrows(FieldValidationException.class, () -> validator.validate(""));
     }
 
     @Test
-    void testLoginNulo() {
+    void testLogin_nulo() {
         assertThrows(NullPointerException.class, () -> validator.validate(null));
     }
 
     @Test
-    void testLoginPrimeiraLetraMaiuscula() {
+    void testLogin_primeiraLetraMaiuscula() {
         assertThrows(FieldValidationException.class, () -> validator.validate("Login"));
     }
 
     @Test
-    void testLoginCurto() {
+    void testLogin_curto() {
         assertThrows(FieldValidationException.class, () -> validator.validate("lo"));
     }
 
     @Test
-    void testLoginLongo() {
+    void testLogin_longo() {
         assertThrows(FieldValidationException.class, 
             () -> validator.validate("llooggiinnLLoonnggG21"));
     }
 
     @Test
-    void testLoginComEspaco() {
+    void testLogin_comEspaco() {
         assertThrows(FieldValidationException.class, () -> validator.validate("login com espadaco"));
     }
 
     @Test
-    void testLoginLatino() {
+    void testLogin_latino() {
         assertThrows(FieldValidationException.class, () -> validator.validate("espaço"));
     }
 
     @Test
-    void testLoginComCaracteresEspeciais() {
+    void testLogin_comCaracteresEspeciais() {
         assertThrows(FieldValidationException.class, () -> validator.validate("log@in"));
     }
 }

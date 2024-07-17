@@ -106,7 +106,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testCriarAgendamentoComRolesAutorizadas() throws IOException, Exception {
+    void testCriarAgendamento_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new CriarAgendamentoDTO(
             AGENDAMENTO_DEFAULT.getProcedimento().getId(),
@@ -153,7 +153,7 @@ public class AgendamentoControllerUnitTest {
         verify(service).salvarAgendamento(any(), any());
     }
     @Test
-    void testCriaClienteComBodyInvalido() throws IOException, Exception {
+    void testCriaCliente_comBodyInvalido() throws IOException, Exception {
         // arrange
         ControllerTestUtils.withMockUserManual("ADMIN");
 
@@ -186,7 +186,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testCriaClienteComRoleNaoAutorizada() throws IOException, Exception {
+    void testCriaCliente_comRoleNaoAutorizada() throws IOException, Exception {
         // arrange
         var requestBody = new CriarAgendamentoDTO(
             AGENDAMENTO_DEFAULT.getProcedimento().getId(),
@@ -206,7 +206,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testListarAgendamentoComRetornoValido() throws IOException, Exception {
+    void testListarAgendamento_comRetornoValido() throws IOException, Exception {
         // arrange
         var responseBody = new PageImpl<>(List.of(new DadosBasicosAgendamentoDTO(AGENDAMENTO_DEFAULT)));
         when(service.listarTodosAgendamentos(any(), any(), any(), any(), any(), any(), any(), any(), any()))
@@ -236,7 +236,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testListarAgendamentoComRoleNaoAutorizada() throws IOException, Exception {
+    void testListarAgendamento_comRoleNaoAutorizada() throws IOException, Exception {
         // act
         ControllerTestUtils.getRequest(mvc, BASE_URL)
             // assert
@@ -246,7 +246,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser("ADMIN")
-    void testarListarAgendamentoComQueryParams() throws IOException, Exception {
+    void testarListarAgendamento_comQueryParams() throws IOException, Exception {
         // arrange
         var responseBody = new PageImpl<>(List.of(new DadosBasicosAgendamentoDTO(AGENDAMENTO_DEFAULT)));
         when(service.listarTodosAgendamentos(
@@ -296,7 +296,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testMostrarAgendamentoComRolesAutorizadas() throws IOException, Exception {
+    void testMostrarAgendamento_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = new DadosAgendamentoDTO(AGENDAMENTO_DEFAULT);
         when(service.buscarAgendamentoPorId(any())).thenReturn(responseBody);
@@ -350,7 +350,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testBuscarHorariosDisponiveisSemParametrosObrigatorios() throws IOException, Exception {
+    void testBuscarHorariosDisponiveis_semParametrosObrigatorios() throws IOException, Exception {
         // act
         mvc.perform(
             get(BASE_URL + "/disponibilidade")
@@ -363,7 +363,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testBuscarHorariosDisponiveisComParametrosEmFormatoErrado01() throws IOException, Exception {
+    void testBuscarHorariosDisponiveis_comParametrosEmFormatoErrado01() throws IOException, Exception {
         // act
         mvc.perform(
             get(BASE_URL + "/disponibilidade")
@@ -380,7 +380,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testBuscarHorariosDisponiveisComParametrosEmFormatoErrado02() throws IOException, Exception {
+    void testBuscarHorariosDisponiveis_comParametrosEmFormatoErrado02() throws IOException, Exception {
         // act
         mvc.perform(
             get(BASE_URL + "/disponibilidade")
@@ -435,7 +435,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testRemarcarAgendamentoComBodyInvalido() throws IOException, Exception {
+    void testRemarcarAgendamento_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new RemarcarAgendamentoDTO(TestConstants.PASSADO);
 
@@ -452,7 +452,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser(roles = "CLIENT")
-    void testRemarcarAgendamentoComRoleNaoAutorizada() throws IOException, Exception {
+    void testRemarcarAgendamento_comRoleNaoAutorizada() throws IOException, Exception {
         // arrange
         var requestBody = new RemarcarAgendamentoDTO(null);
 
@@ -466,7 +466,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarObservacaoAgendamentoComRolesAutorizadas() throws IOException, Exception {
+    void testAtualizarObservacaoAgendamento_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarObservacaoAgendamentoDTO("nova observacao");
         var responseBody = new ObservacaoAtualizadaAgendamentoDTO(AGENDAMENTO_DEFAULT);
@@ -487,7 +487,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarObservacaoAgendamentoComRoleNaoAutorizada() throws IOException, Exception {
+    void testAtualizarObservacaoAgendamento_comRoleNaoAutorizada() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarObservacaoAgendamentoDTO("nova observacao");
         var responseBody = new ObservacaoAtualizadaAgendamentoDTO(AGENDAMENTO_DEFAULT);
@@ -506,7 +506,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testAtualizarObservacaoAgendamentoComBodyInvalido() throws IOException, Exception {
+    void testAtualizarObservacaoAgendamento_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarObservacaoAgendamentoDTO(null);
 
@@ -525,7 +525,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarStatusAgendamentoComRolesAutorizadas() throws IOException, Exception {
+    void testAtualizarStatusAgendamento_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
         var responseBody = new StatusAtualizadoAgendamentoDTO(AGENDAMENTO_DEFAULT);
@@ -546,7 +546,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarStatusAgendamentoComRoleNaoAutorizadas() throws IOException, Exception {
+    void testAtualizarStatusAgendamento_comRoleNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
 
@@ -563,7 +563,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testAtualizarStatusAgendamentoComBodyInvalido() throws IOException, Exception {
+    void testAtualizarStatusAgendamento_comBodyInvalido() throws IOException, Exception {
         var requestBody = new AtualizarStatusAgendamentoDTO(null);
         var responseBody = new StatusAtualizadoAgendamentoDTO(AGENDAMENTO_DEFAULT);
         when(service.editarStatusAgendamento(any(), any())).thenReturn(responseBody);
@@ -582,7 +582,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testDeletarAgendamentoComRolesAutorizadas() throws IOException, Exception {
+    void testDeletarAgendamento_comRolesAutorizadas() throws IOException, Exception {
         // act
         ControllerTestUtils.deleteMapping(mvc, BASE_URL + "/1")
             // assert
@@ -605,7 +605,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testListarAgendamentoMeComRolesAutorizadas() throws IOException, Exception {
+    void testListarAgendamentoMe_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = new PageImpl<>(List.of(new DadosBasicosAgendamentoDTO(AGENDAMENTO_DEFAULT)));
         when(service.listarTodosAgendamentosUsuarioAtual(anyLong(), any())).thenReturn(responseBody);
@@ -633,7 +633,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testListarAgendamentoMeComRoleNaoAutorizada() throws IOException, Exception {
+    void testListarAgendamentoMe_comRoleNaoAutorizada() throws IOException, Exception {
         // act
         ControllerTestUtils.getRequest(mvc, CLIENT_ROUTE)
             // assert
@@ -644,7 +644,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testMostrarAgendamentoMeComRolesAutorizadas() throws IOException, Exception {
+    void testMostrarAgendamentoMe_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = new MeDadosAgendamentoDTO(AGENDAMENTO_DEFAULT);
         when(service.buscarAgendamentoPorIdEUsuarioId(anyLong(), any())).thenReturn(responseBody);
@@ -668,7 +668,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testMostrarAgendamentoMeComRolesNaoAutorizadas() throws IOException, Exception {
+    void testMostrarAgendamentoMe_comRolesNaoAutorizadas() throws IOException, Exception {
         // act
         ControllerTestUtils.getRequest(mvc, CLIENT_ROUTE + "/1")
             // assert
@@ -679,7 +679,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testRemarcarAgendamentoMeComRolesAutorizadas() throws IOException, Exception {
+    void testRemarcarAgendamentoMe_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new RemarcarAgendamentoDTO(AGENDAMENTO_DEFAULT.getDataHora());
         var responseBody = new MeDadosAgendamentoDTO(AGENDAMENTO_DEFAULT);
@@ -708,7 +708,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testRemarcarAgendamentoMeComRoleNaoAutorizada() throws IOException, Exception {
+    void testRemarcarAgendamentoMe_comRoleNaoAutorizada() throws IOException, Exception {
         // arrange
         var requestBody = new RemarcarAgendamentoDTO(AGENDAMENTO_DEFAULT.getDataHora());
 
@@ -721,7 +721,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testRemarcarAgendamentoMeComBodyInvalido() throws IOException, Exception {
+    void testRemarcarAgendamentoMe_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new RemarcarAgendamentoDTO(TestConstants.PASSADO);
 
@@ -739,7 +739,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarObservacaoMeAgendamentoComRolesAutorizadas() throws IOException, Exception {
+    void testAtualizarObservacaoMeAgendamento_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarObservacaoAgendamentoDTO("nova observacao");
         var responseBody = new ObservacaoAtualizadaAgendamentoDTO(AGENDAMENTO_DEFAULT);
@@ -760,7 +760,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarObservacaoMeAgendamentoComRoleSNaoAutorizadas() throws IOException, Exception {
+    void testAtualizarObservacaoMeAgendamento_comRoleSNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarObservacaoAgendamentoDTO("nova observacao");
 
@@ -777,7 +777,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarObservacaoMeAgendamentoComBodyInvalido() throws IOException, Exception {
+    void testAtualizarObservacaoMeAgendamento_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarObservacaoAgendamentoDTO(null);
 
@@ -795,7 +795,7 @@ public class AgendamentoControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarStatusAgendamentoMeComRoleAutorizada() throws IOException, Exception {
+    void testAtualizarStatusAgendamentoMe_comRoleAutorizada() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
         var responseBody = new StatusAtualizadoAgendamentoDTO(AGENDAMENTO_DEFAULT);
@@ -816,7 +816,7 @@ public class AgendamentoControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarStatusAgendamentoComRolesNaoAutorizadas() throws IOException, Exception {
+    void testAtualizarStatusAgendamento_comRolesNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
 
@@ -833,7 +833,7 @@ public class AgendamentoControllerUnitTest {
     }
     @Test
     @WithMockUser(roles = "CLIENT")
-    void testAtualizarStatusAgendamentoMeComBodyInvalido() throws IOException, Exception {
+    void testAtualizarStatusAgendamentoMe_comBodyInvalido() throws IOException, Exception {
         var requestBody = new AtualizarStatusAgendamentoDTO(null);
 
         // act

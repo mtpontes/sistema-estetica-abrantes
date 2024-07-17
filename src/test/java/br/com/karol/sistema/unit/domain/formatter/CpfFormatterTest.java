@@ -17,31 +17,31 @@ public class CpfFormatterTest {
 
 
     @Test
-    void testeFormatarCpfComPontosETraço() {
+    void testeFormatarCpf_comPontosETraco() {
         String cpfFormatado = formatter.format(CPF_FORMATADO);
         assertEquals(CPF_FORMATADO, cpfFormatado);
     }
 
     @Test
-    void testeFormatarCpfSemPontosETraço() {
+    void testeFormatarCpf_semPontosETraco() {
         String cpf = "12345678901";
         String cpfFormatado = formatter.format(cpf);
         assertEquals(CPF_FORMATADO, cpfFormatado);
     }
 
     @Test
-    void testeFormatarCpfVazio() {
+    void testeFormatarCpf_vazio() {
         String cpf = "";
         assertThrows(FieldValidationException.class, () -> formatter.format(cpf));
     }
 
     @Test
-    void testeFormatarCpfNulo() {
+    void testeFormatarCpf_nulo() {
         assertThrows(NullPointerException.class, () -> formatter.format(null));
     }
 
     @Test
-    void testeFormatarCpfInvalido() {
+    void testeFormatarCpf_invalido() {
         // Supondo um CPF inválido
         String cpf = "123";
         assertThrows(FieldValidationException.class, () -> formatter.format(cpf));

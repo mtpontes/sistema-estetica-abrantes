@@ -5,9 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
-import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
-import br.com.karol.sistema.api.dto.cliente.DadosAtualizacaoDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.domain.Cliente;
@@ -44,12 +42,6 @@ public class ClienteMapper {
         return new Cliente(dados.getNome(), cpf, telefone, email, endereco, usuario);
     }
     
-    public DadosAtualizacaoDTO toDadosAtualizacaoDTO(AtualizarClienteDTO dados) {
-        Telefone telefone = this.telefoneMapper.toTelefoneOrNull(dados.getTelefone());
-        Email email = this.emailMapper.toEmailOrNull(dados.getEmail());
-        return new DadosAtualizacaoDTO(dados.getNome(), telefone, email);
-    }
-
     public DadosCompletosClienteDTO toDadosCompletosClienteDTO(Cliente cliente) {
         return new DadosCompletosClienteDTO(cliente);
     }

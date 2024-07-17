@@ -20,7 +20,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.EnderecoDTO;
-import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.api.mapper.ClienteMapper;
 import br.com.karol.sistema.api.mapper.CpfMapper;
@@ -124,26 +123,6 @@ public class ClienteMapperTest {
         assertEquals(dto.getEmail(), result.getEmail());
         assertEquals(USUARIO_DEFAULT.getLogin(), result.getUsuario().getLogin());
         assertEquals(USUARIO_DEFAULT.getSenha(), result.getUsuario().getSenha());
-    }
-
-    @Test
-    void testToDadosAtualizacaoDTO() {
-        // arrange
-        AtualizarClienteDTO dto = new AtualizarClienteDTO(
-            DEFAULT.getNome(), 
-            DEFAULT.getTelefone(), 
-            DEFAULT.getEmail()
-        );
-        when(telefoneMapper.toTelefoneOrNull(anyString())).thenReturn(telefoneDefault);
-        when(emailMapper.toEmailOrNull(anyString())).thenReturn(emailDefault);
-
-        // act
-        var result = mapper.toDadosAtualizacaoDTO(dto);
-
-        // assert
-        assertEquals(dto.getNome(), result.getNome());
-        assertEquals(dto.getTelefone(), result.getTelefone().getValue());
-        assertEquals(dto.getEmail(), result.getEmail().getValue());
     }
 
     @Test

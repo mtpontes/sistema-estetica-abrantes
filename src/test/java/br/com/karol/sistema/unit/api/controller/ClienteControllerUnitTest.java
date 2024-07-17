@@ -75,7 +75,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testCriarClienteComRolesAutorizadas() throws IOException, Exception {
+    void testCriarCliente_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new CriarClienteDTO(
             CLIENTE_DEFAULT.getCpf(),
@@ -108,7 +108,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testCriarClienteComRolesNaoAutorizadas() throws IOException, Exception {
+    void testCriarCliente_comRolesNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new CriarClienteDTO(
             CLIENTE_DEFAULT.getCpf(),
@@ -130,7 +130,7 @@ public class ClienteControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testCriarClienteComBodyInvalido() throws IOException, Exception {
+    void testCriarCliente_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new CriarClienteDTO(
             TestConstants.CPF_MUITO_PEQUENO, // menos de 11 caracteres
@@ -158,7 +158,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testListarClientesComRolesAutorizadas() throws IOException, Exception {
+    void testListarClientes_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = new PageImpl<>(List.of(new DadosClienteDTO(CLIENTE_DEFAULT))); 
         when(service.listarTodosClientes(any(), any())).thenReturn(responseBody);
@@ -173,7 +173,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testListarClientesComRolesNaoAutorizadas() throws IOException, Exception {
+    void testListarClientes_comRolesNaoAutorizadas() throws IOException, Exception {
         // act
         ControllerTestUtils.getRequest(mvc, BASE_URL)
             // assert
@@ -183,7 +183,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testListarClientesComQueryParams() throws IOException, Exception {
+    void testListarClientes_comQueryParams() throws IOException, Exception {
         // arrange
         var PARAM_NOME = "any";
         var responseBody = new PageImpl<>(List.of(new DadosClienteDTO(CLIENTE_DEFAULT))); 
@@ -201,7 +201,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testBuscarClienteComRolesAutorizadas() throws IOException, Exception {
+    void testBuscarCliente_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
         when(service.buscarClientePorId(any())).thenReturn(responseBody);
@@ -219,7 +219,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testBuscarClienteComRolesNaoAutorizadas() throws IOException, Exception {
+    void testBuscarCliente_comRolesNaoAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
         when(service.buscarClientePorId(any())).thenReturn(responseBody);
@@ -234,7 +234,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarClienteComRolesAutorizadas() throws IOException, Exception {
+    void testAtualizarCliente_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new CriarClienteDTO(
             CLIENTE_DEFAULT.getCpf(),
@@ -267,7 +267,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarClienteComRolesNaoAutorizadas() throws IOException, Exception {
+    void testAtualizarCliente_comRolesNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarClienteDTO(
             CLIENTE_DEFAULT.getNome(),
@@ -283,7 +283,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarEnderecoClienteComRolesAutorizadas() throws IOException, Exception {
+    void testAtualizarEnderecoCliente_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new EnderecoDTO(CLIENTE_DEFAULT.getEndereco());
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
@@ -309,7 +309,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarEnderecoClienteComRolesNaoAutorizadas() throws IOException, Exception {
+    void testAtualizarEnderecoCliente_comRolesNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarClienteDTO(
             CLIENTE_DEFAULT.getNome(),
@@ -324,7 +324,7 @@ public class ClienteControllerUnitTest {
     }
     @Test
     @WithMockUser
-    void testAtualizarEnderecoClienteComBodyInvalido() throws IOException, Exception {
+    void testAtualizarEnderecoCliente_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new EnderecoDTO();
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
@@ -340,7 +340,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testDeletarClienteComRolesAutorizadas() throws IOException, Exception {
+    void testDeletarCliente_comRolesAutorizadas() throws IOException, Exception {
         // act
         ControllerTestUtils.deleteMapping(mvc, BASE_URL.concat("/1"))
             // assert
@@ -348,7 +348,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testDeletarClienteComRolesNaoAutorizadas() throws IOException, Exception {
+    void testDeletarCliente_comRolesNaoAutorizadas() throws IOException, Exception {
         // act
         ControllerTestUtils.deleteMapping(mvc, BASE_URL.concat("/1"))
             // assert
@@ -357,7 +357,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testBuscarClienteMeComRolesAutorizadas() throws IOException, Exception {
+    void testBuscarClienteMe_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var responseBody = CLIENTE_DEFAULT;
         when(service.getClienteByUsuarioId(any())).thenReturn(responseBody);
@@ -375,7 +375,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testBuscarClienteMeComRolesNaoAutorizadas() throws IOException, Exception {
+    void testBuscarClienteMe_comRolesNaoAutorizadas() throws IOException, Exception {
         // act
         ControllerTestUtils.getRequest(mvc, ME_ROUTE)
             // assert
@@ -386,7 +386,7 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void atualizarClienteMeComRolesAutorizadas() throws IOException, Exception {
+    void atualizarClienteMe_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarClienteDTO(
             CLIENTE_DEFAULT.getNome(),
@@ -396,7 +396,7 @@ public class ClienteControllerUnitTest {
         
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
         when(service.getClienteByUsuarioId(any())).thenReturn(CLIENTE_DEFAULT);
-        when(service.editarContatoCliente(any(Cliente.class), any())).thenReturn(responseBody);
+        when(service.editarContatoClienteAtual(any(Cliente.class), any())).thenReturn(responseBody);
 
         // act
         ControllerTestUtils.putRequest(mvc, ME_ROUTE, atualizarClienteDTOJson.write(requestBody).getJson())
@@ -416,7 +416,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarClienteMeComRolesNaoAutorizadas() throws IOException, Exception {
+    void testAtualizarClienteMe_comRolesNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarClienteDTO(
             CLIENTE_DEFAULT.getNome(),
@@ -432,12 +432,12 @@ public class ClienteControllerUnitTest {
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarEnderecoClienteMeComRolesAutorizadas() throws IOException, Exception {
+    void testAtualizarEnderecoClienteMe_comRolesAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new EnderecoDTO(CLIENTE_DEFAULT.getEndereco());
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
         when(service.getClienteByUsuarioId(anyLong())).thenReturn(CLIENTE_DEFAULT);
-        when(service.editarEnderecoCliente(any(Cliente.class), any())).thenReturn(responseBody);
+        when(service.editarEnderecoClienteAtual(any(Cliente.class), any())).thenReturn(responseBody);
 
         // act
         ControllerTestUtils.putRequest(
@@ -461,7 +461,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
-    void testAtualizarEnderecoClienteMeComRolesNaoAutorizadas() throws IOException, Exception {
+    void testAtualizarEnderecoClienteMe_comRolesNaoAutorizadas() throws IOException, Exception {
         // arrange
         var requestBody = new AtualizarClienteDTO(
             CLIENTE_DEFAULT.getNome(),
@@ -478,7 +478,7 @@ public class ClienteControllerUnitTest {
     }
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
-    void testAtualizarEnderecoClienteMeComBodyInvalido() throws IOException, Exception {
+    void testAtualizarEnderecoClienteMe_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new EnderecoDTO();
         var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
