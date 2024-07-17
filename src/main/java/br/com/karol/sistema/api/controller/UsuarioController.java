@@ -41,14 +41,19 @@ public class UsuarioController {
     // -- Rotas comuns --
 
     @PostMapping
-    public ResponseEntity<DadosUsuarioDTO> criarUsuario(@RequestBody @Valid CriarUsuarioDTO dados) {
+    public ResponseEntity<DadosUsuarioDTO> criarUsuario(
+        @RequestBody @Valid CriarUsuarioDTO dados
+    ) {
         return ResponseEntity.ok(service.salvarUsuario(dados));
     }
 
     /* O usuário padrão precisa se autenticar e só consegue consultar os seus próprios dados */
     @GetMapping
-    public ResponseEntity<DadosUsuarioDTO> buscarUsuarioPorAutenticacao(Authentication authentication) {
-        return ResponseEntity.ok(service.getDadosUsuarioAtual((Usuario) authentication.getPrincipal()));
+    public ResponseEntity<DadosUsuarioDTO> buscarUsuarioPorAutenticacao(
+        Authentication authentication
+    ) {
+        return ResponseEntity.ok(
+            service.getDadosUsuarioAtual((Usuario) authentication.getPrincipal()));
     }
 
     /* A atualização do usuário é baseada na recuperação da identificação desse usuário através do token de autenticação */
@@ -57,7 +62,8 @@ public class UsuarioController {
         Authentication authentication, 
         @RequestBody @Valid AtualizarNomeUsuarioDTO dados
     ) {
-        return ResponseEntity.ok(service.atualizarNomeUsuarioAtual((Usuario) authentication.getPrincipal(), dados));
+        return ResponseEntity.ok(
+            service.atualizarNomeUsuarioAtual((Usuario) authentication.getPrincipal(), dados));
     }
 
     @PatchMapping("/senha")
@@ -74,7 +80,9 @@ public class UsuarioController {
     // --- Rotas de ADMIN -- 
 
     @PostMapping("/admin")
-    public ResponseEntity<DadosUsuarioDTO> adminCriarUsuario(@RequestBody @Valid CriarUsuarioDTO dados) {
+    public ResponseEntity<DadosUsuarioDTO> adminCriarUsuario(
+        @RequestBody @Valid CriarUsuarioDTO dados
+    ) {
         return ResponseEntity.ok(service.adminSalvarUsuario(dados));
     }
     
@@ -94,7 +102,8 @@ public class UsuarioController {
         @PathVariable Long userId, 
         @RequestBody @Valid AtualizarSenhaOutroUsuarioDTO dados
     ) {
-        return ResponseEntity.ok(service.adminAtualizarSenhaOutrosUsuarios(userId, dados));
+        return ResponseEntity.ok(
+            service.adminAtualizarSenhaOutrosUsuarios(userId, dados));
     }
 
     @DeleteMapping("/admin/{userId}")

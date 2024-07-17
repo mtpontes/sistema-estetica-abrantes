@@ -43,11 +43,14 @@ public class ProcedimentoController {
         @RequestParam(required = false) Double valorMax,
         @PageableDefault(size = 10) Pageable pageable
     ) {
-        return ResponseEntity.ok(service.listarTodosProcedimentos(nome, valorMin, valorMax, pageable));
+        return ResponseEntity.ok(
+            service.listarTodosProcedimentos(nome, valorMin, valorMax, pageable));
     }
 
     @GetMapping("/{procedimentoId}")
-    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(@PathVariable Long procedimentoId) {
+    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(
+        @PathVariable Long procedimentoId
+    ) {
         return ResponseEntity.ok(service.mostrarProcedimento(procedimentoId));
     }
 

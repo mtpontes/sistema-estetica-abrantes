@@ -65,7 +65,10 @@ public class ClienteService {
     }
 
     @Transactional
-    public DadosCompletosClienteDTO editarContatoCliente(Long clienteId, AtualizarClienteDTO dados) {
+    public DadosCompletosClienteDTO editarContatoCliente(
+        Long clienteId, 
+        AtualizarClienteDTO dados
+    ) {
         Cliente alvo = this.buscarPorId(clienteId);
         
         String novoNome = dados.getNome();
@@ -80,7 +83,10 @@ public class ClienteService {
         return mapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
     @Transactional
-    public DadosCompletosClienteDTO editarContatoClienteAtual(Cliente cliente, AtualizarClienteDTO dados) {
+    public DadosCompletosClienteDTO editarContatoClienteAtual(
+        Cliente cliente, 
+        AtualizarClienteDTO dados
+    ) {
         String novoNome = dados.getNome();
         Telefone novoTelefone = telefoneMapper.toTelefone(dados.getTelefone());
         Email novoEmail = emailMapper.toEmail(dados.getEmail());
@@ -95,7 +101,10 @@ public class ClienteService {
     }
 
     @Transactional
-    public DadosCompletosClienteDTO editarEnderecoCliente(Long clienteId, EnderecoDTO dadosAtualizacao) {
+    public DadosCompletosClienteDTO editarEnderecoCliente(
+        Long clienteId, 
+        EnderecoDTO dadosAtualizacao
+    ) {
         Cliente alvo = this.buscarPorId(clienteId);
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         alvo.atualizarEndereco(novoEndereco);
@@ -103,7 +112,10 @@ public class ClienteService {
         return mapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
     @Transactional
-    public DadosCompletosClienteDTO editarEnderecoClienteAtual(Cliente cliente, EnderecoDTO dadosAtualizacao) {
+    public DadosCompletosClienteDTO editarEnderecoClienteAtual(
+        Cliente cliente, 
+        EnderecoDTO dadosAtualizacao
+    ) {
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         cliente.atualizarEndereco(novoEndereco);
 
@@ -119,7 +131,8 @@ public class ClienteService {
     }
 
     public Cliente getClienteByUsuarioId(Long usuarioId) {
-        return repository.findByUsuarioId(usuarioId).orElseThrow(EntityNotFoundException::new);
+        return repository
+            .findByUsuarioId(usuarioId).orElseThrow(EntityNotFoundException::new);
     }
 
     public Cliente buscarPorId(Long id) {

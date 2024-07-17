@@ -11,7 +11,12 @@ import br.com.karol.sistema.domain.Procedimento;
 public class ProcedimentoMapper {
 
     public Procedimento toProcedimento(CriarProcedimentoDTO dto) {
-        return new Procedimento(dto.getNome(), dto.getDescricao(), dto.getDuracao(), dto.getValor());
+        return new Procedimento(
+            dto.getNome(), 
+            dto.getDescricao(), 
+            dto.getDuracao(), 
+            dto.getValor()
+        );
     }
 
     public DadosProcedimentoDTO toDadosProcedimentoDTO(Procedimento dados) {

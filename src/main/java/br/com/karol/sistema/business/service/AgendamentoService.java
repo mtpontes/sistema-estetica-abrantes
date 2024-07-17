@@ -63,7 +63,9 @@ public class AgendamentoService {
     public DadosAgendamentoDTO buscarAgendamentoPorId(Long agendamentoId) {
         return mapper.toDadosAgendamentoDTO(this.getAgendamentoById(agendamentoId));
     }
-    public MeDadosAgendamentoDTO buscarAgendamentoPorIdEUsuarioId(Long agendamentoId, Long usuarioId) {
+    public MeDadosAgendamentoDTO buscarAgendamentoPorIdEUsuarioId(
+        Long agendamentoId, Long usuarioId
+    ) {
         Agendamento agendamento = agendamentoRepository
             .findByIdAndClienteUsuarioId(agendamentoId, usuarioId)
             .orElseThrow(EntityNotFoundException::new);

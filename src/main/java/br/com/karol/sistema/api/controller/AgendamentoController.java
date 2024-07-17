@@ -54,7 +54,8 @@ public class AgendamentoController {
         @RequestBody @Valid CriarAgendamentoDTO dadosAgendamento
     ) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        DadosAgendamentoDTO agendamentoCriado = agendamentoService.salvarAgendamento(dadosAgendamento, usuario.getLogin());
+        DadosAgendamentoDTO agendamentoCriado = 
+            agendamentoService.salvarAgendamento(dadosAgendamento, usuario.getLogin());
 
         var uri = uriBuilder.path("/agendamento/{id}")
             .buildAndExpand(agendamentoCriado.getId())
@@ -97,7 +98,8 @@ public class AgendamentoController {
         @RequestParam(required = true) Long procedimentoId, 
         @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate diaHora
     ) {
-        return ResponseEntity.ok(disponibilidadeService.filtrarHorariosDisponiveis(procedimentoId, diaHora));
+        return ResponseEntity.ok(disponibilidadeService
+            .filtrarHorariosDisponiveis(procedimentoId, diaHora));
     }
 
     @PatchMapping("/{agendamentoId}")
@@ -125,7 +127,8 @@ public class AgendamentoController {
         @PathVariable Long agendamentoId, 
         @RequestBody @Valid AtualizarStatusAgendamentoDTO novoStatus
     ) {
-        return ResponseEntity.ok().body(agendamentoService.editarStatusAgendamento(agendamentoId, novoStatus));
+        return ResponseEntity.ok().body(
+            agendamentoService.editarStatusAgendamento(agendamentoId, novoStatus));
     }
 
     @DeleteMapping("/{agendamentoId}")
@@ -175,8 +178,12 @@ public class AgendamentoController {
         @RequestBody @Valid AtualizarObservacaoAgendamentoDTO dadosRemarcacao
     ) {
         Usuario usuarioAtual = (Usuario) auth.getPrincipal();
-        ObservacaoAtualizadaAgendamentoDTO agendamentoAtualizado = agendamentoService
-            .editarObservacaoAgendamentoUsuarioAtual(agendamentoId, usuarioAtual.getId(), dadosRemarcacao);
+        ObservacaoAtualizadaAgendamentoDTO agendamentoAtualizado = 
+            agendamentoService.editarObservacaoAgendamentoUsuarioAtual(
+                agendamentoId, 
+                usuarioAtual.getId(), 
+                dadosRemarcacao
+            );
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
@@ -188,6 +195,10 @@ public class AgendamentoController {
     ) {
         Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         return ResponseEntity.ok().body(
-            agendamentoService.editarStatusAgendamentoUsuarioAtual(agendamentoId, usuarioAtual.getId(), novoStatus));
+            agendamentoService.editarStatusAgendamentoUsuarioAtual(
+                agendamentoId, 
+                usuarioAtual.getId(), 
+                novoStatus)
+            );
     }
 }

@@ -55,7 +55,10 @@ public class ProcedimentoService {
     }
 
     @Transactional
-    public DadosProcedimentoDTO editarProcedimento(Long procedimentoId, AtualizarProcedimentoDTO update) {
+    public DadosProcedimentoDTO editarProcedimento(
+        Long procedimentoId, 
+        AtualizarProcedimentoDTO update
+    ) {
         if (repository.existsByNome(update.getNome()))
             throw new FieldValidationException("nome");
 

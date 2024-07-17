@@ -40,7 +40,9 @@ public class ClienteController {
     direto com o cliente */
 
     @PostMapping
-    public ResponseEntity<DadosCompletosClienteDTO> criarCliente(@RequestBody @Valid CriarClienteDTO cliente) {
+    public ResponseEntity<DadosCompletosClienteDTO> criarCliente(
+        @RequestBody @Valid CriarClienteDTO cliente
+    ) {
         DadosCompletosClienteDTO clienteSalvo = service.salvarCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
@@ -50,11 +52,15 @@ public class ClienteController {
         @RequestParam(required = false) String nome,
         @PageableDefault(size = 10) Pageable pageable
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listarTodosClientes(nome, pageable));
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(service.listarTodosClientes(nome, pageable));
     }
 
     @GetMapping("/{clienteId}")
-    public ResponseEntity<DadosCompletosClienteDTO> buscarCliente(@PathVariable Long clienteId) {
+    public ResponseEntity<DadosCompletosClienteDTO> buscarCliente(
+        @PathVariable Long clienteId
+    ) {
         return ResponseEntity.ok(service.buscarClientePorId(clienteId));
     }
 
