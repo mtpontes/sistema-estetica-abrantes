@@ -17,14 +17,14 @@ public class SenhaEncoderTest {
 
 
     @Test
-    void testEncodeSenhaComSucesso() {
+    void testEncodeSenha_comSucesso() {
         String senha = "Senha@123";
         String senhaCodificada = senhaEncoder.encode(senha);
         assertTrue(passwordEncoder.matches(senha, senhaCodificada));
     }
 
     @Test
-    void testEncodeSenhaNula() {
+    void testEncodeSenha_nula() {
         assertThrows(IllegalArgumentException.class, () -> senhaEncoder.encode(null));
     }
 }

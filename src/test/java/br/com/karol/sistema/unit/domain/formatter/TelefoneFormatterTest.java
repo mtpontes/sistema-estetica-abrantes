@@ -13,7 +13,7 @@ public class TelefoneFormatterTest {
 
 
     @Test
-    void testFormatTelefoneComSucesso() {
+    void testFormatTelefone_comSucesso() {
         String telefone = "11999999999";
         String telefoneFormatado = formatter.format(telefone);
         assertEquals("(11) 99999-9999", telefoneFormatado);

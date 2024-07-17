@@ -14,66 +14,66 @@ public class PatternTelefoneValidatorTest {
 
 
     @Test
-    void testTelefoneValido() {
+    void testTelefone_valido() {
         String telefoneValido = "+5511987654321";
         assertDoesNotThrow(() -> validator.validate(telefoneValido));
     }
 
     @Test
-    void testTelefoneVazio() {
+    void testTelefone_vazio() {
         String telefoneVazio = "";
         assertThrows(FieldValidationException.class, () -> validator.validate(telefoneVazio));
     }
 
     @Test
-    void testTelefoneNull() {
+    void testTelefone_null() {
         String telefoneVazio = null;
         assertThrows(FieldValidationException.class, () -> validator.validate(telefoneVazio));
     }
 
     @Test
-    void testTelefoneInvalido() {
+    void testTelefone_invalido() {
         String telefoneInvalido = "123";
         assertThrows(FieldValidationException.class, () -> validator.validate(telefoneInvalido));
     }
 
     @Test
-    void testTelefoneSemDDD() {
+    void testTelefone_semDDD() {
         String telefoneSemDDD = "987654321";
         assertThrows(FieldValidationException.class, () -> validator.validate(telefoneSemDDD));    }
 
     @Test
-    void testTelefoneComCodigoInternacional() {
+    void testTelefone_comCodigoInternacional() {
         String telefoneComCodigoInternacional = "55 11 987654321";
         assertDoesNotThrow(() -> validator.validate(telefoneComCodigoInternacional));
     }
 
     @Test
-    void testTelefoneComParenteses() {
+    void testTelefone_comParenteses() {
         String telefoneComParenteses = "55 (11) 987654321";
         assertDoesNotThrow(() -> validator.validate(telefoneComParenteses));
     }
     @Test
-    void testTelefoneComHifen() {
+    void testTelefone_comHifen() {
         String telefoneComHifen = "55 (11) 98765-4321";
         assertDoesNotThrow(() -> validator.validate(telefoneComHifen));
     }
 
     @Test
-    void testTelefoneComSinalDeMais() {
+    void testTelefone_comSinalDeMais() {
         String telefoneComSinalDeMais = "+55 (11) 98765-4321";
         assertDoesNotThrow(() -> validator.validate(telefoneComSinalDeMais));
     }
 
     @Test
-    void testTelefoneComCaracteresEspeciais() {
+    void testTelefone_comCaracteresEspeciais() {
         String telefoneComCaracteresEspeciais = "+55 (11) &* 98765-4321";
         assertThrows(FieldValidationException.class, 
             () -> validator.validate(telefoneComCaracteresEspeciais));
     }
 
     @Test
-    void testTelefoneComLetras() {
+    void testTelefone_comLetras() {
         String telefoneComLetras = "+5511abc987654";
         assertThrows(FieldValidationException.class, () -> validator.validate(telefoneComLetras));
     }

@@ -14,72 +14,72 @@ public class PatternSenhaValidatorTest {
 
 
     @Test
-    void testSenhaValida() {
+    void testSenha_valida() {
         String senhaValida = "Senha1@valida";
         assertDoesNotThrow(() -> validator.validate(senhaValida));
     }
 
     @Test
-    void testSenhaNull() {
+    void testSenha_null() {
         assertThrows(NullPointerException.class, () -> validator.validate(null));
     }
 
     @Test
-    void testSenhaVazia() {
+    void testSenha_vazia() {
         String senhaVazia = "";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaVazia));
     }
     
     @Test
-    void testSenhaCurta() {
+    void testSenha_curta() {
         String senhaCurta = "Curta1@";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaCurta));
     }
 
     @Test
-    void testSenhaLongaDemais() {
+    void testSenha_longaDemais() {
         String senhaLongaDemais = "SenhaMuitoMuitoLonga1@";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaLongaDemais));
     }
 
     @Test
-    void testSenhaComEspaco() {
+    void testSenha_comEspaco() {
         String senhaComEspaco = "Senha 1@valida";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaComEspaco));
     }
 
     @Test
-    void testSenhaSemMaiuscula() {
+    void testSenha_semMaiuscula() {
         String senhaSemMaiuscula = "senha1@valida";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaSemMaiuscula));
     }
 
     @Test
-    void testSenhaSemMinuscula() {
+    void testSenha_semMinuscula() {
         String senhaSemMinuscula = "SENHA1@VALIDA";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaSemMinuscula));
     }
 
     @Test
-    void testSenhaSemDigito() {
+    void testSenha_semDigito() {
         String senhaSemDigito = "Senha@Valida";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaSemDigito));
     }
 
     @Test
-    void testSenhaSemEspecial() {
+    void testSenha_semEspecial() {
         String senhaSemEspecial = "Senha1Valida";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaSemEspecial));
     }
 
     @Test
-    void testSenhaComCaracteresRepetidos() {
+    void testSenha_comCaracteresRepetidos() {
         String senhaComCaracteresRepetidos = "Senha1@@@valida";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaComCaracteresRepetidos));
     }
 
     @Test
-    void testSenhaComSequenciaIlegal() {
+    void testSenha_comSequenciaIlegal() {
         String senhaComSequenciaIlegal = "Abc1234@";
         assertThrows(FieldValidationException.class, () -> validator.validate(senhaComSequenciaIlegal));
     }

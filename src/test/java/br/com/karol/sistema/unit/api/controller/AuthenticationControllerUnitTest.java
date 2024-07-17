@@ -74,7 +74,7 @@ public class AuthenticationControllerUnitTest {
             .andExpect(jsonPath("$.token").exists());
     }
     @Test
-    void testFazerLoginComBodyInvalido() throws IOException, Exception {
+    void testFazerLogin_comBodyInvalido() throws IOException, Exception {
         // arrange
         var requestBody = new AuthenticationDTO(null, null);
         

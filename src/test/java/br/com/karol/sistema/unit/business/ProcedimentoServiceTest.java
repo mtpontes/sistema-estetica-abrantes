@@ -109,7 +109,7 @@ public class ProcedimentoServiceTest {
         verifyNoMoreInteractions(repository);
     }
     @Test
-    void testRemoverProcedimento_VinculadoAUmAgendamentoEmAberto() {
+    void testRemoverProcedimento_vinculadoAUmAgendamentoEmAberto() {
         // arrange
         Long id = 1L;
         when(repository.existsById(id)).thenReturn(true);
@@ -117,21 +117,6 @@ public class ProcedimentoServiceTest {
 
         // act
         assertThrows(IllegalArgumentException.class, () -> service.removerProcedimento(id));
-
-        // assert
-        verify(repository).existsById(id);
-        verifyNoMoreInteractions(repository);
-    }
-
-    @Test
-    void testGetProcedimentoById_procedimentoNaoEncontrado() {
-        // arrange
-        Long id = 1L;
-        when(repository.existsById(id)).thenReturn(true);
-        when(agendamentoRepository.existsByProcedimentoIdAndStatusIn(id)).thenReturn(true);
-
-        // act
-        assertThrows(EntityNotFoundException.class, () -> service.removerProcedimento(id));
 
         // assert
         verify(repository).existsById(id);

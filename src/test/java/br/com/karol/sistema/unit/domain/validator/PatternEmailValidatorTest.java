@@ -14,42 +14,42 @@ public class PatternEmailValidatorTest {
 
 
     @Test
-    void testEmailValido() {
+    void testEmail_valido() {
         String emailValido = "usuario@example.com";
         assertDoesNotThrow(() -> validator.validate(emailValido));
     }
 
     @Test
-    void testEmailNull() {
+    void testEmail_null() {
         assertThrows(FieldValidationException.class, () -> validator.validate(null));
     }
 
     @Test
-    void testEmailVazio() {
+    void testEmail_vazio() {
         String emailVazio = "";
         assertThrows(FieldValidationException.class, () -> validator.validate(emailVazio));
     }
 
     @Test
-    void testEmailInvalido() {
+    void testEmail_invalido() {
         String emailInvalido = "usuario.example.com";
         assertThrows(FieldValidationException.class, () -> validator.validate(emailInvalido));
     }
 
     @Test
-    void testEmailComEspacos() {
+    void testEmail_comEspacos() {
         String emailComEspacos = "usuario @example.com";
         assertThrows(FieldValidationException.class, () -> validator.validate(emailComEspacos));
     }
 
     @Test
-    void testEmailSemUsuario() {
+    void testEmail_semUsuario() {
         String emailSemUsuario = "@example.com";
         assertThrows(FieldValidationException.class, () -> validator.validate(emailSemUsuario));
     }
 
     @Test
-    void testEmailSemDominio() {
+    void testEmail_semDominio() {
         String emailSemDominio = "usuario@";
         assertThrows(FieldValidationException.class, () -> validator.validate(emailSemDominio));
     }
