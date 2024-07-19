@@ -19,7 +19,13 @@ public class Endereco {
     private String bairro;
     private String estado;
 
-    public Endereco(String rua, String numero, String cidade, String bairro, String estado) {
+    public Endereco(
+        String rua, 
+        String numero, 
+        String cidade, 
+        String bairro, 
+        String estado
+    ) {
         this.rua = this.notBlank(rua, "rua");
         this.numero = this.notBlank(numero, "numero");
         this.cidade = this.notBlank(cidade, "cidade");

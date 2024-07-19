@@ -89,8 +89,12 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> mostrarAgendamento(@PathVariable Long agendamentoId) {
-        return ResponseEntity.ok().body(agendamentoService.buscarAgendamentoPorId(agendamentoId));
+    public ResponseEntity<DadosAgendamentoDTO> mostrarAgendamento(
+        @PathVariable Long agendamentoId
+    ) {
+        return ResponseEntity
+            .ok()
+            .body(agendamentoService.buscarAgendamentoPorId(agendamentoId));
     }
 
     @GetMapping("/disponibilidade")
@@ -118,7 +122,10 @@ public class AgendamentoController {
         @RequestBody @Valid AtualizarObservacaoAgendamentoDTO dadosRemarcacao
     ) {
         ObservacaoAtualizadaAgendamentoDTO agendamentoAtualizado = 
-            agendamentoService.editarObservacaoAgendamento(agendamentoId, dadosRemarcacao);
+            agendamentoService.editarObservacaoAgendamento(
+                agendamentoId, 
+                dadosRemarcacao
+            );
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
 
@@ -146,7 +153,10 @@ public class AgendamentoController {
     ) {
         Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         return ResponseEntity.ok(
-            agendamentoService.listarTodosAgendamentosUsuarioAtual(usuarioAtual.getId(), pageable));
+            agendamentoService.listarTodosAgendamentosUsuarioAtual(
+                usuarioAtual.getId(), 
+                pageable)
+            );
     }
 
     @GetMapping("/me/{agendamentoId}")
@@ -156,7 +166,10 @@ public class AgendamentoController {
     ) {
         Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         return ResponseEntity.ok().body(
-            agendamentoService.buscarAgendamentoPorIdEUsuarioId(agendamentoId, usuarioAtual.getId()));
+            agendamentoService.buscarAgendamentoPorIdEUsuarioId(
+                agendamentoId, 
+                usuarioAtual.getId())
+            );
     }
 
     @PatchMapping("/me/{agendamentoId}")
@@ -167,7 +180,11 @@ public class AgendamentoController {
     ) {
         Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         MeDadosAgendamentoDTO agendamentoAtualizado = agendamentoService
-            .editarDataHoraAgendamentoUsuarioAtual(agendamentoId, usuarioAtual.getId(), dadosRemarcacao);
+            .editarDataHoraAgendamentoUsuarioAtual(
+                agendamentoId, 
+                usuarioAtual.getId(), 
+                dadosRemarcacao
+            );
         return ResponseEntity.ok().body(agendamentoAtualizado);
     }
     

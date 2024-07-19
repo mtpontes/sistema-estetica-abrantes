@@ -45,7 +45,8 @@ public class AgendamentoService {
         CriarAgendamentoDTO dadosAgendamento, 
         String usuarioLogin
     ) {
-        Cliente clienteAlvo = clienteService.buscarPorId(dadosAgendamento.getClienteId());
+        Cliente clienteAlvo = 
+            clienteService.buscarPorId(dadosAgendamento.getClienteId());
         Procedimento procedimentoAlvo = procedimentoService
             .getProcedimentoById(dadosAgendamento.getProcedimentoId());
 
@@ -57,7 +58,8 @@ public class AgendamentoService {
             dadosAgendamento.getDataHora(),
             validators,
             usuarioLogin);
-        return mapper.toDadosAgendamentoDTO(agendamentoRepository.save(novoAgendamento));
+        return mapper.toDadosAgendamentoDTO(
+            agendamentoRepository.save(novoAgendamento));
     }
 
     public DadosAgendamentoDTO buscarAgendamentoPorId(Long agendamentoId) {
@@ -83,16 +85,19 @@ public class AgendamentoService {
         String cpfCliente,
         Pageable pageable
     ) {
-        return mapper.toPageDadosBasicosAgentamentoDTO(agendamentoRepository.findAllByParams(
-            idProcedimento, 
-            nomeProcedimento, 
-            status, 
-            minDataHora, 
-            maxDataHora, 
-            nomeCliente, 
-            idCliente, 
-            cpfCliente, 
-            pageable));
+        return mapper.toPageDadosBasicosAgentamentoDTO(
+            agendamentoRepository.findAllByParams(
+                idProcedimento, 
+                nomeProcedimento, 
+                status, 
+                minDataHora, 
+                maxDataHora, 
+                nomeCliente, 
+                idCliente, 
+                cpfCliente, 
+                pageable
+            )
+        );
     }
     public Page<DadosBasicosAgendamentoDTO> listarTodosAgendamentosUsuarioAtual(
         Long usuarioId, Pageable pageable
@@ -116,7 +121,8 @@ public class AgendamentoService {
         Long usuarioId,
         RemarcarAgendamentoDTO dadosNovaDataHora
     ) {
-        Agendamento alvo = this.getAgendamentoByIdAndUsuarioId(agendamentoId, usuarioId);
+        Agendamento alvo = 
+            this.getAgendamentoByIdAndUsuarioId(agendamentoId, usuarioId);
         alvo.remarcar(dadosNovaDataHora.getDataHora(), validators);
         return mapper.toMeDadosAgendamentoDTO(agendamentoRepository.save(alvo));
     }
@@ -128,7 +134,10 @@ public class AgendamentoService {
     ) {
         Agendamento alvo = this.getAgendamentoById(agendamentoId);
         alvo.setObservacao(dadosNovaObservacao.getObservacao());
-        return mapper.toObservacaoAtualizadaAgendamentoDTO(agendamentoRepository.save(alvo));
+
+        return mapper.toObservacaoAtualizadaAgendamentoDTO(
+            agendamentoRepository.save(alvo)
+        );
     }
     @Transactional
     public ObservacaoAtualizadaAgendamentoDTO editarObservacaoAgendamentoUsuarioAtual(
@@ -136,9 +145,13 @@ public class AgendamentoService {
         Long usuarioId,
         AtualizarObservacaoAgendamentoDTO dadosNovaObservacao
     ) {
-        Agendamento alvo = this.getAgendamentoByIdAndUsuarioId(agendamentoId, usuarioId);
+        Agendamento alvo = 
+            this.getAgendamentoByIdAndUsuarioId(agendamentoId, usuarioId);
         alvo.setObservacao(dadosNovaObservacao.getObservacao());
-        return mapper.toObservacaoAtualizadaAgendamentoDTO(agendamentoRepository.save(alvo));
+
+        return mapper.toObservacaoAtualizadaAgendamentoDTO(
+            agendamentoRepository.save(alvo)
+        );
     }
 
     @Transactional
@@ -148,7 +161,10 @@ public class AgendamentoService {
     ) {
         Agendamento alvo = this.getAgendamentoById(agendamentoId);
         alvo.atualizarStatus(novoStatus.getStatus());
-        return mapper.toStatusAtualizadoAgendamentoDTO(agendamentoRepository.save(alvo));
+        
+        return mapper.toStatusAtualizadoAgendamentoDTO(
+            agendamentoRepository.save(alvo)
+        );
     }
     @Transactional
     public StatusAtualizadoAgendamentoDTO editarStatusAgendamentoUsuarioAtual(
@@ -158,7 +174,10 @@ public class AgendamentoService {
     ) {
         Agendamento alvo = this.getAgendamentoByIdAndUsuarioId(agendamentoId, usuarioId);
         alvo.atualizarStatus(novoStatus.getStatus());
-        return mapper.toStatusAtualizadoAgendamentoDTO(agendamentoRepository.save(alvo));
+        
+        return mapper.toStatusAtualizadoAgendamentoDTO(
+            agendamentoRepository.save(alvo)
+        );
     }
 
     @Transactional
@@ -172,8 +191,13 @@ public class AgendamentoService {
         return agendamentoRepository.findById(agendamentoId)
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
-    private Agendamento getAgendamentoByIdAndUsuarioId(Long agendamentoId, Long usuarioId) {
-        return agendamentoRepository.findByIdAndClienteUsuarioId(agendamentoId, usuarioId)
-            .orElseThrow(EntityNotFoundException::new);
+    private Agendamento getAgendamentoByIdAndUsuarioId(
+        Long agendamentoId, 
+        Long usuarioId
+    ) {
+        return agendamentoRepository.findByIdAndClienteUsuarioId(
+            agendamentoId, 
+            usuarioId
+        ).orElseThrow(EntityNotFoundException::new);
     }
 }

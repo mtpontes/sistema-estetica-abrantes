@@ -59,11 +59,14 @@ public class ProcedimentoController {
         @PathVariable Long procedimentoId, 
         @RequestBody AtualizarProcedimentoDTO procedimento
     ) {
-        return ResponseEntity.ok(service.editarProcedimento(procedimentoId, procedimento));
+        return ResponseEntity.ok(
+            service.editarProcedimento(procedimentoId, procedimento));
     }
 
     @DeleteMapping("/{procedimentoId}")
-    public ResponseEntity<Void> deletarProcedimento(@PathVariable Long procedimentoId) {
+    public ResponseEntity<Void> deletarProcedimento(
+        @PathVariable Long procedimentoId
+    ) {
         service.removerProcedimento(procedimentoId);
         return ResponseEntity.noContent().build();
     }

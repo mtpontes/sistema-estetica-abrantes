@@ -63,7 +63,10 @@ public class Agendamento {
     ) {
         this.procedimento = this.notNull(procedimento, "procedimento");
 
-        List<StatusAgendamento> statusesPermitidos = List.of(StatusAgendamento.PENDENTE, StatusAgendamento.CONFIRMADO);
+        List<StatusAgendamento> statusesPermitidos = List.of(
+            StatusAgendamento.PENDENTE, 
+            StatusAgendamento.CONFIRMADO
+        );
         if (!statusesPermitidos.contains(status))
             throw new IllegalArgumentException(
                 "Não é possível criar um agendamento com status diferente de: " + statusesPermitidos.toString());
@@ -104,7 +107,10 @@ public class Agendamento {
         this.atualizarDataModificacao();
     }
 
-    public void remarcar(LocalDateTime novaDataHora, List<AgendamentoValidator> validators) {
+    public void remarcar(
+        LocalDateTime novaDataHora, 
+        List<AgendamentoValidator> validators
+    ) {
         this.dataHora = novaDataHora;
         this.mustBeBeforeNow(novaDataHora);
 

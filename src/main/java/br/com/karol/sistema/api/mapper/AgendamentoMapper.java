@@ -29,11 +29,15 @@ public class AgendamentoMapper {
         return new ObservacaoAtualizadaAgendamentoDTO(agendamento);
     }
 
-    public StatusAtualizadoAgendamentoDTO toStatusAtualizadoAgendamentoDTO(Agendamento agendamento) {
+    public StatusAtualizadoAgendamentoDTO toStatusAtualizadoAgendamentoDTO(
+        Agendamento agendamento
+    ) {
         return new StatusAtualizadoAgendamentoDTO(agendamento);
     }
     
-    public Page<DadosAgendamentoDTO> toPageDadosAgentamentoDTO(Page<Agendamento> agendamentoPage) {
+    public Page<DadosAgendamentoDTO> toPageDadosAgentamentoDTO(
+        Page<Agendamento> agendamentoPage
+    ) {
         return agendamentoPage.map(this::toDadosAgendamentoDTO);
     }
 

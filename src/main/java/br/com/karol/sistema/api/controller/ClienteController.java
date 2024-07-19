@@ -77,7 +77,8 @@ public class ClienteController {
         @PathVariable Long clienteId, 
         @RequestBody @Valid EnderecoDTO dadosEndereco
     ) {
-        return ResponseEntity.ok(service.editarEnderecoCliente(clienteId, dadosEndereco));
+        return ResponseEntity.ok(
+            service.editarEnderecoCliente(clienteId, dadosEndereco));
     }
 
     @DeleteMapping("/{clienteId}")
@@ -89,7 +90,9 @@ public class ClienteController {
     // -- Rotas para clientes autenticados
 
     @GetMapping("/me")
-    public ResponseEntity<DadosCompletosClienteDTO> buscarDadosClienteMe(Authentication auth) {
+    public ResponseEntity<DadosCompletosClienteDTO> buscarDadosClienteMe(
+        Authentication auth
+    ) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
         return ResponseEntity.ok(new DadosCompletosClienteDTO(cliente));
@@ -102,7 +105,8 @@ public class ClienteController {
     ) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
-        return ResponseEntity.ok(service.editarContatoClienteAtual(cliente, dados));
+        return ResponseEntity.ok(
+            service.editarContatoClienteAtual(cliente, dados));
     }
 
     @PutMapping("/me/endereco")
@@ -112,6 +116,7 @@ public class ClienteController {
     ) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
-        return ResponseEntity.ok(service.editarEnderecoClienteAtual(cliente, dadosEndereco));
+        return ResponseEntity.ok(
+            service.editarEnderecoClienteAtual(cliente, dadosEndereco));
     }
 }
