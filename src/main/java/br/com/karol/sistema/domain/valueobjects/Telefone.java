@@ -25,5 +25,6 @@ public class Telefone {
             throw new RuntimeException("Deve fornecedor um ou mais validadores");
 
         this.value = formatter.format(value);
+        validators.forEach(v -> v.validate(this.value));
     }
 }
