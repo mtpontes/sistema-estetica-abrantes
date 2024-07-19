@@ -7,31 +7,31 @@ public enum StatusAgendamento {
         @Override
         public void validateTransition(StatusAgendamento newStatus) {
             if (!List.of(CONFIRMADO, CANCELADO).contains(newStatus))
-                throw new IllegalArgumentException(String.format(getMessage() , this, newStatus)); 
+                throw new IllegalArgumentException(getMessage(this, newStatus)); 
         }
     },
     CONFIRMADO {
         @Override
         public void validateTransition(StatusAgendamento newStatus) {
             if (!List.of(CANCELADO, FINALIZADO).contains(newStatus))
-                throw new IllegalArgumentException(String.format(getMessage() , this, newStatus)); 
+             throw new IllegalArgumentException(getMessage(this, newStatus)); 
         }
     },
     CANCELADO {
         @Override
         public void validateTransition(StatusAgendamento newStatus) {
-            throw new IllegalArgumentException(String.format(getMessage() , this, newStatus));
+            throw new IllegalArgumentException(getMessage(this, newStatus)); 
         }
     },
     FINALIZADO {
         @Override
         public void validateTransition(StatusAgendamento newStatus) {
-            throw new IllegalArgumentException(String.format(getMessage() , this, newStatus)); 
+            throw new IllegalArgumentException(getMessage(this, newStatus)); 
         }
     };
 
     public abstract void validateTransition(StatusAgendamento newStatus);
-    private static String getMessage() {
-        return "Não é possível alterar status %s para %s";
+    private static String getMessage(StatusAgendamento thisStatus, StatusAgendamento newStatus) {
+        return String.format("Não é possível alterar status %s para %s", thisStatus, newStatus);
     }
 }

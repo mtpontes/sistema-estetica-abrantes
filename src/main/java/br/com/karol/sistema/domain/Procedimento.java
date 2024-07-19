@@ -34,7 +34,12 @@ public class Procedimento {
     private LocalTime duracao;
     private Double valor;
 
-    public Procedimento(String nome, String descricao, LocalTime duracao, Double valor) {
+    public Procedimento(
+        String nome, 
+        String descricao, 
+        LocalTime duracao, 
+        Double valor
+    ) {
         this.nome = this.notBlank(nome, "nome");
         this.descricao = this.notBlank(descricao, "descricao");
         this.duracao = this.notNull(duracao, "duracao");
@@ -44,7 +49,12 @@ public class Procedimento {
     }
     
 
-    public void atualizarDados(String nome, String descricao, LocalTime duracao, Double valor) {
+    public void atualizarDados(
+        String nome, 
+        String descricao, 
+        LocalTime duracao, 
+        Double valor
+    ) {
         if (!this.isBlank(nome)) this.nome = nome;
         if (!this.isBlank(descricao)) this.descricao = descricao;
         if (!this.isNull(duracao)) this.duracao = duracao;

@@ -13,7 +13,8 @@ public class PatternEmailValidator implements EmailValidator {
 
     @Override
     public void validate(String value) {
-        var validator = org.apache.commons.validator.routines.EmailValidator.getInstance();
+        var validator = 
+            org.apache.commons.validator.routines.EmailValidator.getInstance();
         
         if (!validator.isValid(value))
             throw new FieldValidationException(CLASSE);

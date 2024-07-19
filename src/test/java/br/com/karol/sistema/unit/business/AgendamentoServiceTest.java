@@ -251,7 +251,7 @@ public class AgendamentoServiceTest {
         // arrange
         Agendamento agendamento = DEFAULT;
         Long agendamentoId = agendamento.getId();
-        var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
+        var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CANCELADO);
 
         when(repository.findById(agendamentoId))
             .thenReturn(Optional.of(agendamento));

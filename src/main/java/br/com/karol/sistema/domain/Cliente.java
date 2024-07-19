@@ -38,15 +38,24 @@ public class Cliente {
     private String nome;
     
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "cpf", unique = true))
+    @AttributeOverride(
+        name = "value", 
+        column = @Column(name = "cpf", unique = true)
+    )
     private Cpf cpf;
     
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "telefone", unique = true))
+    @AttributeOverride(
+        name = "value", 
+        column = @Column(name = "telefone", unique = true)
+    )
     private Telefone telefone;
     
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "email", unique = true))
+    @AttributeOverride(
+        name = "value", 
+        column = @Column(name = "email", unique = true)
+    )
     private Email email;
 
     @Embedded
@@ -59,7 +68,13 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Agendamento> agendamentos = new HashSet<>();
 
-    public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco) {
+    public Cliente(
+        String nome, 
+        Cpf cpf, 
+        Telefone telefone, 
+        Email email, 
+        Endereco endereco
+    ) {
         this.nome = this.notBlank(nome, "nome");
 
         this.cpf = this.notNull(cpf, "cpf");
@@ -68,7 +83,14 @@ public class Cliente {
         this.endereco = this.notNull(endereco, "endereco");
     }
 
-    public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco, Usuario usuario) {
+    public Cliente(
+        String nome, 
+        Cpf cpf, 
+        Telefone telefone, 
+        Email email, 
+        Endereco endereco, 
+        Usuario usuario
+    ) {
         this(nome, cpf, telefone, email, endereco);
         this.usuario = this.notNull(usuario, "usuario");
     }

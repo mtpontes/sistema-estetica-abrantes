@@ -26,11 +26,11 @@ public class CriarUsuarioClienteDTO {
     private String senha;
 
     @NotBlank
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 14)
     private String cpf;
-
+    
     @NotBlank
-    @Size(min = 11, max = 13)
+    @Size(min = 11, max = 15)
     private String telefone;
 
     @NotBlank

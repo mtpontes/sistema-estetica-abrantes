@@ -11,14 +11,21 @@ import br.com.karol.sistema.domain.Procedimento;
 public class ProcedimentoMapper {
 
     public Procedimento toProcedimento(CriarProcedimentoDTO dto) {
-        return new Procedimento(dto.getNome(), dto.getDescricao(), dto.getDuracao(), dto.getValor());
+        return new Procedimento(
+            dto.getNome(), 
+            dto.getDescricao(), 
+            dto.getDuracao(), 
+            dto.getValor()
+        );
     }
 
     public DadosProcedimentoDTO toDadosProcedimentoDTO(Procedimento dados) {
         return new DadosProcedimentoDTO(dados);
     }
 
-    public Page<DadosProcedimentoDTO> toPageDadosProcedimentoDTO(Page<Procedimento> dados) {
+    public Page<DadosProcedimentoDTO> toPageDadosProcedimentoDTO(
+        Page<Procedimento> dados
+    ) {
         return dados.map(this::toDadosProcedimentoDTO);
     }
 }

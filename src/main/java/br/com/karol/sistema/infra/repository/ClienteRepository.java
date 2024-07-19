@@ -20,7 +20,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("""
         SELECT c FROM Cliente c WHERE
         (:nomeCliente IS NULL OR LOWER(c.nome) LIKE LOWER(CONCAT('%', :nomeCliente, '%')))        
-        """)
+    """)
     Page<Cliente> findAllByParams(String nomeCliente, Pageable pageable);
 
     Optional<Cliente> findByUsuarioId(Long usuarioId);

@@ -23,7 +23,9 @@ public class HorarioAntecedenciaValidator implements AgendamentoValidator {
             throw new IllegalArgumentException("A data do agendamento não pode ser no passado.");
         }
 
-        long result = Duration.between(agora, dateTimeNovoAgendamento).toMinutes();
+        long result = Duration
+            .between(agora, dateTimeNovoAgendamento)
+            .toMinutes();
         if (result < ANTECEDENCIA)
             throw new IllegalArgumentException("O agendamento deve ser feito com antecedência mínima de " +
             ANTECEDENCIA + " minutos");

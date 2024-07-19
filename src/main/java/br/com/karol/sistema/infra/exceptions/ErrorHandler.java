@@ -34,9 +34,15 @@ public class ErrorHandler {
     }
 	
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessageWithFields> handleError400(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorMessageWithFields> handleError400(
+        MethodArgumentNotValidException ex
+    ) {
     	Map<String, String> fields = ex.getFieldErrors().stream()
-            .collect(Collectors.toMap(f -> f.getField().toString(), f -> f.getDefaultMessage()));
+            .collect(Collectors.toMap(f -> 
+                f.getField().toString(), 
+                f -> f.getDefaultMessage()
+            )
+        );
     	return ResponseEntity
             .badRequest()
             .body(new ErrorMessageWithFields(
@@ -46,41 +52,74 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(FieldValidationException.class)
-    public ResponseEntity<ErrorMessageWithFields> handleError400(FieldValidationException ex) {
-        Map<String, String> details = Map.of(ex.getFieldError(), ex.getErrorMessage());
-        return ResponseEntity.badRequest().body(
-            new ErrorMessageWithFields(GENERIC_INPUT_VALIDATION_ERROR_MESSAGE, details));
+    public ResponseEntity<ErrorMessageWithFields> handleError400(
+        FieldValidationException ex
+    ) {
+        Map<String, String> details = 
+            Map.of(ex.getFieldError(), ex.getErrorMessage());
+        return ResponseEntity
+            .badRequest()
+            .body(new ErrorMessageWithFields(
+                    GENERIC_INPUT_VALIDATION_ERROR_MESSAGE, 
+                    details
+                )
+            );
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorMessage> handleError400(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage()));
+    public ResponseEntity<ErrorMessage> handleError400(
+        IllegalArgumentException ex
+    ) {
+        return ResponseEntity
+            .badRequest()
+            .body(new ErrorMessage(ex.getMessage()));
     }
     
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorMessage> handleError400(HttpRequestMethodNotSupportedException ex) {
-        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getMessage()));
+    public ResponseEntity<ErrorMessage> handleError400(
+        HttpRequestMethodNotSupportedException ex
+    ) {
+        return ResponseEntity
+            .badRequest()
+            .body(new ErrorMessage(ex.getMessage()));
     }
     
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ErrorMessage> handleError400(MissingServletRequestParameterException ex) {
-        return ResponseEntity.badRequest().body(new ErrorMessage(ex.getBody().getDetail()));
+    public ResponseEntity<ErrorMessage> handleError400(
+        MissingServletRequestParameterException ex
+    ) {
+        return ResponseEntity
+            .badRequest()
+            .body(new ErrorMessage(ex.getBody().getDetail()));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorMessageWithParam> handleError400(MethodArgumentTypeMismatchException ex) {
+    public ResponseEntity<ErrorMessageWithParam> handleError400(
+        MethodArgumentTypeMismatchException ex
+    ) {
         var field = Map.of(ex.getPropertyName(), "valor inválido");
-        return ResponseEntity.badRequest()
-            .body(new ErrorMessageWithParam(GENERIC_INPUT_VALIDATION_ERROR_MESSAGE, field));
+        return ResponseEntity
+            .badRequest()
+            .body(new ErrorMessageWithParam(
+                GENERIC_INPUT_VALIDATION_ERROR_MESSAGE, 
+                field
+            )
+        );
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorMessage> handleError400(HttpMessageNotReadableException ex) {
-        return ResponseEntity.badRequest().body(new ErrorMessage("Formato de JSON inválido"));
+    public ResponseEntity<ErrorMessage> handleError400(
+        HttpMessageNotReadableException ex
+    ) {
+        return ResponseEntity
+            .badRequest()
+            .body(new ErrorMessage("Formato de JSON inválido"));
     }
     
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<ErrorMessage> handleError415(HttpMediaTypeNotSupportedException ex) {
+    public ResponseEntity<ErrorMessage> handleError415(
+        HttpMediaTypeNotSupportedException ex
+    ) {
         String unsupportedType = Optional.ofNullable(ex.getContentType())
             .map(mediaType -> mediaType.getType() + "/" + mediaType.getSubtype())
             .orElse("unknown");
@@ -91,21 +130,31 @@ public class ErrorHandler {
 
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
             .body(new ErrorMessage(String.format(
-                "Unsupported media type '%s'. Supported media types are: %s", unsupportedType, supportedTypes)));
+                "Unsupported media type '%s'. Supported media types are: %s", 
+                unsupportedType, 
+                supportedTypes)
+            )
+        );
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorMessage> handleBadCredentialsError401() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorMessage("Invalid credentials"));
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(new ErrorMessage("Invalid credentials"));
     }
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorMessage> handleAuthenticationError401() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorMessage("Authentication failed"));
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(new ErrorMessage("Authentication failed"));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorMessage> handleError403() {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage("Access denied"));
+        return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body(new ErrorMessage("Access denied"));
     }
     
     @ExceptionHandler(Exception.class)

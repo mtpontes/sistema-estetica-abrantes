@@ -23,19 +23,27 @@ public class AgendamentoMapper {
         return new MeDadosAgendamentoDTO(agendamento);
     }
 
-    public ObservacaoAtualizadaAgendamentoDTO toObservacaoAtualizadaAgendamentoDTO(Agendamento agendamento) {
+    public ObservacaoAtualizadaAgendamentoDTO toObservacaoAtualizadaAgendamentoDTO(
+        Agendamento agendamento
+    ) {
         return new ObservacaoAtualizadaAgendamentoDTO(agendamento);
     }
 
-    public StatusAtualizadoAgendamentoDTO toStatusAtualizadoAgendamentoDTO(Agendamento agendamento) {
+    public StatusAtualizadoAgendamentoDTO toStatusAtualizadoAgendamentoDTO(
+        Agendamento agendamento
+    ) {
         return new StatusAtualizadoAgendamentoDTO(agendamento);
     }
     
-    public Page<DadosAgendamentoDTO> toPageDadosAgentamentoDTO(Page<Agendamento> agendamentoPage) {
+    public Page<DadosAgendamentoDTO> toPageDadosAgentamentoDTO(
+        Page<Agendamento> agendamentoPage
+    ) {
         return agendamentoPage.map(this::toDadosAgendamentoDTO);
     }
 
-    public Page<DadosBasicosAgendamentoDTO> toPageDadosBasicosAgentamentoDTO(Page<Agendamento> agendamentoList) {
+    public Page<DadosBasicosAgendamentoDTO> toPageDadosBasicosAgentamentoDTO(
+        Page<Agendamento> agendamentoList
+    ) {
         return agendamentoList.map(DadosBasicosAgendamentoDTO::new);
     }
 }

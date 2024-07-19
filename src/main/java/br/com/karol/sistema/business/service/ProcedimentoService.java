@@ -51,16 +51,25 @@ public class ProcedimentoService {
     }
 
     public DadosProcedimentoDTO mostrarProcedimento(Long procedimentoId) {
-        return this.mapper.toDadosProcedimentoDTO(this.getProcedimentoById(procedimentoId));
+        return mapper.toDadosProcedimentoDTO(
+            this.getProcedimentoById(procedimentoId));
     }
 
     @Transactional
-    public DadosProcedimentoDTO editarProcedimento(Long procedimentoId, AtualizarProcedimentoDTO update) {
+    public DadosProcedimentoDTO editarProcedimento(
+        Long procedimentoId, 
+        AtualizarProcedimentoDTO update
+    ) {
         if (repository.existsByNome(update.getNome()))
             throw new FieldValidationException("nome");
 
         Procedimento alvo = this.getProcedimentoById(procedimentoId);
-        alvo.atualizarDados(update.getNome(), update.getDescricao(), update.getDuracao(), update.getValor());
+        alvo.atualizarDados(
+            update.getNome(), 
+            update.getDescricao(), 
+            update.getDuracao(), 
+            update.getValor()
+        );
         return mapper.toDadosProcedimentoDTO(repository.save(alvo));
     }
 

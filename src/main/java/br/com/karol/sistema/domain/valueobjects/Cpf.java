@@ -21,8 +21,8 @@ public class Cpf {
             throw new FieldValidationException(this.getClass().getSimpleName(), "Não pode ser null/blank");
         if (validators.size() == 0) 
             throw new RuntimeException("Deve fornecedor um ou mais validadores");
-        validators.forEach(v -> v.validate(value));
-
+            
         this.value = formatter.format(value);
+        validators.forEach(v -> v.validate(this.value));
     }
 }

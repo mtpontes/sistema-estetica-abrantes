@@ -43,11 +43,14 @@ public class ProcedimentoController {
         @RequestParam(required = false) Double valorMax,
         @PageableDefault(size = 10) Pageable pageable
     ) {
-        return ResponseEntity.ok(service.listarTodosProcedimentos(nome, valorMin, valorMax, pageable));
+        return ResponseEntity.ok(
+            service.listarTodosProcedimentos(nome, valorMin, valorMax, pageable));
     }
 
     @GetMapping("/{procedimentoId}")
-    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(@PathVariable Long procedimentoId) {
+    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(
+        @PathVariable Long procedimentoId
+    ) {
         return ResponseEntity.ok(service.mostrarProcedimento(procedimentoId));
     }
 
@@ -56,11 +59,14 @@ public class ProcedimentoController {
         @PathVariable Long procedimentoId, 
         @RequestBody AtualizarProcedimentoDTO procedimento
     ) {
-        return ResponseEntity.ok(service.editarProcedimento(procedimentoId, procedimento));
+        return ResponseEntity.ok(
+            service.editarProcedimento(procedimentoId, procedimento));
     }
 
     @DeleteMapping("/{procedimentoId}")
-    public ResponseEntity<Void> deletarProcedimento(@PathVariable Long procedimentoId) {
+    public ResponseEntity<Void> deletarProcedimento(
+        @PathVariable Long procedimentoId
+    ) {
         service.removerProcedimento(procedimentoId);
         return ResponseEntity.noContent().build();
     }

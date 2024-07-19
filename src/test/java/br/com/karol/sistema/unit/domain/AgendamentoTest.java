@@ -47,18 +47,16 @@ public class AgendamentoTest {
 
     @Test
     void testDeveCriarAgendamento() {
-        assertDoesNotThrow(() -> {
-            Agendamento agendamento = new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, validators);
+        Agendamento agendamento = new Agendamento(PROCEDIMENTO, STATUS, OBSERVACAO, CLIENTE, DATA_HORA, validators);
 
-            assertNotNull(agendamento.getCliente());
-            assertNotNull(agendamento.getDataCriacao());
-            assertNotNull(agendamento.getDataHora());
-            assertNotNull(agendamento.getDataModificacao());
-            assertNotNull(agendamento.getObservacao());
-            assertNotNull(agendamento.getProcedimento());
-            assertNotNull(agendamento.getStatus());
-            assertNull(agendamento.getUsuarioLogin());
-        });
+        assertNotNull(agendamento.getCliente());
+        assertNotNull(agendamento.getDataCriacao());
+        assertNotNull(agendamento.getDataHora());
+        assertNotNull(agendamento.getDataModificacao());
+        assertNotNull(agendamento.getObservacao());
+        assertNotNull(agendamento.getProcedimento());
+        assertNotNull(agendamento.getStatus());
+        assertNull(agendamento.getUsuarioLogin());
     }
 
     @Test

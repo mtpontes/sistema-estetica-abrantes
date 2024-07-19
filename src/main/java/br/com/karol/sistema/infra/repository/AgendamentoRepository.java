@@ -19,7 +19,11 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
     
     List<Agendamento> findByDataHoraBetween(LocalDateTime inicio, LocalDateTime fim);
 
-    @Query("SELECT COUNT(a) > 0 FROM Agendamento a WHERE a.procedimento.id = ?1 AND a.status NOT IN ('FINALIZADO', 'CANCELADO')")
+    @Query("""
+        SELECT COUNT(a) > 0 FROM Agendamento a 
+        WHERE a.procedimento.id = ?1 
+        AND a.status NOT IN ('FINALIZADO', 'CANCELADO')
+    """)
     boolean existsByProcedimentoIdAndStatusIn(Long procedimentoId);
 
     @Query("""

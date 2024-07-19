@@ -1,6 +1,5 @@
 package br.com.karol.sistema.unit.domain;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -19,8 +18,6 @@ public class EnderecoTest {
 
     @Test
     void testDeveCriarEnderecoComAtributosValidos() {
-        assertDoesNotThrow(() -> new Endereco(RUA, NUMERO, CIDADE, BAIRRO, ESTADO));
-
         Endereco result = new Endereco(RUA, NUMERO, CIDADE, BAIRRO, ESTADO);
 
         assertNotNull(result.getRua());

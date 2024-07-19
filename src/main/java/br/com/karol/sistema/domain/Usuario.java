@@ -44,7 +44,10 @@ public class Usuario implements UserDetails {
     private String nome;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "login", unique = true))
+    @AttributeOverride(
+        name = "value", 
+        column = @Column(name = "login", unique = true)
+    )
     private Login login;
 
     @Embedded

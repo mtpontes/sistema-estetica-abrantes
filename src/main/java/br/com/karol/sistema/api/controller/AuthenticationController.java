@@ -25,7 +25,12 @@ public class AuthenticationController {
     @PostMapping
     public ResponseEntity<LoginResponseDTO> fazerLogin(@RequestBody @Valid AuthenticationDTO data) {
         var token = tokenService
-            .generateToken(this.usuarioService.autenticarUsuario(data.getLogin(), data.getPassword()));
+            .generateToken(
+                this.usuarioService.autenticarUsuario(
+                    data.getLogin(), 
+                    data.getPassword()
+                )
+            );
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 }

@@ -34,7 +34,8 @@ public class UsuarioService {
 
 
     public Usuario autenticarUsuario(String login, String senha) {
-        var usernamePasswordToken = new UsernamePasswordAuthenticationToken(login, senha);
+        var usernamePasswordToken = 
+            new UsernamePasswordAuthenticationToken(login, senha);
         return (Usuario) authenticationManager
             .authenticate(usernamePasswordToken)
                 .getPrincipal();
@@ -69,14 +70,23 @@ public class UsuarioService {
     }
 
     @Transactional
-    public DadosUsuarioDTO atualizarNomeUsuarioAtual(Usuario usuario, AtualizarNomeUsuarioDTO update) {
+    public DadosUsuarioDTO atualizarNomeUsuarioAtual(
+        Usuario usuario, 
+        AtualizarNomeUsuarioDTO update
+    ) {
         usuario.atualizarDados(update.getNome());
         return mapper.toDadosUsuarioDTO(repository.save(usuario));
     }
     @Transactional
-    public Usuario atualizarSenhaUsuarioAtual(Usuario usuarioAtual, AtualizarSenhaUsuarioDTO dados) {
+    public Usuario atualizarSenhaUsuarioAtual(
+        Usuario usuarioAtual, 
+        AtualizarSenhaUsuarioDTO dados
+    ) {
         Senha novaSenha = senhaMapper.toSenha(dados.getNovaSenha());
-        Usuario usuarioValidado = this.autenticarUsuario(usuarioAtual.getLogin(), dados.getSenhaAtual());
+        Usuario usuarioValidado = this.autenticarUsuario(
+            usuarioAtual.getLogin(), 
+            dados.getSenhaAtual()
+        );
         usuarioValidado.atualizarSenha(novaSenha);
         
         return repository.save(usuarioValidado);
