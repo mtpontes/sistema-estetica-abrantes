@@ -19,9 +19,9 @@ public class TestConstants {
     public static final String SENHA_MUITO_PEQUENA = "senha12"; // menos de 8 caracteres 
     public static final String SENHA_MUITO_GRANDE = "senha1234567891234567"; // mais de 20 caracteres
     public static final String CPF_MUITO_PEQUENO = "1234567891"; // menos de 11 caracteres
-    public static final String CPF_MUITO_GRANDE = "123456789123"; // mais de 11 caracteres
+    public static final String CPF_MUITO_GRANDE = "123456789123456"; // mais de 14 caracteres
     public static final String TELEFONE_MUITO_PEQUENO = "1234567891"; // menos de 11 caracteres
-    public static final String TELEFONE_MUITO_GRANDE = "12345678912345"; // mais de 13 caracteres
+    public static final String TELEFONE_MUITO_GRANDE = "1234567891234567"; // mais de 15 caracteres
     public static final String EMAIL_VAZIO = "";
 
     public static final LocalDateTime FUTURO = LocalDateTime.now().plusDays(1);

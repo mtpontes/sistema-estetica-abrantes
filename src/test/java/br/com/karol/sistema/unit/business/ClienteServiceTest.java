@@ -71,9 +71,9 @@ public class ClienteServiceTest {
         );
 
         when(repository.findById(anyLong())).thenReturn(Optional.of(cliente));
-        when(telefoneMapper.toTelefone(anyString()))
+        when(telefoneMapper.toTelefoneOrNull(anyString()))
             .thenReturn(ClienteUtils.getTelefone(entry.getTelefone()));
-        when(emailMapper.toEmail(anyString()))
+        when(emailMapper.toEmailOrNull(anyString()))
             .thenReturn(ClienteUtils.getEmail(entry.getEmail()));
 
         // act
@@ -99,9 +99,9 @@ public class ClienteServiceTest {
             "novo email"
         );
 
-        when(telefoneMapper.toTelefone(anyString()))
+        when(telefoneMapper.toTelefoneOrNull(anyString()))
             .thenReturn(ClienteUtils.getTelefone(entry.getTelefone()));
-        when(emailMapper.toEmail(anyString()))
+        when(emailMapper.toEmailOrNull(anyString()))
             .thenReturn(ClienteUtils.getEmail(entry.getEmail()));
 
         // act
