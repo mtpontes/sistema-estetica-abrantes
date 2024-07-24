@@ -13,7 +13,9 @@ Foram implementados mais de 300 testes de unidade, totalizando mais de 400 cases
 ## Documentação
 Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
 
-<details><summary style="font-size: 1.5em; font-weight: 600">Como rodar</summary>
+## Como Rodar
+<details>
+<summary>Clique para expandir</summary>
 
 ### Pré-requisitos
 
