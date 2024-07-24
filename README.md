@@ -57,8 +57,8 @@ Use o comando `java -jar nome_do_jar` para rodar a aplicação.
 
 ## Problemas Comuns
 
-### Problema: Erro de encoding ao fazer o build da aplicação
+### Erro de encoding ao fazer o build da aplicação
 - **Solução**: Crie a variável de ambiente "MAVEN_OPTS" com o valor "-Dfile.encoding=UTF-8".
 
-### Problema: Falha na conexão com o banco de dados MySQL
+### Falha na conexão com o banco de dados MySQL
 - **Solução**: Verifique se o MySQL está rodando na porta correta (3306) e se as credenciais de acesso (DB_USERNAME e DB_PASSWORD) estão corretas.
