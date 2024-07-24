@@ -13,7 +13,7 @@ Foram implementados mais de 300 testes de unidade, totalizando mais de 400 cases
 ## Documentação
 Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
 
-## Como rodar
+<details><summary style="font-size: 1.5em; font-weight: 600">Como rodar</summary>
 
 ### Pré-requisitos
 
@@ -48,12 +48,15 @@ A aplicação está configurada para se conectar ao MySQL pela porta 3306.
 
 ##### Essas configurações também podem ser alteradas no `application.properties`.
 
-### Build
+### Deploy
 
 O app empacotado pode ser encontrado no diretório `/target` após seguir o procedimento de instalação.
 
 Use o comando `java -jar nome_do_jar` para rodar a aplicação.
 
+----
+
+</details>
 
 ## Problemas Comuns
 
