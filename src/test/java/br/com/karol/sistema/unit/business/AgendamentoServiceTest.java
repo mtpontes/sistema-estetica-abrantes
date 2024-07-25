@@ -12,11 +12,15 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
@@ -27,11 +31,14 @@ import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import br.com.karol.sistema.constants.TestConstants;
 import br.com.karol.sistema.domain.Agendamento;
+import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
+import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import br.com.karol.sistema.unit.utils.AgendamentoUtils;
+import br.com.karol.sistema.unit.utils.UsuarioUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class AgendamentoServiceTest {
@@ -284,19 +291,25 @@ public class AgendamentoServiceTest {
         verifyNoInteractions(mapper);
     }
 
-    @Test
-    void testEditarStatusAgendamentoUsuarioAtual() {
+    @ParameterizedTest
+    @CsvSource(value = {"ADMIN", "USER"})
+    void testEditarStatusAgendamentoUsuarioAtual_comRoleValida(String role) {
         // arrange
-        Agendamento agendamento = DEFAULT;
+        Agendamento agendamento = new Agendamento();
+        ReflectionTestUtils.setField(agendamento, "status", StatusAgendamento.PENDENTE);
+
         Long agendamentoId = agendamento.getId();
-        Long usuarioId = 1L;
+        
+        Usuario usuario = UsuarioUtils.getUsuario();
+        ReflectionTestUtils.setField(usuario, "role", UserRole.fromString(role));
+
         var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
 
-        when(repository.findByIdAndClienteUsuarioId(agendamentoId, usuarioId))
+        when(repository.findByIdAndClienteUsuarioId(agendamentoId, usuario.getId()))
             .thenReturn(Optional.of(agendamento));
 
         // act
-        service.editarStatusAgendamentoUsuarioAtual(agendamentoId, usuarioId, entry);
+        service.editarStatusAgendamentoUsuarioAtual(agendamentoId, usuario, entry);
 
         verify(repository).save(agendamentoCaptor.capture());
         Agendamento result = agendamentoCaptor.getValue();
@@ -305,21 +318,43 @@ public class AgendamentoServiceTest {
         assertEquals(entry.getStatus(), result.getStatus());
     }
     @Test
+    void testEditarStatusAgendamentoUsuarioAtual_comRoleInvalida() {
+        // arrange
+        Agendamento agendamento = DEFAULT;
+
+        Long agendamentoId = agendamento.getId();
+        
+        Usuario usuario = UsuarioUtils.getUsuario();
+        ReflectionTestUtils.setField(usuario, "role", UserRole.CLIENT);
+
+        var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
+
+        // act
+        assertThrows(AccessDeniedException.class,
+            () -> service.editarStatusAgendamentoUsuarioAtual(agendamentoId, usuario, entry)
+        );
+        
+        verifyNoInteractions(repository);
+    }
+    @Test
     void testEditarStatusAgendamentoUsuarioAtual_naoEncontrado() {
         // arrange
         Long agendamentoId = 1L;
-        Long usuarioId = 1L;
+
+        Usuario usuario = UsuarioUtils.getUsuario();
+        ReflectionTestUtils.setField(usuario, "role", UserRole.ADMIN);
+
         var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
 
-        when(repository.findByIdAndClienteUsuarioId(agendamentoId, usuarioId))
+        when(repository.findByIdAndClienteUsuarioId(agendamentoId, usuario.getId()))
             .thenReturn(Optional.empty());
 
         // act
         assertThrows(EntityNotFoundException.class, 
-            () -> service.editarStatusAgendamentoUsuarioAtual(agendamentoId, usuarioId, entry));
+            () -> service.editarStatusAgendamentoUsuarioAtual(agendamentoId, usuario, entry));
 
         // assert
-        verify(repository).findByIdAndClienteUsuarioId(agendamentoId, usuarioId);
+        verify(repository).findByIdAndClienteUsuarioId(agendamentoId, usuario.getId());
         verifyNoMoreInteractions(repository);
 
         verifyNoInteractions(mapper);
