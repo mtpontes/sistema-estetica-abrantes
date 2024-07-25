@@ -27,14 +27,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.karol.sistema.api.controller.AgendamentoController;
 import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.ClienteCriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosBasicosAgendamentoDTO;
@@ -58,7 +57,6 @@ import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
 import br.com.karol.sistema.unit.utils.AgendamentoUtils;
 import br.com.karol.sistema.unit.utils.ControllerTestUtils;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
 
 @AutoConfigureJsonTesters
 @Import(SecurityConfig.class)
@@ -75,6 +73,8 @@ public class AgendamentoControllerUnitTest {
 
     @Autowired
     private JacksonTester<CriarAgendamentoDTO> criarAgendamentoDTOJson;
+    @Autowired
+    private JacksonTester<ClienteCriarAgendamentoDTO> clienteCriarAgendamentoDTOJson;
     @Autowired
     private JacksonTester<RemarcarAgendamentoDTO> remarcarAgendamentoDTOJson;
     @Autowired
@@ -153,21 +153,15 @@ public class AgendamentoControllerUnitTest {
         verify(service).salvarAgendamento(any(), any());
     }
     @Test
+    @WithMockUser
     void testCriaCliente_comBodyInvalido() throws IOException, Exception {
         // arrange
-        ControllerTestUtils.withMockUserManual("ADMIN");
-
         var requestBody = new CriarAgendamentoDTO(
             null, 
             null, 
             null, 
             null, 
             TestConstants.PASSADO);
-
-        var userMock = UsuarioUtils.getUsuario();
-        var authentication = new UsernamePasswordAuthenticationToken(userMock, "password", userMock.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        
         when(service.salvarAgendamento(any(), any())).thenReturn(new DadosAgendamentoDTO(AGENDAMENTO_DEFAULT));
 
         // act
@@ -198,6 +192,89 @@ public class AgendamentoControllerUnitTest {
 
         // act
         ControllerTestUtils.postRequest(mvc, BASE_URL, criarAgendamentoDTOJson.write(requestBody).getJson())
+            // assert
+            .andExpect(status().isForbidden());
+
+        verifyNoInteractions(service);
+    }
+    @TestTemplate
+    @ContextualizeUsuarioTypeWithRoles(roles = {"CLIENT"})
+    void testCriarAgendamentoMe_comRolesAutorizadas() throws IOException, Exception {
+        // arrange
+        var requestBody = new ClienteCriarAgendamentoDTO(
+            AGENDAMENTO_DEFAULT.getProcedimento().getId(),
+            AGENDAMENTO_DEFAULT.getStatus(),
+            AGENDAMENTO_DEFAULT.getObservacao(),
+            AGENDAMENTO_DEFAULT.getDataHora()
+        );
+        
+        var responseBody = new MeDadosAgendamentoDTO(AGENDAMENTO_DEFAULT);
+        when(service.salvarAgendamentoMe(any(), any())).thenReturn(responseBody);
+
+        // act
+        ControllerTestUtils.postRequest(mvc, CLIENT_ROUTE, clienteCriarAgendamentoDTOJson.write(requestBody).getJson())
+            // assert
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").exists())
+            .andExpect(jsonPath("$.status").exists())
+            .andExpect(jsonPath("$.observacao").exists())
+            .andExpect(jsonPath("$.dataHora").exists())
+            .andExpect(jsonPath("$.procedimento").exists())
+            .andExpect(jsonPath("$.procedimento.id").exists())
+            .andExpect(jsonPath("$.procedimento.nome").exists())
+            .andExpect(jsonPath("$.procedimento.descricao").exists())
+            .andExpect(jsonPath("$.procedimento.duracao").exists())
+            .andExpect(jsonPath("$.procedimento.valor").exists())
+            .andExpect(result -> {
+                var nullableHeaderRedirect = Optional.of(result.getResponse().getHeader("Location"));
+
+                var redirect = nullableHeaderRedirect
+                    .orElseThrow(() -> new AssertionError("Redirect URL is null"));
+                if (redirect.isBlank())
+                throw new AssertionError("Redirect URL is blank");
+            });
+
+        verify(service).salvarAgendamentoMe(any(), any());
+    }
+    @Test
+    @WithMockUser(roles = "CLIENT")
+    void testCriaCliente_comBodyInvalidoMe() throws IOException, Exception {
+        // arrange
+        var requestBody = new ClienteCriarAgendamentoDTO(
+            null, 
+            null, 
+            null, 
+            TestConstants.PASSADO);
+        
+        when(service.salvarAgendamento(any(), any())).thenReturn(new DadosAgendamentoDTO(AGENDAMENTO_DEFAULT));
+
+        // act
+        ControllerTestUtils.postRequest(mvc, CLIENT_ROUTE, clienteCriarAgendamentoDTOJson.write(requestBody).getJson())
+            // assert
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error").exists())
+            .andExpect(jsonPath("$.fields").exists())
+            .andExpect(jsonPath("$.fields.procedimentoId").exists())
+            .andExpect(jsonPath("$.fields.status").exists())
+            .andExpect(jsonPath("$.fields.observacao").doesNotExist()) // atributo sem validação, valor padrão é blank
+            .andExpect(jsonPath("$.fields.dataHora").exists());
+
+        verifyNoInteractions(service);
+    }
+    @TestTemplate
+    @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
+    void testCriaCliente_comRoleNaoAutorizadaMe() throws IOException, Exception {
+        // arrange
+        var requestBody = new CriarAgendamentoDTO(
+            AGENDAMENTO_DEFAULT.getProcedimento().getId(),
+            AGENDAMENTO_DEFAULT.getStatus(),
+            AGENDAMENTO_DEFAULT.getObservacao(),
+            AGENDAMENTO_DEFAULT.getCliente().getId(),
+            AGENDAMENTO_DEFAULT.getDataHora()
+        );
+
+        // act
+        ControllerTestUtils.postRequest(mvc, CLIENT_ROUTE, criarAgendamentoDTOJson.write(requestBody).getJson())
             // assert
             .andExpect(status().isForbidden());
 

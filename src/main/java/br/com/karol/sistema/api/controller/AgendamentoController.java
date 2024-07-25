@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.ClienteCriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosBasicosAgendamentoDTO;
@@ -145,6 +146,23 @@ public class AgendamentoController {
     }
 
     // -- Rotas para clientes autenticados --
+
+    @PostMapping("/me")
+    public ResponseEntity<MeDadosAgendamentoDTO> criarAgendamentoMe(
+        UriComponentsBuilder uriBuilder,
+        Authentication authentication,
+        @RequestBody @Valid ClienteCriarAgendamentoDTO dadosAgendamento
+    ) {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        MeDadosAgendamentoDTO agendamentoCriado = 
+            agendamentoService.salvarAgendamentoMe(dadosAgendamento, usuario.getId());
+
+        var uri = uriBuilder.path("/agendamento/{id}")
+            .buildAndExpand(agendamentoCriado.getId())
+            .toUri();
+
+        return ResponseEntity.created(uri).body(agendamentoCriado);
+    } 
 
     @GetMapping("/me")
     public ResponseEntity<Page<DadosBasicosAgendamentoDTO>> listarAgendamentoMe(
