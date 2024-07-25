@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
+import br.com.karol.sistema.api.dto.agendamento.ClienteCriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.CriarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.DadosBasicosAgendamentoDTO;
@@ -59,6 +60,26 @@ public class AgendamentoService {
             validators,
             usuarioLogin);
         return mapper.toDadosAgendamentoDTO(
+            agendamentoRepository.save(novoAgendamento));
+    }
+    @Transactional
+    public MeDadosAgendamentoDTO salvarAgendamentoMe(
+        ClienteCriarAgendamentoDTO dadosAgendamento, 
+        Long usuarioId
+    ) {
+        Cliente clienteAlvo = 
+            clienteService.getClienteByUsuarioId(usuarioId);
+        Procedimento procedimentoAlvo = procedimentoService
+            .getProcedimentoById(dadosAgendamento.getProcedimentoId());
+
+        Agendamento novoAgendamento = new Agendamento(
+            procedimentoAlvo,
+            dadosAgendamento.getStatus(),
+            dadosAgendamento.getObservacao(),
+            clienteAlvo,
+            dadosAgendamento.getDataHora(),
+            validators);
+        return mapper.toMeDadosAgendamentoDTO(
             agendamentoRepository.save(novoAgendamento));
     }
 
