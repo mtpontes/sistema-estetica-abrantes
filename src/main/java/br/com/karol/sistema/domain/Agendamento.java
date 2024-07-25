@@ -14,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,12 +40,12 @@ public class Agendamento {
     @Setter
     private LocalDateTime dataHora;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "procedimento_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "procedimento_id", unique = false)
     private Procedimento procedimento;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", unique = false)
     private Cliente cliente;
     
     private String usuarioLogin;
