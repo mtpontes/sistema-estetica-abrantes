@@ -151,10 +151,10 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorMessage> handleError403() {
+    public ResponseEntity<ErrorMessage> handleError403(AccessDeniedException ex) {
         return ResponseEntity
             .status(HttpStatus.FORBIDDEN)
-            .body(new ErrorMessage("Access denied"));
+            .body(new ErrorMessage(ex.getMessage()));
     }
     
     @ExceptionHandler(Exception.class)
