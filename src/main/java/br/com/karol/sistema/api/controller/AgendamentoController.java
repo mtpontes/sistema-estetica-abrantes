@@ -36,6 +36,7 @@ import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.business.service.DisponibilidadeService;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
+import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -103,6 +104,9 @@ public class AgendamentoController {
         @RequestParam(required = true) Long procedimentoId, 
         @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate diaHora
     ) {
+        if (diaHora.isBefore(LocalDate.now())) 
+            throw new FieldValidationException("diaHora", "Deve ser uma data futura");
+            
         return ResponseEntity.ok(disponibilidadeService
             .filtrarHorariosDisponiveis(procedimentoId, diaHora));
     }
@@ -232,7 +236,7 @@ public class AgendamentoController {
         return ResponseEntity.ok().body(
             agendamentoService.editarStatusAgendamentoUsuarioAtual(
                 agendamentoId, 
-                usuarioAtual.getId(), 
+                usuarioAtual, 
                 novoStatus)
             );
     }
