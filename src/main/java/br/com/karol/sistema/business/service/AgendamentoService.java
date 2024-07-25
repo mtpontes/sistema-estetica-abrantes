@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,10 @@ import br.com.karol.sistema.api.mapper.AgendamentoMapper;
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
+import br.com.karol.sistema.domain.Usuario;
+import br.com.karol.sistema.domain.constants.AgendamentoConstants;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
+import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
@@ -190,10 +194,16 @@ public class AgendamentoService {
     @Transactional
     public StatusAtualizadoAgendamentoDTO editarStatusAgendamentoUsuarioAtual(
         Long agendamentoId, 
-        Long usuarioId, 
+        Usuario usuario, 
         AtualizarStatusAgendamentoDTO novoStatus
     ) {
-        Agendamento alvo = this.getAgendamentoByIdAndUsuarioId(agendamentoId, usuarioId);
+        var permitidos =  AgendamentoConstants.statusesPermitidosParaClients;
+        if (usuario.getRole() == UserRole.CLIENT 
+            && !permitidos.contains(novoStatus.getStatus()))
+                throw new AccessDeniedException("Sem permissão para alterar status para: " + novoStatus.getStatus());
+
+        Agendamento alvo = 
+            this.getAgendamentoByIdAndUsuarioId(agendamentoId, usuario.getId());
         alvo.atualizarStatus(novoStatus.getStatus());
         
         return mapper.toStatusAtualizadoAgendamentoDTO(
@@ -212,6 +222,7 @@ public class AgendamentoService {
         return agendamentoRepository.findById(agendamentoId)
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
+
     private Agendamento getAgendamentoByIdAndUsuarioId(
         Long agendamentoId, 
         Long usuarioId
@@ -219,6 +230,7 @@ public class AgendamentoService {
         return agendamentoRepository.findByIdAndClienteUsuarioId(
             agendamentoId, 
             usuarioId
-        ).orElseThrow(EntityNotFoundException::new);
+        )
+        .orElseThrow(EntityNotFoundException::new);
     }
 }
