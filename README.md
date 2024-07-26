@@ -26,6 +26,13 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 ## 📖 Documentação
 Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
 
+## 💡 Melhorias
+
+- [ ] _Sistema de notificação:_ Os clientes serão notificados via email/Whatsapp quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
+- [ ] _Sistema de pagamentos:_ Será adicionado um sistema de pagamentos utilizando de uma API externa
+- [ ] _Validação de CEP:_ A validação de CEP será feita consultando a api ViaCep
+
+
 ## 🚀 Como Rodar
 <details>
 <summary>Clique para expandir</summary>
@@ -71,7 +78,7 @@ Use o comando `java -jar nome_do_jar` para rodar a aplicação.
 
 </details>
 
-## 💡 Problemas Comuns
+## 🐞 Problemas Comuns
 
 ### Erro de encoding ao fazer o build da aplicação
 - **Solução**: Crie a variável de ambiente "MAVEN_OPTS" com o valor "-Dfile.encoding=UTF-8".
