@@ -2,6 +2,15 @@
 
 Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Esta versão utiliza de muitos dos conceitos do Clean Architeture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
 
+## 📖 Documentação
+Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
+
+## 💡 Melhorias
+
+- [ ] _Sistema de notificação:_ Os clientes serão notificados via email/Whatsapp quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
+- [ ] _Sistema de pagamentos:_ Será adicionado um sistema de pagamentos utilizando de uma API externa
+- [ ] _Validação de CEP:_ A validação de CEP será feita consultando a api ViaCep
+
 ## 🖥️ Sobre o desenvolvimento
 <details>
 <summary>Clique para expandir</summary>
@@ -20,17 +29,6 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 
 
 </details>
-
-
-
-## 📖 Documentação
-Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
-
-## 💡 Melhorias
-
-- [ ] _Sistema de notificação:_ Os clientes serão notificados via email/Whatsapp quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
-- [ ] _Sistema de pagamentos:_ Será adicionado um sistema de pagamentos utilizando de uma API externa
-- [ ] _Validação de CEP:_ A validação de CEP será feita consultando a api ViaCep
 
 
 ## 🚀 Como Rodar
@@ -78,13 +76,19 @@ Use o comando `java -jar nome_do_jar` para rodar a aplicação.
 
 </details>
 
+
 ## 🐞 Problemas Comuns
+
+<details><summary>Clique para expandir</summary>
 
 ### Erro de encoding ao fazer o build da aplicação
 - **Solução**: Crie a variável de ambiente "MAVEN_OPTS" com o valor "-Dfile.encoding=UTF-8".
 
 ### Falha na conexão com o banco de dados MySQL
 - **Solução**: Verifique se o MySQL está rodando na porta correta (3306) e se as credenciais de acesso (DB_USERNAME e DB_PASSWORD) estão corretas.
+
+</details>
+
 
 
 ## 🤝 Colaboradores
