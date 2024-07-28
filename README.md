@@ -44,10 +44,19 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 
 - Clone o projeto com o comando `git clone link_do_github` ou baixe o zip pelo Github
 - Entre no diretório principal do projeto e execute: 
-    * Para Linux: `./mvnw clean install`
-    * Para Windows: `mvnw.cmd clean install`
-    * Caso já possua Maven instalado: `mvn clean install`
-    * Caso queira pular os testes, adicione após **"install"** o comando: `-DskipTests`
+    * Para Linux: 
+    
+          ./mvnw clean install -DskipTests
+
+
+    * Para Windows: 
+          
+          mvnw.cmd clean install -DskipTests
+
+
+    * Caso já possua Maven instalado: 
+    
+          mvn clean install -DskipTests
 
 ### 🔎 Detalhes
 
