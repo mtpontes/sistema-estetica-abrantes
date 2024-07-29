@@ -24,9 +24,7 @@ public class AuthenticationController {
     
     @PostMapping
     public ResponseEntity<LoginResponseDTO> fazerLogin(@RequestBody @Valid AuthenticationDTO data) {
-        var token = tokenService
-            .generateToken(
-                this.usuarioService.autenticarUsuario(
+        var token = tokenService.generateToken(usuarioService.autenticarUsuario(
                     data.getLogin(), 
                     data.getPassword()
                 )
