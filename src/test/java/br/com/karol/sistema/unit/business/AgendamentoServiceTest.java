@@ -327,7 +327,7 @@ public class AgendamentoServiceTest {
         Usuario usuario = UsuarioUtils.getUsuario();
         ReflectionTestUtils.setField(usuario, "role", UserRole.CLIENT);
 
-        var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
+        var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.FINALIZADO);
 
         // act
         assertThrows(AccessDeniedException.class,

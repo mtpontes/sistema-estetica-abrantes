@@ -12,6 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -408,6 +410,9 @@ public class AgendamentoControllerUnitTest {
     @WithMockUser
     void testBuscarHorariosDisponiveis() throws IOException, Exception {
         // arrange
+        var dataFutura = LocalDate.now().plusDays(1);
+        dataFutura = dataFutura.getDayOfWeek().equals(DayOfWeek.SUNDAY) ? dataFutura.plusDays(1) : dataFutura;
+        dataFutura = dataFutura.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? dataFutura.plusDays(2) : dataFutura;
         var responseBody = List.of(LocalDateTime.now());
         when(disponibilidadeService.filtrarHorariosDisponiveis(any(), any())).thenReturn(responseBody);
 
@@ -416,7 +421,7 @@ public class AgendamentoControllerUnitTest {
             get(BASE_URL + "/disponibilidade")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("procedimentoId", "1")
-                .param("diaHora", "2024-07-11")
+                .param("diaHora", dataFutura.toString())
             )
             // assert
             .andExpect(status().isOk())
