@@ -3,10 +3,9 @@
 Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Esta versão utiliza de muitos dos conceitos do Clean Architecture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
 
 ## 📖 Documentação
-Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
+Confira a documentação completa da API feita com Postman: [Documentação](https://abrantes.doc.mtpontes.com)
 
-#### Endereço da API
-A API pode ser acessada através da URL: http://abrantes.mtpontes.com
+A API pode ser acessada aqui: [Abrantes API](https://abrantes.mtpontes.com)
 
 ## 💡 Melhorias
 
