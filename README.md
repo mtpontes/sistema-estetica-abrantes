@@ -1,6 +1,6 @@
 # Clínica Estética Abrantes
 
-Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Esta versão utiliza de muitos dos conceitos do Clean Architeture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
+Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Esta versão utiliza de muitos dos conceitos do Clean Architecture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
 
 ## 📖 Documentação
 Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
@@ -15,7 +15,11 @@ Confira a documentação completa da API feita com Postman: https://documenter.g
 <details><summary>Clique para expandir</summary>
 <br>
 
-Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/JIJunior22), onde ele fez o levantamento de requisitos do projeto com a proprietária de uma clínica estética. Após as reuniões de requisitos, ele modelou e criou toda a base do sistema, definindo as entidades e seus mapeamentos, e as regras de negócio base. Após isso, eu entrei para o projeto como colaborador, somando com qualidade e código em geral. Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em diversos ajustes, melhorias e novas ideias para o projeto. Cada um desenvolveu a sua própria versão do sistema por uma questão de exercício, mas ambos contribuem para o projeto do outro.
+Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/JIJunior22), onde ele fez o levantamento de requisitos do projeto com a proprietária de uma clínica estética. Após as reuniões de requisitos, ele modelou e criou toda a base do sistema, definindo as entidades e seus mapeamentos, e o CRUD básico da API. 
+
+A seguir, entrei para o projeto como colaborador, somando com qualidade e código em geral, implementando uma arquitetura MVC muito inspirada nos princípios do Clean Architecture, SOLID e Domain Driven Design. Implementei todas as regras de negócio, validações, algorítmos, querys, papéis, permissões, testes, entradas, saídas, remodelei entidades e documentei toda a API.
+
+Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em diversos ajustes, melhorias e novas ideias para o projeto. Cada um desenvolveu a sua própria versão do sistema por uma questão de exercício, mas ambos contribuem para o projeto do outro.
 
 ### 🧰 Tecnologias
 
@@ -34,7 +38,7 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 ### 📋 Pré-requisitos
 
 - Java 17
-- Banco de dados MySQL
+- Banco de dados MySQL 8.0
 
 ### 📦 Instalando
 
