@@ -12,13 +12,10 @@ Confira a documentação completa da API feita com Postman: https://documenter.g
 - [ ] _Validação de CEP:_ A validação de CEP será feita consultando a api ViaCep
 
 ## 🖥️ Sobre o desenvolvimento
-<details>
-<summary>Clique para expandir</summary>
-
+<details><summary>Clique para expandir</summary>
 <br>
 
 Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/JIJunior22), onde ele fez o levantamento de requisitos do projeto com a proprietária de uma clínica estética. Após as reuniões de requisitos, ele modelou e criou toda a base do sistema, definindo as entidades e seus mapeamentos, e as regras de negócio base. Após isso, eu entrei para o projeto como colaborador, somando com qualidade e código em geral. Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em diversos ajustes, melhorias e novas ideias para o projeto. Cada um desenvolveu a sua própria versão do sistema por uma questão de exercício, mas ambos contribuem para o projeto do outro.
-
 
 ### 🧰 Tecnologias
 
@@ -26,7 +23,6 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 - JWT
 - MySQL
 - Postman
-
 
 </details>
 
@@ -42,7 +38,10 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 
 ### 📦 Instalando
 
-- Clone o projeto com o comando `git clone link_do_github` ou baixe o zip pelo Github
+- Clone o projeto com o comando (ou baixe o zip pelo Github):
+
+      git clone link_do_github https://github.com/mtpontes/sistema-estetica-abrantes.git
+
 - Entre no diretório principal do projeto e execute: 
     * Para Linux: 
     
@@ -81,13 +80,14 @@ A aplicação está configurada para se conectar ao MySQL pela porta 3306.
 
 O app empacotado pode ser encontrado no diretório `/target` após seguir o procedimento de instalação.
 
-Use o comando `java -jar nome_do_jar` para rodar a aplicação.
+Para executar a aplicação use o comando: 
+        
+    java -jar nome_do_jar
 
 </details>
 
 
 ## 🐞 Problemas Comuns
-
 <details><summary>Clique para expandir</summary>
 
 ### Erro de encoding ao fazer o build da aplicação
