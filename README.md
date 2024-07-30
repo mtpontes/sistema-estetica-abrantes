@@ -40,7 +40,7 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 
 - Clone o projeto com o comando (ou baixe o zip pelo Github):
 
-      git clone link_do_github https://github.com/mtpontes/sistema-estetica-abrantes.git
+      git clone https://github.com/mtpontes/sistema-estetica-abrantes.git
 
 - Entre no diretório principal do projeto e execute: 
     * Para Linux: 
