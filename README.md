@@ -5,6 +5,9 @@ Este é um sistema de agendamentos de uma clínica estética. Nele, os atendente
 ## 📖 Documentação
 Confira a documentação completa da API feita com Postman: https://documenter.getpostman.com/view/31232249/2sA3kVk1g5
 
+#### Endereço da API
+A API pode ser acessada através da URL: http://abrantes.mtpontes.com
+
 ## 💡 Melhorias
 
 - [ ] _Sistema de notificação:_ Os clientes serão notificados via email/Whatsapp quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
@@ -32,8 +35,7 @@ Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em divers
 
 
 ## 🚀 Como Rodar
-<details>
-<summary>Clique para expandir</summary>
+<details><summary>Clique para expandir</summary>
 
 ### 📋 Pré-requisitos
 
