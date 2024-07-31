@@ -19,7 +19,7 @@ O Deploy na AWS pode ser acessado aqui: [Abrantes API](https://abrantes.mtpontes
 
 Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/JIJunior22), onde ele fez o levantamento de requisitos do projeto com a proprietária de uma clínica estética. Após as reuniões de requisitos, ele modelou e criou toda a base do sistema, definindo as entidades e seus mapeamentos, e o CRUD básico da API. 
 
-A seguir, entrei para o projeto como colaborador, somando com qualidade e código em geral, implementando uma arquitetura MVC muito inspirada nos princípios do Clean Architecture, SOLID e Domain Driven Design. Implementei todas as regras de negócio, validações, algorítmos, querys, papéis, permissões, testes, entradas, saídas, remodelei entidades e documentei toda a API.
+A seguir, entrei para o projeto como colaborador, somando com qualidade de código em geral, implementando uma arquitetura MVC muito inspirada nos princípios do Clean Architecture, SOLID e Domain Driven Design. Implementei todas as regras de negócio, validações, algorítmos, querys, papéis, permissões, testes, entradas, saídas, remodelei entidades e documentei toda a API.
 
 Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em diversos ajustes, melhorias e novas ideias para o projeto. Cada um desenvolveu a sua própria versão do sistema por uma questão de exercício, mas ambos contribuem para o projeto do outro.
 
