@@ -19,7 +19,7 @@ O Deploy na AWS pode ser acessado aqui: [Abrantes API](http://abrantes.mtpontes.
 
 Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/JIJunior22), onde ele fez o levantamento de requisitos do projeto com a proprietária de uma clínica estética. Após as reuniões de requisitos, ele modelou e criou toda a base do sistema, definindo as entidades e seus mapeamentos, e o CRUD básico da API. 
 
-A seguir, entrei para o projeto como colaborador, somando com qualidade e código em geral, implementando uma arquitetura MVC muito inspirada nos princípios do Clean Architecture, SOLID e Domain Driven Design. Implementei todas as regras de negócio, validações, algorítmos, querys, papéis, permissões, testes, entradas, saídas, remodelei entidades e documentei toda a API.
+A seguir, entrei para o projeto como colaborador, somando com qualidade de código em geral, implementando uma arquitetura MVC muito inspirada nos princípios do Clean Architecture, SOLID e Domain Driven Design. Implementei todas as regras de negócio, validações, algorítmos, querys, papéis, permissões, testes, entradas, saídas, remodelei entidades e documentei toda a API.
 
 Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em diversos ajustes, melhorias e novas ideias para o projeto. Cada um desenvolveu a sua própria versão do sistema por uma questão de exercício, mas ambos contribuem para o projeto do outro.
 
@@ -27,7 +27,7 @@ Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em divers
 
 - SpringBoot
 - JWT
-- MySQL
+- PostGreSQL
 - Postman
 
 </details>
@@ -39,7 +39,7 @@ Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em divers
 ### 📋 Pré-requisitos
 
 - Java 17
-- Banco de dados MySQL 8.0
+- PostGreSQL 16 (também deve funcionar na versão 8 e superiores)
 
 ### 📦 Instalando
 
@@ -64,7 +64,7 @@ Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em divers
 
 ### 🔎 Detalhes
 
-A aplicação está configurada para se conectar ao MySQL pela porta 3306.
+A aplicação está configurada para se conectar ao PostGre pela porta 5432.
 
 ### 🌍 Variáveis de ambiente:
 
@@ -98,8 +98,8 @@ Para executar a aplicação use o comando:
 ### Erro de encoding ao fazer o build da aplicação
 - **Solução**: Crie a variável de ambiente "MAVEN_OPTS" com o valor "-Dfile.encoding=UTF-8".
 
-### Falha na conexão com o banco de dados MySQL
-- **Solução**: Verifique se o MySQL está rodando na porta correta (3306) e se as credenciais de acesso (DB_USERNAME e DB_PASSWORD) estão corretas.
+### Falha na conexão com o banco de dados PostGre
+- **Solução**: Verifique se o PostGre está rodando na porta correta (5432) e se as credenciais de acesso (DB_USERNAME e DB_PASSWORD) estão corretas.
 
 </details>
 
