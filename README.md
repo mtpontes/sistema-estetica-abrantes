@@ -5,7 +5,7 @@ Este é um sistema de agendamentos de uma clínica estética. Nele, os atendente
 ## 📖 Documentação
 Confira a documentação completa da API feita com Postman: [Documentação](https://abrantes.doc.mtpontes.com)
 
-A API pode ser acessada aqui: [Abrantes API](https://abrantes.mtpontes.com)
+O Deploy na AWS pode ser acessado aqui: [Abrantes API](https://abrantes.mtpontes.com)
 
 ## 💡 Melhorias
 
