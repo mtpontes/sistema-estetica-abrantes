@@ -1,7 +1,7 @@
 package br.com.karol.sistema.domain.valueobjects;
 
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
+import br.com.karol.sistema.domain.validator.SenhaValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

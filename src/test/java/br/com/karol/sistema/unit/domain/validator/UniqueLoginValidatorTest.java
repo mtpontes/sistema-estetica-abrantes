@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.domain.validator.usuario.login.UniqueLoginValidator;
+import br.com.karol.sistema.business.validators.UniqueLoginValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 

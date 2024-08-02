@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.karol.sistema.domain.validator.usuario.senha.PatternSenhaValidator;
+import br.com.karol.sistema.business.validators.PatternSenhaValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 
 public class PatternSenhaValidatorTest {

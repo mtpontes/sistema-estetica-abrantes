@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.formatter.TelefoneFormatter;
-import br.com.karol.sistema.domain.validator.cliente.telefone.TelefoneValidator;
+import br.com.karol.sistema.domain.validator.TelefoneValidator;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
 import lombok.AllArgsConstructor;
 

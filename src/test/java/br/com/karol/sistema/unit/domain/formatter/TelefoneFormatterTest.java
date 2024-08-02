@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import br.com.karol.sistema.business.formatters.TelefoneFormatterImpl;
 import br.com.karol.sistema.domain.formatter.TelefoneFormatter;
-import br.com.karol.sistema.domain.formatter.TelefoneFormatterImpl;
 
 public class TelefoneFormatterTest {
 

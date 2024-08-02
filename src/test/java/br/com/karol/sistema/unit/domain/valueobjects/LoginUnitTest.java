@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
+import br.com.karol.sistema.domain.validator.LoginValidator;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

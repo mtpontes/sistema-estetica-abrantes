@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.api.mapper.SenhaMapper;
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
+import br.com.karol.sistema.domain.validator.SenhaValidator;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 
 @ExtendWith(MockitoExtension.class)

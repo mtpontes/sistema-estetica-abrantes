@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.domain.formatter.TelefoneFormatter;
-import br.com.karol.sistema.domain.validator.cliente.telefone.TelefoneValidator;
+import br.com.karol.sistema.domain.validator.TelefoneValidator;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

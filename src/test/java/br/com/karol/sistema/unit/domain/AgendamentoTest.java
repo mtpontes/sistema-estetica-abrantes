@@ -20,7 +20,7 @@ import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
-import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
+import br.com.karol.sistema.domain.validator.AgendamentoValidator;
 
 @ExtendWith(MockitoExtension.class)
 public class AgendamentoTest {

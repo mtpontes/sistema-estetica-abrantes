@@ -1,7 +1,8 @@
-package br.com.karol.sistema.domain.validator.usuario.login;
+package br.com.karol.sistema.business.validators;
 
 import org.springframework.stereotype.Component;
 
+import br.com.karol.sistema.domain.validator.LoginValidator;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import lombok.AllArgsConstructor;

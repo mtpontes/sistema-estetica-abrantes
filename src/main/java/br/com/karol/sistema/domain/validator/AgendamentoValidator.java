@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validator.agendamento;
+package br.com.karol.sistema.domain.validator;
 
 import br.com.karol.sistema.domain.Agendamento;
 

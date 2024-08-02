@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import br.com.karol.sistema.business.formatters.SenhaEncoderImpl;
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.formatter.SenhaEncoderImpl;
 
 public class SenhaEncoderTest {
     

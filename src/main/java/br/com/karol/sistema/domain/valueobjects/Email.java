@@ -2,7 +2,7 @@ package br.com.karol.sistema.domain.valueobjects;
 
 import java.util.List;
 
-import br.com.karol.sistema.domain.validator.cliente.email.EmailValidator;
+import br.com.karol.sistema.domain.validator.EmailValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

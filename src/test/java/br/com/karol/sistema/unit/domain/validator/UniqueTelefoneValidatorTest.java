@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.domain.validator.cliente.telefone.UniqueTelefoneValidator;
+import br.com.karol.sistema.business.validators.UniqueTelefoneValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import br.com.karol.sistema.infra.repository.ClienteRepository;
 

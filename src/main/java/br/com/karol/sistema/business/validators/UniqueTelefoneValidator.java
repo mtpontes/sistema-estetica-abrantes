@@ -1,7 +1,8 @@
-package br.com.karol.sistema.domain.validator.cliente.telefone;
+package br.com.karol.sistema.business.validators;
 
 import org.springframework.stereotype.Component;
 
+import br.com.karol.sistema.domain.validator.TelefoneValidator;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import br.com.karol.sistema.infra.repository.ClienteRepository;

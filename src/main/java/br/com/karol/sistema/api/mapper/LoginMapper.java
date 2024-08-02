@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
+import br.com.karol.sistema.domain.validator.LoginValidator;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import lombok.AllArgsConstructor;
 

@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validator.cliente.cpf;
+package br.com.karol.sistema.domain.validator;
 
 public interface CpfValidator {
     void validate(String value);

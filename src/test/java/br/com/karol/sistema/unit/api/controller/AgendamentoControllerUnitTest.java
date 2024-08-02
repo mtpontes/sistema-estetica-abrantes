@@ -53,7 +53,7 @@ import br.com.karol.sistema.config.ContextualizeUsuarioTypeWithRoles;
 import br.com.karol.sistema.constants.TestConstants;
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
-import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
+import br.com.karol.sistema.domain.validator.AgendamentoValidator;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;

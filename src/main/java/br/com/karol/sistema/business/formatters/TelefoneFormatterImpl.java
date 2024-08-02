@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.formatter;
+package br.com.karol.sistema.business.formatters;
 
 import org.springframework.stereotype.Component;
 
@@ -7,6 +7,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
+import br.com.karol.sistema.domain.formatter.TelefoneFormatter;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

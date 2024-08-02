@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validator.agendamento;
+package br.com.karol.sistema.business.validators;
 
 import java.time.LocalDate;
 
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.constants.AgendamentoConstants;
+import br.com.karol.sistema.domain.validator.AgendamentoValidator;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import lombok.AllArgsConstructor;
 

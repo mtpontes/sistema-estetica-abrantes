@@ -1,7 +1,8 @@
-package br.com.karol.sistema.domain.validator.cliente.email;
+package br.com.karol.sistema.business.validators;
 
 import org.springframework.stereotype.Component;
 
+import br.com.karol.sistema.domain.validator.EmailValidator;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

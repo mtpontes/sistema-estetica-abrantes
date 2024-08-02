@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.api.mapper.LoginMapper;
-import br.com.karol.sistema.domain.validator.usuario.login.LoginValidator;
-import br.com.karol.sistema.domain.validator.usuario.login.PatternLoginValidator;
+import br.com.karol.sistema.business.validators.PatternLoginValidator;
+import br.com.karol.sistema.domain.validator.LoginValidator;
 import br.com.karol.sistema.domain.valueobjects.Login;
 
 @ExtendWith(MockitoExtension.class)

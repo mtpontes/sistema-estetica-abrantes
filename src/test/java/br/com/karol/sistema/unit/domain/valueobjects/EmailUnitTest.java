@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.domain.validator.cliente.email.EmailValidator;
+import br.com.karol.sistema.domain.validator.EmailValidator;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

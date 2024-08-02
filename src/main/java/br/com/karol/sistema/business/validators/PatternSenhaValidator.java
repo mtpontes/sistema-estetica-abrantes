@@ -1,4 +1,4 @@
-package br.com.karol.sistema.domain.validator.usuario.senha;
+package br.com.karol.sistema.business.validators;
 
 import java.util.List;
 import java.util.Properties;
@@ -17,6 +17,7 @@ import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
 import org.springframework.stereotype.Component;
 
+import br.com.karol.sistema.domain.validator.SenhaValidator;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

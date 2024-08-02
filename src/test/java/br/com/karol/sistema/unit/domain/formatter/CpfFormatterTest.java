@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import br.com.karol.sistema.business.formatters.CpfFormatter;
 import br.com.karol.sistema.constants.TestConstants;
-import br.com.karol.sistema.domain.formatter.CpfFormatter;
 import br.com.karol.sistema.domain.formatter.CpfFormatterImpl;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

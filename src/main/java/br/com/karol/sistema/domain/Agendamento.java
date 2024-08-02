@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
-import br.com.karol.sistema.domain.validator.agendamento.AgendamentoValidator;
+import br.com.karol.sistema.domain.validator.AgendamentoValidator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

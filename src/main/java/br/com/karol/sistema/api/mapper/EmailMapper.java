@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.karol.sistema.domain.validator.cliente.email.EmailValidator;
+import br.com.karol.sistema.domain.validator.EmailValidator;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import lombok.AllArgsConstructor;
 

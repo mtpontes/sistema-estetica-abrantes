@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
-import br.com.karol.sistema.domain.validator.usuario.senha.SenhaValidator;
+import br.com.karol.sistema.domain.validator.SenhaValidator;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 

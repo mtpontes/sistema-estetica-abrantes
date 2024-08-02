@@ -16,8 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.api.mapper.CpfMapper;
-import br.com.karol.sistema.domain.formatter.CpfFormatter;
-import br.com.karol.sistema.domain.validator.cliente.cpf.CpfValidator;
+import br.com.karol.sistema.business.formatters.CpfFormatter;
+import br.com.karol.sistema.domain.validator.CpfValidator;
 import br.com.karol.sistema.domain.valueobjects.Cpf;
 
 @ExtendWith(MockitoExtension.class)

@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.api.mapper.EmailMapper;
-import br.com.karol.sistema.domain.validator.cliente.email.EmailValidator;
+import br.com.karol.sistema.domain.validator.EmailValidator;
 import br.com.karol.sistema.domain.valueobjects.Email;
 
 @ExtendWith(MockitoExtension.class)
