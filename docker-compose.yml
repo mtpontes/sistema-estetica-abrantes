@@ -1,0 +1,45 @@
+services:
+
+  abrantes-database:
+    image: postgres:16
+    restart: unless-stopped
+    shm_size: 128mb
+    volumes:
+      - ./postgre-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: estetica_abrantes
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    networks:
+      - abrantes-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d estetica_abrantes"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s
+
+
+  abrantes-application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: abrantes-deploy
+    environment:
+      DB_HOST: abrantes-database
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      JWT_SECRET: secret
+      ADMIN_USERNAME: root
+      ADMIN_PASSWORD: rooT@34923
+    networks:
+      - abrantes-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      abrantes-database:
+        condition: service_healthy
+
+networks:
+  abrantes-network:
+    driver: bridge
