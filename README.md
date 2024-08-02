@@ -1,6 +1,6 @@
 # Clínica Estética Abrantes
 
-Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Esta versão utiliza de muitos dos conceitos do Clean Architecture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
+Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Nesta clínica os atendimentos são realizados por uma única esteticista, a proprietária. Esta versão utiliza de muitos dos conceitos do Clean Architecture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
 
 ## 📖 Documentação
 Confira a documentação completa da API feita com Postman: [Documentação](https://abrantes.doc.mtpontes.com)
@@ -12,6 +12,7 @@ O Deploy na AWS pode ser acessado aqui: [Abrantes API](http://abrantes.mtpontes.
 - [ ] _Sistema de pagamentos_: Será adicionado um sistema de pagamentos utilizando de uma API externa
 - [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
 - [ ] _Sistema de notificação_: Os clientes serão notificados via email, Whatsapp e SMS quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
+- [ ] _Alta cobertura de testes de integração_: Os atuais testes da API são todos testes de unidade. Irei implementar testes de integração com banco de dados e teste end-to-end, com a intenção de fazer a maior cobertura possível
 
 ## 🖥️ Sobre o desenvolvimento
 <details><summary>Clique para expandir</summary>
