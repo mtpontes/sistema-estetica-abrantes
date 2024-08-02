@@ -11,7 +11,7 @@ O Deploy na AWS pode ser acessado aqui: [Abrantes API](http://abrantes.mtpontes.
 
 - [ ] _Sistema de pagamentos_: Será adicionado um sistema de pagamentos utilizando de uma API externa
 - [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
-- [ ] _Sistema de notificação_: Os clientes serão notificados via email/Whatsapp quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
+- [ ] _Sistema de notificação_: Os clientes serão notificados via email, Whatsapp e SMS quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
 
 ## 🖥️ Sobre o desenvolvimento
 <details><summary>Clique para expandir</summary>
@@ -22,6 +22,8 @@ Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/J
 A seguir, entrei para o projeto como colaborador, somando com qualidade de código em geral, implementando uma arquitetura MVC muito inspirada nos princípios do Clean Architecture, SOLID e Domain Driven Design. Implementei todas as regras de negócio, validações, algorítmos, querys, papéis, permissões, testes, entradas, saídas, remodelei entidades e documentei toda a API.
 
 Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em diversos ajustes, melhorias e novas ideias para o projeto. Cada um desenvolveu a sua própria versão do sistema por uma questão de exercício, mas ambos contribuem para o projeto do outro.
+
+Esse projeto me trouxe diversos insights de recursos que eu poderia implementar nele, mas como ele foi criado desenvolvido com base nas necessidades deste cliente, tem muita coisa que não faria sentido implementar, então, fica pra um próximo projeto :)
 
 ### 🧰 Tecnologias
 
