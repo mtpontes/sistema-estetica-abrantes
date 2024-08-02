@@ -9,11 +9,9 @@ O Deploy na AWS pode ser acessado aqui: [Abrantes API](http://abrantes.mtpontes.
 
 ## 💡 Melhorias
 
-- [ ] _Dockerizar o app:_ Irei adicionar um Dockerfile e um docker-compose.yml
-- [ ] _Sistema de notificação_: Os clientes serão notificados via email/Whatsapp quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
 - [ ] _Sistema de pagamentos_: Será adicionado um sistema de pagamentos utilizando de uma API externa
-- [ ] _Validação de CEP_: A validação de CEP será feita consultando a api ViaCep
 - [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
+- [ ] _Sistema de notificação_: Os clientes serão notificados via email/Whatsapp quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
 
 ## 🖥️ Sobre o desenvolvimento
 <details><summary>Clique para expandir</summary>
