@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.domain.formatter;
+package br.com.karol.sistema.unit.business.formatter;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;

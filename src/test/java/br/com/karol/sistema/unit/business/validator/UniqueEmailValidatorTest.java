@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.domain.validator;
+package br.com.karol.sistema.unit.business.validator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,29 +11,29 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.business.validators.UniqueCpfValidator;
+import br.com.karol.sistema.business.validators.UniqueEmailValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import br.com.karol.sistema.infra.repository.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class UniqueCpfValidatorTest {
+public class UniqueEmailValidatorTest {
 
     @Mock
     private ClienteRepository repository;
 
     @InjectMocks
-    private UniqueCpfValidator validator;
+    private UniqueEmailValidator validator;
 
 
     @Test
     void testDeveLancarExceptionQuandoExisteLogin() {
-        when(repository.existsByCpfValue(anyString())).thenReturn(true);
+        when(repository.existsByEmailValue(anyString())).thenReturn(true);
         assertThrows(FieldValidationException.class, () -> validator.validate("login"));
     }
 
     @Test
     void testeDeveFazerNadaQuandoLoginNaoExiste() {
-        when(repository.existsByCpfValue(anyString())).thenReturn(false);
+        when(repository.existsByEmailValue(anyString())).thenReturn(false);
         assertDoesNotThrow(() -> validator.validate("login"));
     }
 }

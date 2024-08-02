@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.domain.validator;
+package br.com.karol.sistema.unit.business.validator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
