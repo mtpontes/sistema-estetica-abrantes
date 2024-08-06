@@ -37,6 +37,7 @@ public class ClienteService {
     private final EmailMapper emailMapper;
     private final EnderecoMapper enderecoMapper;
     private final UsuarioService usuarioService;
+    private final TokenService tokenService;
 
 
     @Transactional
@@ -47,6 +48,7 @@ public class ClienteService {
         Cliente savedCliente = repository.save(cliente);
         return mapper.toDadosCompletosClienteDTO(savedCliente);
     }
+    
     @Transactional
     public DadosCompletosClienteDTO salvarClienteComUsuario(
         CriarUsuarioClienteDTO dados
@@ -58,6 +60,9 @@ public class ClienteService {
                 dados.getSenha()
             )
         );
+
+        String emailDecoded = tokenService.validateToken(dados.getEmailConfirmationToken());
+        dados.setEmailConfirmationToken(emailDecoded);
         Cliente cliente = mapper.toClienteComUsuario(dados, usuario);
 
         Cliente savedCliente = repository.save(cliente);

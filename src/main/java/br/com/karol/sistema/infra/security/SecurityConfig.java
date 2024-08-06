@@ -29,8 +29,6 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                .requestMatchers(HttpMethod.POST, "/usuarios/clientes").permitAll()
-
 
                 .requestMatchers(HttpMethod.GET, "/usuarios").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/usuarios/nome").authenticated()
@@ -40,16 +38,17 @@ public class SecurityConfig {
                 .requestMatchers("/usuarios/admin/**").hasRole("ADMIN")                
 
 
+                .requestMatchers("/clientes/email/**", "/clientes/usuario/**").permitAll()
                 .requestMatchers("/clientes/me/**").hasAnyRole("CLIENT")
                 .requestMatchers("/clientes/**").hasAnyRole("USER", "ADMIN")
                 
+
                 .requestMatchers(HttpMethod.GET, "/procedimentos/**").permitAll()
                 .requestMatchers("/procedimentos/**").hasRole("ADMIN")
 
                 .requestMatchers("/agendamentos/disponibilidade").authenticated()
                 .requestMatchers("/agendamentos/me/**").hasRole("CLIENT")
                 .requestMatchers("/agendamentos/**").hasAnyRole("USER", "ADMIN")
-            
 
                 .anyRequest().authenticated()
             )
