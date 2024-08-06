@@ -17,24 +17,28 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
     
     List<Agendamento> findByDataHoraBetween(LocalDateTime inicio, LocalDateTime fim);
 
-    @Query("""
+    @Query(
+        """
         SELECT COUNT(a) > 0 FROM Agendamento a 
-        WHERE a.procedimento.id = ?1 
-        AND a.status NOT IN ('FINALIZADO', 'CANCELADO')
-    """)
+        WHERE a.procedimento.id = :procedimentoId 
+        AND a.status IN ('FINALIZADO', 'CANCELADO')
+        """
+    )
     boolean existsByProcedimentoIdAndStatusIn(Long procedimentoId);
 
-    @Query("""
-    SELECT p FROM Agendamento p WHERE
-    (:procedimentoId IS NULL OR p.procedimento.id = :procedimentoId)
-    AND (:procedimentoNome IS NULL OR LOWER(p.procedimento.nome) LIKE LOWER(CONCAT('%', :procedimentoNome, '%')))
-    AND (:status IS NULL OR p.status = :status)
-    AND (:minDataHora IS NULL OR p.dataHora >= :minDataHora)
-    AND (:maxDataHora IS NULL OR p.dataHora <= :minDataHora)
-    AND (:clienteNome IS NULL OR LOWER(p.cliente.nome) LIKE LOWER(CONCAT('%', :clienteNome, '%')))
-    AND (:clienteId IS NULL OR p.cliente.id = :clienteId)
-    AND (:clienteCpf IS NULL OR p.cliente.cpf = :clienteCpf)
-    """)
+    @Query(
+        """
+        SELECT a FROM Agendamento a WHERE
+        (:procedimentoId IS NULL OR a.procedimento.id = :procedimentoId)
+        AND (:procedimentoNome IS NULL OR LOWER(a.procedimento.nome) LIKE LOWER(CONCAT('%', :procedimentoNome, '%')))
+        AND (:status IS NULL OR a.status = :status)
+        AND (:minDataHora IS NULL OR a.dataHora >= :minDataHora)
+        AND (:maxDataHora IS NULL OR a.dataHora <= :maxDataHora)
+        AND (:clienteNome IS NULL OR LOWER(a.cliente.nome) LIKE LOWER(CONCAT('%', :clienteNome, '%')))
+        AND (:clienteId IS NULL OR a.cliente.id = :clienteId)
+        AND (:clienteCpf IS NULL OR a.cliente.cpf.value = :clienteCpf)
+        """
+    )
     Page<Agendamento> findAllByParams(
         Long procedimentoId, 
         String procedimentoNome, 
