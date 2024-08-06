@@ -24,16 +24,17 @@ import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
 import br.com.karol.sistema.api.mapper.SenhaMapper;
 import br.com.karol.sistema.api.mapper.UsuarioMapper;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
+import br.com.karol.sistema.utils.UsuarioUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
 
-    private static final Usuario DEFAULT = UsuarioUtils.getUsuario();
+    private static final Usuario DEFAULT = UsuarioFactory.getUsuario();
 
     @Mock
     private UsuarioRepository repository;

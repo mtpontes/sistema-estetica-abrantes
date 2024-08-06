@@ -19,18 +19,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import br.com.karol.sistema.api.dto.procedimento.AtualizarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.api.mapper.ProcedimentoMapper;
+import br.com.karol.sistema.builder.ProcedimentoFactory;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import br.com.karol.sistema.infra.repository.ProcedimentoRepository;
-import br.com.karol.sistema.unit.utils.ProcedimentoUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class ProcedimentoServiceTest {
 
-    private static final Procedimento DEFAULT = ProcedimentoUtils.getProcedimento();
+    private static final Procedimento DEFAULT = ProcedimentoFactory.getProcedimento();
 
     @Mock
     private ProcedimentoRepository repository;

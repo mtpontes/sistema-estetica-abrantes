@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.karol.sistema.api.controller.AuthenticationController;
 import br.com.karol.sistema.api.dto.authentication.AuthenticationDTO;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.business.service.UserDetailsServiceImpl;
 import br.com.karol.sistema.business.service.UsuarioService;
@@ -27,8 +28,7 @@ import br.com.karol.sistema.constants.TestConstants;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
-import br.com.karol.sistema.unit.utils.ControllerTestUtils;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
+import br.com.karol.sistema.utils.ControllerTestUtils;
 
 @AutoConfigureJsonTesters
 @Import(SecurityConfig.class)
@@ -37,7 +37,7 @@ public class AuthenticationControllerUnitTest {
 
     private final static String BASE_URL = "/auth";
     
-    private final static Usuario DEFAULT_USER = UsuarioUtils.getUsuario();
+    private final static Usuario DEFAULT_USER = UsuarioFactory.getUsuario();
 
     @Autowired
     private MockMvc mvc;

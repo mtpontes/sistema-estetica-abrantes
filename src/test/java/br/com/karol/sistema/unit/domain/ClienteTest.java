@@ -16,7 +16,7 @@ import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.valueobjects.Cpf;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
-import br.com.karol.sistema.unit.utils.ClienteUtils;
+import br.com.karol.sistema.utils.ClienteUtils;
 
 public class ClienteTest {
 

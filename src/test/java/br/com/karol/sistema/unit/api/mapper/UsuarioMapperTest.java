@@ -17,14 +17,15 @@ import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
 import br.com.karol.sistema.api.mapper.LoginMapper;
 import br.com.karol.sistema.api.mapper.SenhaMapper;
 import br.com.karol.sistema.api.mapper.UsuarioMapper;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.enums.UserRole;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
+import br.com.karol.sistema.utils.UsuarioUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class UsuarioMapperTest {
 
-    private static final Usuario DEFAULT = UsuarioUtils.getUsuario();
+    private static final Usuario DEFAULT = UsuarioFactory.getUsuario();
 
     @Mock
     private LoginMapper loginMapper;

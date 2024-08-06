@@ -11,8 +11,8 @@ import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.domain.enums.UserRole;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
 
 public class RolesInvocationContextProvider implements TestTemplateInvocationContextProvider {
 
@@ -48,7 +48,7 @@ public class RolesInvocationContextProvider implements TestTemplateInvocationCon
 
                 @Override
                 public void beforeEach(ExtensionContext context) {
-                    var user = UsuarioUtils.getUsuario();
+                    var user = UsuarioFactory.getUsuario();
                     user.setRole(UserRole.fromString(role));
                     SecurityContextHolder.getContext().setAuthentication(
                         new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));

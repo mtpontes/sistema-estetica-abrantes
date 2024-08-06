@@ -2,6 +2,7 @@ package br.com.karol.sistema.unit.api.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -13,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +26,28 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.karol.sistema.api.controller.ClienteController;
+import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
+import br.com.karol.sistema.api.dto.EmailDTO;
 import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.business.service.ClienteService;
+import br.com.karol.sistema.business.service.EmailSendService;
 import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.config.ContextualizeUsuarioTypeWithRoles;
 import br.com.karol.sistema.constants.TestConstants;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
-import br.com.karol.sistema.unit.utils.ClienteUtils;
-import br.com.karol.sistema.unit.utils.ControllerTestUtils;
+import br.com.karol.sistema.utils.ClienteUtils;
+import br.com.karol.sistema.utils.ControllerTestUtils;
 
 @AutoConfigureJsonTesters
 @Import(SecurityConfig.class)
@@ -58,9 +65,15 @@ public class ClienteControllerUnitTest {
 
     @MockBean
     private ClienteService service;
+    @MockBean
+    private EmailSendService emailSendService;
 
     @Autowired
+    private JacksonTester<EmailDTO> emailDTOJson;
+    @Autowired
     private JacksonTester<CriarClienteDTO> criarClienteDTO;
+    @Autowired
+    private JacksonTester<CriarUsuarioClienteDTO> criarUsuarioClienteDTOJson;
     @Autowired
     private JacksonTester<AtualizarClienteDTO> atualizarClienteDTOJson;
     @Autowired
@@ -72,6 +85,146 @@ public class ClienteControllerUnitTest {
     @MockBean
     private UsuarioRepository usuarioRepository;
 
+    @BeforeAll
+    static void setup() {
+        ReflectionTestUtils.setField(CLIENTE_DEFAULT, "usuario", UsuarioFactory.getUsuario());
+    }   
+
+    @Test
+    void testEmailVerification() throws IOException, Exception {
+        // arrange
+        EmailDTO requestBody = new EmailDTO("random@email.com");
+
+        // act
+        ControllerTestUtils.postRequest(
+            mvc, 
+            BASE_URL + "/email", 
+            emailDTOJson.write(requestBody).getJson()
+        )
+
+        // assert
+        .andExpect(status().isNoContent());
+
+        verify(emailSendService).sendEmailVerification(anyString());
+    }
+    @Test
+    void testEmailVerification_comBodyInvalido() throws IOException, Exception {
+        // arrange
+        EmailDTO requestBodyBlank = new EmailDTO("");
+
+        // act
+        ControllerTestUtils.postRequest(
+            mvc, 
+            BASE_URL + "/email", 
+            emailDTOJson.write(requestBodyBlank).getJson()
+        )
+
+        // assert
+        .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(emailSendService);
+    }
+
+    @Test
+    void testCriarClienteComUsuario() throws Exception {
+        // arrange
+        var requestBody = new CriarUsuarioClienteDTO(
+            CLIENTE_DEFAULT.getNome(),
+            CLIENTE_DEFAULT.getUsuario().getLogin(),
+            CLIENTE_DEFAULT.getUsuario().getSenha(),
+            CLIENTE_DEFAULT.getCpf(),
+            CLIENTE_DEFAULT.getTelefone(),
+            new EnderecoDTO(
+                "rua",
+                "numero",
+                "cidade",
+                "bairro",
+                "estado"
+            ),
+            CLIENTE_DEFAULT.getEmail()
+        );
+
+        var responseBody = new DadosCompletosClienteDTO(CLIENTE_DEFAULT);
+        when(service.salvarClienteComUsuario(any())).thenReturn(responseBody);
+
+        // act
+        ControllerTestUtils.postRequest(
+            mvc, 
+            BASE_URL + "/usuario", 
+            criarUsuarioClienteDTOJson.write(requestBody).getJson()
+        )
+
+        // assert
+        .andExpect(status().isOk());
+
+        verify(service).salvarClienteComUsuario(any(requestBody.getClass()));
+    }
+    @Test
+    void testCriarClienteUsuario_comBodyInvalido01() throws Exception {
+        // arrange
+        var requestBody = new CriarUsuarioClienteDTO(
+            TestConstants.NOME_VAZIO,
+            TestConstants.LOGIN_MUITO_PEQUENO,
+            TestConstants.SENHA_MUITO_GRANDE,
+            TestConstants.CPF_MUITO_PEQUENO,
+            TestConstants.TELEFONE_MUITO_PEQUENO,
+            null,
+            TestConstants.EMAIL_VAZIO
+        );
+
+        // act
+        ControllerTestUtils.postRequest(
+            mvc, 
+            BASE_URL + "/usuario", 
+            criarUsuarioClienteDTOJson.write(requestBody).getJson()
+        )
+
+        // assert
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.fields").exists())
+        .andExpect(jsonPath("$.fields.nome").exists())
+        .andExpect(jsonPath("$.fields.login").exists())
+        .andExpect(jsonPath("$.fields.senha").exists())
+        .andExpect(jsonPath("$.fields.cpf").exists())
+        .andExpect(jsonPath("$.fields.telefone").exists())
+        .andExpect(jsonPath("$.fields.emailConfirmationToken").exists())
+        .andExpect(jsonPath("$.fields.endereco").exists());
+
+        verifyNoInteractions(service);
+    }
+    @Test
+    void testCriarUsuarioCliente_comBodyInvalido02() throws Exception {
+        // arrange
+        var requestBody = new CriarUsuarioClienteDTO(
+            TestConstants.NOME_VAZIO,
+            TestConstants.LOGIN_MUITO_GRANDE,
+            TestConstants.SENHA_MUITO_GRANDE,
+            TestConstants.CPF_MUITO_GRANDE,
+            TestConstants.TELEFONE_MUITO_GRANDE,
+            null,
+            TestConstants.EMAIL_VAZIO
+        );
+
+        // act
+        ControllerTestUtils.postRequest(
+            mvc, 
+            BASE_URL + "/usuario", 
+            criarUsuarioClienteDTOJson.write(requestBody).getJson()
+        )
+
+        // assert
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.fields").exists())
+        .andExpect(jsonPath("$.fields.nome").exists())
+        .andExpect(jsonPath("$.fields.login").exists())
+        .andExpect(jsonPath("$.fields.senha").exists())
+        .andExpect(jsonPath("$.fields.cpf").exists())
+        .andExpect(jsonPath("$.fields.telefone").exists())
+        .andExpect(jsonPath("$.fields.emailConfirmationToken").exists())
+        .andExpect(jsonPath("$.fields.endereco").exists());
+
+        verifyNoInteractions(service);
+    }
 
     @TestTemplate
     @ContextualizeUsuarioTypeWithRoles(roles = {"USER", "ADMIN"})
@@ -428,6 +581,8 @@ public class ClienteControllerUnitTest {
         ControllerTestUtils.putRequest(mvc, ME_ROUTE, atualizarClienteDTOJson.write(requestBody).getJson())
             // assert
             .andExpect(status().isForbidden());
+
+        verifyNoInteractions(service);
     }
 
     @TestTemplate

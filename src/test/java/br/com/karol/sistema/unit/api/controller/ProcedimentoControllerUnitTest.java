@@ -32,6 +32,7 @@ import br.com.karol.sistema.api.dto.procedimento.AtualizarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.api.mapper.ProcedimentoMapper;
+import br.com.karol.sistema.builder.ProcedimentoFactory;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.config.ContextualizeUsuarioTypeWithRoles;
@@ -40,8 +41,7 @@ import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import br.com.karol.sistema.infra.repository.ProcedimentoRepository;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
-import br.com.karol.sistema.unit.utils.ControllerTestUtils;
-import br.com.karol.sistema.unit.utils.ProcedimentoUtils;
+import br.com.karol.sistema.utils.ControllerTestUtils;
 
 @AutoConfigureJsonTesters
 @Import(SecurityConfig.class)
@@ -50,7 +50,7 @@ public class ProcedimentoControllerUnitTest {
 
     private final static String BASE_URL = "/procedimentos";
     
-    private final static Procedimento DEFAULT_PROCEDIMENTO = ProcedimentoUtils.getProcedimento();
+    private final static Procedimento DEFAULT_PROCEDIMENTO = ProcedimentoFactory.getProcedimento();
 
     @MockBean
     private ProcedimentoService service;

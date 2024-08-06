@@ -44,6 +44,7 @@ import br.com.karol.sistema.api.dto.agendamento.ObservacaoAtualizadaAgendamentoD
 import br.com.karol.sistema.api.dto.agendamento.RemarcarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.StatusAtualizadoAgendamentoDTO;
 import br.com.karol.sistema.api.mapper.AgendamentoMapper;
+import br.com.karol.sistema.builder.AgendamentoFactory;
 import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.DisponibilidadeService;
@@ -57,8 +58,7 @@ import br.com.karol.sistema.domain.validator.AgendamentoValidator;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
-import br.com.karol.sistema.unit.utils.AgendamentoUtils;
-import br.com.karol.sistema.unit.utils.ControllerTestUtils;
+import br.com.karol.sistema.utils.ControllerTestUtils;
 
 @AutoConfigureJsonTesters
 @Import(SecurityConfig.class)
@@ -68,7 +68,7 @@ public class AgendamentoControllerUnitTest {
     private static final String BASE_URL = "/agendamentos";
     private static final String CLIENT_ROUTE = BASE_URL + "/me";
 
-    private static final Agendamento AGENDAMENTO_DEFAULT = AgendamentoUtils.getAgendamento();
+    private static final Agendamento AGENDAMENTO_DEFAULT = AgendamentoFactory.getAgendamento();
 
     @Autowired
     private MockMvc mvc;
