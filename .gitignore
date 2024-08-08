@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /postgre-data
+todo-list.md
 
 ### STS ###
 .apt_generated
