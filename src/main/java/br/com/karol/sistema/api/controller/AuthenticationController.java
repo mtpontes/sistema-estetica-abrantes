@@ -28,6 +28,7 @@ public class AuthenticationController {
                     data.getLogin(), 
                     data.getPassword()
                 )
+                .getUsername()
             );
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
