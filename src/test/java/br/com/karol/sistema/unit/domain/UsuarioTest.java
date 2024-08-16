@@ -8,14 +8,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import br.com.karol.sistema.builder.UsuarioBuilder;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.domain.valueobjects.Senha;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
+import br.com.karol.sistema.utils.UsuarioUtils;
 
 public class UsuarioTest {
 
-    private static final Usuario user = Usuario.builder().login(new Login()).senha(new Senha()).build();
+    private static final Usuario user = new UsuarioBuilder().login("").senha("").build();
     private final String NOME = "Nome";
     private final Login LOGIN = UsuarioUtils.getLogin();
     private final Senha SENHA = UsuarioUtils.getSenha();
@@ -86,7 +88,7 @@ public class UsuarioTest {
     @Test
     void testGetLoginDeveRetornarString() {
         // arrange
-        Usuario user = UsuarioUtils.getUsuario();
+        Usuario user = UsuarioFactory.getUsuario();
 
         // act and assert
         assertTrue(user.getLogin() instanceof String);
@@ -95,7 +97,7 @@ public class UsuarioTest {
     @Test
     void testGetSenhaDeveRetornarString() {
         // assert
-        Usuario user = UsuarioUtils.getUsuario();
+        Usuario user = UsuarioFactory.getUsuario();
 
         // act and assert
         assertTrue(user.getSenha() instanceof String);

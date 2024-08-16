@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
+import br.com.karol.sistema.api.dto.EmailDTO;
 import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.business.service.ClienteService;
+import br.com.karol.sistema.business.service.EmailSendService;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Usuario;
 import jakarta.validation.Valid;
@@ -33,12 +36,29 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClienteController {
 
+    private final EmailSendService emailSender;
     private final ClienteService service;
 
     /* Rotas para clientes não atenticados. São clientes que não possuem um 
     usuário e são cadastrados pelos funcionários da clínica em atendimento 
     direto com o cliente */
 
+
+    @PostMapping("/email")
+    public ResponseEntity<DadosCompletosClienteDTO> emailVerification(
+        @RequestBody @Valid EmailDTO dto
+    ) {
+        emailSender.sendEmailVerification(dto.getEmail());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/usuario")
+    public ResponseEntity<DadosCompletosClienteDTO> criarClienteUsuario(
+        @RequestBody @Valid CriarUsuarioClienteDTO dados
+    ) {
+        return ResponseEntity.ok(service.salvarClienteComUsuario(dados));
+    }
+    
     @PostMapping
     public ResponseEntity<DadosCompletosClienteDTO> criarCliente(
         @RequestBody @Valid CriarClienteDTO cliente

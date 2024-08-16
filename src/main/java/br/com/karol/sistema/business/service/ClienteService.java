@@ -32,21 +32,23 @@ public class ClienteService {
     private static final String NOT_FOUND_MESSAGE = "Cliente não encontrado";
     
     private final ClienteRepository repository;
-    private final ClienteMapper mapper;
+    private final ClienteMapper clienteMapper;
     private final TelefoneMapper telefoneMapper;
     private final EmailMapper emailMapper;
     private final EnderecoMapper enderecoMapper;
     private final UsuarioService usuarioService;
+    private final TokenService tokenService;
 
 
     @Transactional
     public DadosCompletosClienteDTO salvarCliente(
         CriarClienteDTO dadosCriacaoCliente
     ) {
-        Cliente cliente = mapper.toCliente(dadosCriacaoCliente);
+        Cliente cliente = clienteMapper.toCliente(dadosCriacaoCliente);
         Cliente savedCliente = repository.save(cliente);
-        return mapper.toDadosCompletosClienteDTO(savedCliente);
+        return clienteMapper.toDadosCompletosClienteDTO(savedCliente);
     }
+    
     @Transactional
     public DadosCompletosClienteDTO salvarClienteComUsuario(
         CriarUsuarioClienteDTO dados
@@ -58,23 +60,26 @@ public class ClienteService {
                 dados.getSenha()
             )
         );
-        Cliente cliente = mapper.toClienteComUsuario(dados, usuario);
+
+        String emailDecoded = tokenService.validateToken(dados.getEmailConfirmationToken());
+        dados.setEmailConfirmationToken(emailDecoded);
+        Cliente cliente = clienteMapper.toClienteComUsuario(dados, usuario);
 
         Cliente savedCliente = repository.save(cliente);
-        return mapper.toDadosCompletosClienteDTO(savedCliente);
+        return clienteMapper.toDadosCompletosClienteDTO(savedCliente);
     }
 
     public Page<DadosClienteDTO> listarTodosClientes(
         String nome, 
         Pageable pageable
     ) {
-        return mapper.toPageDadosClienteDTO(
+        return clienteMapper.toPageDadosClienteDTO(
             repository.findAllByParams(nome, pageable));
     }
 
     public DadosCompletosClienteDTO buscarClientePorId(Long clienteId) {
         Cliente cliente = this.buscarPorId(clienteId);
-        return mapper.toDadosCompletosClienteDTO(cliente);
+        return clienteMapper.toDadosCompletosClienteDTO(cliente);
     }
 
     @Transactional
@@ -94,7 +99,7 @@ public class ClienteService {
             novoEmail
         );
 
-        return mapper.toDadosCompletosClienteDTO(repository.save(alvo));
+        return clienteMapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
     @Transactional
     public DadosCompletosClienteDTO editarContatoClienteAtual(
@@ -112,7 +117,7 @@ public class ClienteService {
             novoEmail
         );
 
-        return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
+        return clienteMapper.toDadosCompletosClienteDTO(repository.save(cliente));
     }
 
     @Transactional
@@ -124,7 +129,7 @@ public class ClienteService {
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         alvo.atualizarEndereco(novoEndereco);
 
-        return mapper.toDadosCompletosClienteDTO(repository.save(alvo));
+        return clienteMapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
     @Transactional
     public DadosCompletosClienteDTO editarEnderecoClienteAtual(
@@ -134,7 +139,7 @@ public class ClienteService {
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         cliente.atualizarEndereco(novoEndereco);
 
-        return mapper.toDadosCompletosClienteDTO(repository.save(cliente));
+        return clienteMapper.toDadosCompletosClienteDTO(repository.save(cliente));
     }
 
     @Transactional

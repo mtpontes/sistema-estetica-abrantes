@@ -1,16 +1,16 @@
 package br.com.karol.sistema.business.service;
 
-import br.com.karol.sistema.domain.Usuario;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
@@ -19,12 +19,12 @@ public class TokenService {
     private String secret;
 
     
-    public String generateToken(Usuario user){
+    public String generateToken(String reference){
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                 .withIssuer("karol-estetica-api")
-                .withSubject(user.getLogin())
+                .withSubject(reference)
                 .withExpiresAt(genExpirationDate())
                 .sign(algorithm);
             return token;

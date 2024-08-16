@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.utils;
+package br.com.karol.sistema.builder;
 
 import java.time.LocalTime;
 
@@ -6,7 +6,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import br.com.karol.sistema.domain.Procedimento;
 
-public class ProcedimentoUtils {
+public class ProcedimentoFactory {
 
     public static Procedimento getProcedimento() {
         Procedimento procedimento = new Procedimento();

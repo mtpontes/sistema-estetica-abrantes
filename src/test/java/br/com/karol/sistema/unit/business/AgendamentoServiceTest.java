@@ -26,6 +26,8 @@ import br.com.karol.sistema.api.dto.agendamento.AtualizarObservacaoAgendamentoDT
 import br.com.karol.sistema.api.dto.agendamento.AtualizarStatusAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.RemarcarAgendamentoDTO;
 import br.com.karol.sistema.api.mapper.AgendamentoMapper;
+import br.com.karol.sistema.builder.AgendamentoFactory;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.ProcedimentoService;
@@ -37,13 +39,11 @@ import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.validator.AgendamentoValidator;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.AgendamentoRepository;
-import br.com.karol.sistema.unit.utils.AgendamentoUtils;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class AgendamentoServiceTest {
 
-    private static final Agendamento DEFAULT = AgendamentoUtils.getAgendamento();
+    private static final Agendamento DEFAULT = AgendamentoFactory.getAgendamento();
 
     @Mock
     private AgendamentoRepository repository;
@@ -300,7 +300,7 @@ public class AgendamentoServiceTest {
 
         Long agendamentoId = agendamento.getId();
         
-        Usuario usuario = UsuarioUtils.getUsuario();
+        Usuario usuario = UsuarioFactory.getUsuario();
         ReflectionTestUtils.setField(usuario, "role", UserRole.fromString(role));
 
         var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);
@@ -324,7 +324,7 @@ public class AgendamentoServiceTest {
 
         Long agendamentoId = agendamento.getId();
         
-        Usuario usuario = UsuarioUtils.getUsuario();
+        Usuario usuario = UsuarioFactory.getUsuario();
         ReflectionTestUtils.setField(usuario, "role", UserRole.CLIENT);
 
         var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.FINALIZADO);
@@ -341,7 +341,7 @@ public class AgendamentoServiceTest {
         // arrange
         Long agendamentoId = 1L;
 
-        Usuario usuario = UsuarioUtils.getUsuario();
+        Usuario usuario = UsuarioFactory.getUsuario();
         ReflectionTestUtils.setField(usuario, "role", UserRole.ADMIN);
 
         var entry = new AtualizarStatusAgendamentoDTO(StatusAgendamento.CONFIRMADO);

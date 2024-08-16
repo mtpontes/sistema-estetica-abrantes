@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.utils;
+package br.com.karol.sistema.utils;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.domain.enums.UserRole;
 
 public class ControllerTestUtils {
@@ -41,7 +42,7 @@ public class ControllerTestUtils {
     }
 
     public static void withMockUserManual(String role) {
-        var user = UsuarioUtils.getUsuario();
+        var user = UsuarioFactory.getUsuario();
         user.setRole(UserRole.fromString(role));
         SecurityContextHolder.getContext().setAuthentication(
             new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));

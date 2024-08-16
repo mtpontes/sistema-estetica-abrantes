@@ -33,9 +33,9 @@ public class CriarUsuarioClienteDTO {
     @Size(min = 11, max = 15)
     private String telefone;
 
-    @NotBlank
-    private String email;
-
     @NotNull
     private EnderecoDTO endereco;
+
+    @NotBlank
+    private String emailConfirmationToken;
 }

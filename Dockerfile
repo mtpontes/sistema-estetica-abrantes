@@ -20,6 +20,9 @@ FROM eclipse-temurin:17-jre-alpine
 # Define o diretório de trabalho dentro do container
 WORKDIR /application
 
+# Expõe a porta
+EXPOSE 8080
+
 # Copia o arquivo JAR gerado na etapa de construção para o container final
 COPY --from=builder /application/target/*.jar ./application.jar
 

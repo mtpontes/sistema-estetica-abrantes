@@ -37,7 +37,7 @@ public class ClienteMapper {
     public Cliente toClienteComUsuario(CriarUsuarioClienteDTO dados, Usuario usuario) {
         Cpf cpf = this.cpfMapper.toCpf(dados.getCpf());
         Telefone telefone = this.telefoneMapper.toTelefone(dados.getTelefone());
-        Email email = this.emailMapper.toEmail(dados.getEmail());
+        Email email = this.emailMapper.toEmail(dados.getEmailConfirmationToken());
         Endereco endereco = enderecoMapper.toEndereco(dados.getEndereco());
         return new Cliente(dados.getNome(), cpf, telefone, email, endereco, usuario);
     }

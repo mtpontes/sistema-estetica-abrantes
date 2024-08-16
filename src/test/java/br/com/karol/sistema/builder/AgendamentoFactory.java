@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.utils;
+package br.com.karol.sistema.builder;
 
 import java.time.LocalDateTime;
 
@@ -9,18 +9,18 @@ import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
 
-public class AgendamentoUtils {
+public class AgendamentoFactory {
 
     public static Agendamento getAgendamento() {
         Agendamento agendamento = new Agendamento();
 
-        Procedimento procedimento = ProcedimentoUtils.getProcedimento();
-        Cliente cliente = ClienteUtils.getCliente();
+        Procedimento procedimento = ProcedimentoFactory.getProcedimento();
+        Cliente cliente = ClienteFactory.getCliente();
         
         ReflectionTestUtils.setField(agendamento, "id", 1L);
-        ReflectionTestUtils.setField(agendamento, "status", StatusAgendamento.PENDENTE);
         ReflectionTestUtils.setField(agendamento, "observacao", "observacao utils");
-        ReflectionTestUtils.setField(agendamento, "dataHora", LocalDateTime.now().plusDays(1));
+        ReflectionTestUtils.setField(agendamento, "status", StatusAgendamento.PENDENTE);
+        ReflectionTestUtils.setField(agendamento, "dataHora", LocalDateTime.now().plusDays(1).withNano(0));
         ReflectionTestUtils.setField(agendamento, "procedimento", procedimento);
         ReflectionTestUtils.setField(agendamento, "cliente", cliente);
         ReflectionTestUtils.setField(agendamento, "usuarioLogin", "any login");
