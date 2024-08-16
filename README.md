@@ -36,7 +36,7 @@ Esse projeto me trouxe diversos insights de recursos que eu poderia implementar 
 </details>
 
 
-## 🚀 Como Rodar
+## 🚀 Como rodar localmente
 <details><summary>Clique para expandir</summary>
 
 ### 📋 Pré-requisitos
@@ -44,22 +44,29 @@ Esse projeto me trouxe diversos insights de recursos que eu poderia implementar 
 - Docker
 - Docker Compose
 
-### 🔎 Detalhes
+### Detalhes
 
-A aplicação está configurada para se conectar ao PostGre pela porta 5432.
+É necessário possuir um provedor de email para rodar esse app, essa API se integra ao provedor para enviar emails.
 
 ### 🌍 Variáveis de ambiente:
 
+- Na raiz do projeto localize o diretório "env-example"
+- Faça uma cópia desse diretório e renomeie-o para "env"
+- Abra os arquivos app.env e db.env e preencha os valores das variáveis de ambiente
+
 #### Banco de dados
-- `DB_USERNAME`: valor padrão **root**
-- `DB_PASSWORD`: valor padrão **root**
+- `DB_USERNAME`: username do banco de dados
+- `DB_PASSWORD`: senha do banco de dados
 
 #### Segurança
-- `JWT_SECRET`: segredo utilizado na geração de um token JWT. Valor padrão **my-secret-key**
+- `JWT_SECRET`: segredo utilizado na geração de um token JWT
 
 #### Usuário ADMIN
-- `ADMIN_USERNAME`: login do usuário, valor padrão **root**
-- `ADMIN_PASSWORD`: senha do usuário, valor padrão **rooT@34923**
+- `ADMIN_USERNAME`: login do admin padrão do sistema
+- `ADMIN_PASSWORD`: senha do admin padrão do sistema
+
+#### Outras
+- `SPRING_MAIL_...`: configurações do provedor de email
 
 ##### Essas configurações também podem ser alteradas no `application.properties`.
 
