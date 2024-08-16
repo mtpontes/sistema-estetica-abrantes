@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.utils;
+package br.com.karol.sistema.utils;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;

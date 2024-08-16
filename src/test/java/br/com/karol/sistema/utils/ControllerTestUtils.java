@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.utils;
+package br.com.karol.sistema.utils;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
