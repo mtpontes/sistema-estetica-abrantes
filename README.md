@@ -11,7 +11,7 @@ O Deploy no Heroku pode ser acessado aqui: [Abrantes API](http://abrantes.mtpont
 
 - [ ] _Sistema de pagamentos_: Será adicionado um sistema de pagamentos utilizando de uma API externa
 - [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
-- [ ] _Sistema de notificação_: Os clientes serão notificados via email, Whatsapp e SMS quando seus agendamentos estiverem próximos, podendo confirmar ou cancelar a sua presença.
+- [ ] _Sistema de notificação_: Os clientes serão notificados via email quando seus agendamento estiver próximo.
 - [ ] _Alta cobertura de testes de integração_: Os atuais testes da API são todos testes de unidade. Irei implementar testes de integração com banco de dados e teste end-to-end, com a intenção de fazer a maior cobertura possível
 
 ## 🖥️ Sobre o desenvolvimento
