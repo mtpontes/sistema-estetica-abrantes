@@ -1,6 +1,9 @@
 package br.com.karol.sistema.unit.api.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,31 +20,27 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.karol.sistema.api.controller.UsuarioController;
-import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
-import br.com.karol.sistema.api.dto.EnderecoDTO;
-import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
+import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
-import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.business.service.UserDetailsServiceImpl;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.constants.TestConstants;
-import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
-import br.com.karol.sistema.unit.utils.ClienteUtils;
-import br.com.karol.sistema.unit.utils.ControllerTestUtils;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
+import br.com.karol.sistema.utils.ControllerTestUtils;
 
 @AutoConfigureJsonTesters
 @Import(SecurityConfig.class)
@@ -51,8 +50,7 @@ public class UsuarioControllerTest {
     private final static String BASE_URL = "/usuarios";
     private final static String ADMIN_ROUTE = BASE_URL + "/admin";
 
-    private final static Usuario DEFAULT_USUARIO = UsuarioUtils.getUsuario();
-    private final static Cliente DEFAULT_CLIENTE_USUARIO = ClienteUtils.getCliente();
+    private final static Usuario DEFAULT_USUARIO = UsuarioFactory.getUsuario();
 
     @Autowired
     private MockMvc mvc;
@@ -81,8 +79,6 @@ public class UsuarioControllerTest {
     private JacksonTester<AtualizarSenhaUsuarioDTO> atualizarSenhaUsuarioDTOJson;
     @Autowired
     private JacksonTester<AtualizarSenhaOutroUsuarioDTO> atualizarSenhaOutroUsuarioDTOJson;
-    @Autowired
-    private JacksonTester<CriarUsuarioClienteDTO> criarUsuarioClienteDTOJson;
 
 
     @Test
@@ -223,6 +219,8 @@ public class UsuarioControllerTest {
         )
         // assert
         .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(service);
     }
 
     @ParameterizedTest
@@ -230,11 +228,18 @@ public class UsuarioControllerTest {
     void testAtualizarSenhaUsuarioAtual_comRolesAutorizadas(String role) throws IOException, Exception {
         // arrange
         ControllerTestUtils.withMockUserManual(role);
+        Usuario currentContextUser = (Usuario) SecurityContextHolder.getContext()
+            .getAuthentication()
+            .getPrincipal();
+        when(service.atualizarSenhaUsuarioAtual(any(), any())).thenReturn(currentContextUser);
         
-        var requestBody = new AtualizarSenhaUsuarioDTO(DEFAULT_USUARIO.getLogin(), DEFAULT_USUARIO.getSenha());
+        var requestBody = new AtualizarSenhaUsuarioDTO(
+            DEFAULT_USUARIO.getLogin(), 
+            DEFAULT_USUARIO.getSenha()
+        );
 
         var responseBody = "novo-token";
-        when(tokenService.generateToken(any())).thenReturn(responseBody);
+        when(tokenService.generateToken(anyString())).thenReturn(responseBody);
         
         // act
         ControllerTestUtils.patchRequest(
@@ -245,7 +250,12 @@ public class UsuarioControllerTest {
         // assert
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.token").value(responseBody));
+
+        verify(service).atualizarSenhaUsuarioAtual(
+            any(currentContextUser.getClass()), 
+            any(requestBody.getClass()));
     }
+
     @Test
     @WithMockUser
     void testAtualizarSenhaUsuarioAtual_comBodyInvalido() throws IOException, Exception {
@@ -433,102 +443,5 @@ public class UsuarioControllerTest {
 
         // assert
             .andExpect(status().isForbidden());
-    }
-
-
-    // rota para criação de clientes autenticados
-    @Test
-    void testCriarUsuarioCliente() throws Exception {
-        // arrange
-        var requestBody = new CriarUsuarioClienteDTO(
-            DEFAULT_USUARIO.getNome(),
-            DEFAULT_USUARIO.getLogin(),
-            DEFAULT_USUARIO.getSenha(),
-            DEFAULT_CLIENTE_USUARIO.getCpf(),
-            DEFAULT_CLIENTE_USUARIO.getTelefone(),
-            DEFAULT_CLIENTE_USUARIO.getEmail(),
-            new EnderecoDTO(
-                "rua",
-                "numero",
-                "cidade",
-                "bairro",
-                "estado"
-            )
-        );
-
-        var responseBody = new DadosCompletosClienteDTO(ClienteUtils.getCliente());
-        when(clienteService.salvarClienteComUsuario(any())).thenReturn(responseBody);
-
-        // act
-        ControllerTestUtils.postRequest(
-            mvc, 
-            BASE_URL + "/clientes", 
-            criarUsuarioClienteDTOJson.write(requestBody).getJson()
-        )
-
-        // assert
-        .andExpect(status().isOk());
-    }
-    @Test
-    void testCriarUsuarioCliente_comBodyInvalido01() throws Exception {
-        // arrange
-        var requestBody = new CriarUsuarioClienteDTO(
-            TestConstants.NOME_VAZIO,
-            TestConstants.LOGIN_MUITO_PEQUENO,
-            TestConstants.SENHA_MUITO_GRANDE,
-            TestConstants.CPF_MUITO_PEQUENO,
-            TestConstants.TELEFONE_MUITO_PEQUENO,
-            TestConstants.EMAIL_VAZIO,
-            null
-        );
-
-        // act
-        ControllerTestUtils.postRequest(
-            mvc, 
-            BASE_URL + "/clientes", 
-            criarUsuarioClienteDTOJson.write(requestBody).getJson()
-        )
-
-        // assert
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.fields").exists())
-        .andExpect(jsonPath("$.fields.nome").exists())
-        .andExpect(jsonPath("$.fields.login").exists())
-        .andExpect(jsonPath("$.fields.senha").exists())
-        .andExpect(jsonPath("$.fields.cpf").exists())
-        .andExpect(jsonPath("$.fields.telefone").exists())
-        .andExpect(jsonPath("$.fields.email").exists())
-        .andExpect(jsonPath("$.fields.endereco").exists());
-    }
-    @Test
-    void testCriarUsuarioCliente_comBodyInvalido02() throws Exception {
-        // arrange
-        var requestBody = new CriarUsuarioClienteDTO(
-            TestConstants.NOME_VAZIO,
-            TestConstants.LOGIN_MUITO_GRANDE,
-            TestConstants.SENHA_MUITO_GRANDE,
-            TestConstants.CPF_MUITO_GRANDE,
-            TestConstants.TELEFONE_MUITO_GRANDE,
-            TestConstants.EMAIL_VAZIO,
-            null
-        );
-
-        // act
-        ControllerTestUtils.postRequest(
-            mvc, 
-            BASE_URL + "/clientes", 
-            criarUsuarioClienteDTOJson.write(requestBody).getJson()
-        )
-
-        // assert
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.fields").exists())
-        .andExpect(jsonPath("$.fields.nome").exists())
-        .andExpect(jsonPath("$.fields.login").exists())
-        .andExpect(jsonPath("$.fields.senha").exists())
-        .andExpect(jsonPath("$.fields.cpf").exists())
-        .andExpect(jsonPath("$.fields.telefone").exists())
-        .andExpect(jsonPath("$.fields.email").exists())
-        .andExpect(jsonPath("$.fields.endereco").exists());
     }
 }
