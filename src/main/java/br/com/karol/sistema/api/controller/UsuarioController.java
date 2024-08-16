@@ -13,15 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.authentication.LoginResponseDTO;
-import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
-import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.domain.Usuario;
@@ -34,7 +31,6 @@ import lombok.AllArgsConstructor;
 public class UsuarioController {
 
     private final UsuarioService service;
-    private final ClienteService clienteService;    
     private final TokenService tokenService;
 
 
@@ -56,7 +52,6 @@ public class UsuarioController {
             service.getDadosUsuarioAtual((Usuario) authentication.getPrincipal()));
     }
 
-    /* A atualização do usuário é baseada na recuperação da identificação desse usuário através do token de autenticação */
     @PatchMapping("/nome")
     public ResponseEntity<DadosUsuarioDTO> atualizarNomeUsuario(
         Authentication authentication, 
@@ -75,10 +70,11 @@ public class UsuarioController {
         Usuario usuarioAtual = (Usuario) authentication.getPrincipal();
         Usuario usuarioValidado = 
             service.atualizarSenhaUsuarioAtual(usuarioAtual, dados);
-        String token = this.tokenService.generateToken(usuarioValidado);
+        String token = this.tokenService.generateToken(usuarioValidado.getUsername());
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     
+
     // --- Rotas de ADMIN -- 
 
     @PostMapping("/admin")
@@ -114,14 +110,5 @@ public class UsuarioController {
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long userId) {
         service.adminRemoverUsuario(userId);
         return ResponseEntity.noContent().build();
-    }
-
-    // --- Rotas de CLIENT -- 
-
-    @PostMapping("/clientes")
-    public ResponseEntity<DadosCompletosClienteDTO> criarUsuarioCliente(
-        @RequestBody @Valid CriarUsuarioClienteDTO dados
-    ) {
-        return ResponseEntity.ok(clienteService.salvarClienteComUsuario(dados));
     }
 }
