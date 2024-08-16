@@ -17,6 +17,8 @@ public interface ProcedimentoRepository extends JpaRepository<Procedimento, Long
         (:procedimentoNome IS NULL OR LOWER(p.nome) LIKE LOWER(CONCAT('%', :procedimentoNome, '%')))
         AND (:minValor IS NULL OR p.valor >= :minValor)
         AND (:maxValor IS NULL OR p.valor <= :maxValor)
-        """)
+        """
+    )
     Page<Procedimento> findAllByParams(String procedimentoNome, Double minValor, Double maxValor, Pageable pageable);
+    
 }
