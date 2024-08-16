@@ -9,8 +9,8 @@ public class ClienteFactory {
         return new ClienteBuilder()
             .id(1L)
             .nome("default name")
-            .cpf("default cpf")
-            .telefone("default telefone")
+            .cpf("12345678911")
+            .telefone("12345678911")
             .email("default email")
             .endereco(ClienteUtils.getEndereco())
             .build();

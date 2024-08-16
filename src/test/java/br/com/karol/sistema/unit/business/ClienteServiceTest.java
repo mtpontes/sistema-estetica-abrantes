@@ -25,6 +25,7 @@ import br.com.karol.sistema.api.mapper.ClienteMapper;
 import br.com.karol.sistema.api.mapper.EmailMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
 import br.com.karol.sistema.api.mapper.TelefoneMapper;
+import br.com.karol.sistema.builder.ClienteFactory;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.domain.Cliente;
@@ -36,7 +37,7 @@ import br.com.karol.sistema.utils.ClienteUtils;
 @ExtendWith(MockitoExtension.class)
 public class ClienteServiceTest {
 
-    private static final Cliente DEFAULT = ClienteUtils.getCliente();
+    private static final Cliente DEFAULT = ClienteFactory.getCliente();
 
     @Mock
     private ClienteRepository repository;

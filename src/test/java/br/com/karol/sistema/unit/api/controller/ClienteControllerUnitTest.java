@@ -37,6 +37,7 @@ import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
+import br.com.karol.sistema.builder.ClienteFactory;
 import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.EmailSendService;
@@ -46,7 +47,6 @@ import br.com.karol.sistema.constants.TestConstants;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
 import br.com.karol.sistema.infra.security.SecurityConfig;
-import br.com.karol.sistema.utils.ClienteUtils;
 import br.com.karol.sistema.utils.ControllerTestUtils;
 
 @AutoConfigureJsonTesters
@@ -57,7 +57,7 @@ public class ClienteControllerUnitTest {
     private static final String BASE_URL = "/clientes";
     private static final String ME_ROUTE = BASE_URL + "/me";
 
-    private static final Cliente CLIENTE_DEFAULT = ClienteUtils.getCliente();
+    private static final Cliente CLIENTE_DEFAULT = ClienteFactory.getCliente();
 
 
     @Autowired

@@ -8,7 +8,6 @@ import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
-import br.com.karol.sistema.utils.ClienteUtils;
 
 public class AgendamentoFactory {
 
@@ -16,7 +15,7 @@ public class AgendamentoFactory {
         Agendamento agendamento = new Agendamento();
 
         Procedimento procedimento = ProcedimentoFactory.getProcedimento();
-        Cliente cliente = ClienteUtils.getCliente();
+        Cliente cliente = ClienteFactory.getCliente();
         
         ReflectionTestUtils.setField(agendamento, "id", 1L);
         ReflectionTestUtils.setField(agendamento, "observacao", "observacao utils");

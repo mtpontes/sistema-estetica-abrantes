@@ -26,6 +26,7 @@ import br.com.karol.sistema.api.mapper.CpfMapper;
 import br.com.karol.sistema.api.mapper.EmailMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
 import br.com.karol.sistema.api.mapper.TelefoneMapper;
+import br.com.karol.sistema.builder.ClienteFactory;
 import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
@@ -33,12 +34,11 @@ import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.valueobjects.Cpf;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
-import br.com.karol.sistema.utils.ClienteUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class ClienteMapperTest {
 
-    private static final Cliente DEFAULT = ClienteUtils.getCliente();
+    private static final Cliente DEFAULT = ClienteFactory.getCliente();
     private static final Usuario USUARIO_DEFAULT = UsuarioFactory.getUsuario();
     private static Cpf cpfDefault;
     private static Telefone telefoneDefault;
