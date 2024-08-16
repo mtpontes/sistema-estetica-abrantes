@@ -31,7 +31,7 @@ import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
 import br.com.karol.sistema.infra.repository.ClienteRepository;
-import br.com.karol.sistema.unit.utils.ClienteUtils;
+import br.com.karol.sistema.utils.ClienteUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class ClienteServiceTest {

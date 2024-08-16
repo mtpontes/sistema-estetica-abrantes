@@ -26,20 +26,20 @@ import br.com.karol.sistema.api.mapper.CpfMapper;
 import br.com.karol.sistema.api.mapper.EmailMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
 import br.com.karol.sistema.api.mapper.TelefoneMapper;
+import br.com.karol.sistema.builder.UsuarioFactory;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.valueobjects.Cpf;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
-import br.com.karol.sistema.unit.utils.ClienteUtils;
-import br.com.karol.sistema.unit.utils.UsuarioUtils;
+import br.com.karol.sistema.utils.ClienteUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class ClienteMapperTest {
 
     private static final Cliente DEFAULT = ClienteUtils.getCliente();
-    private static final Usuario USUARIO_DEFAULT = UsuarioUtils.getUsuario();
+    private static final Usuario USUARIO_DEFAULT = UsuarioFactory.getUsuario();
     private static Cpf cpfDefault;
     private static Telefone telefoneDefault;
     private static Email emailDefault;
@@ -104,8 +104,8 @@ public class ClienteMapperTest {
             USUARIO_DEFAULT.getSenha(),
             DEFAULT.getCpf(), 
             DEFAULT.getTelefone(), 
-            DEFAULT.getEmail(), 
-            enderecoDTO
+            enderecoDTO,
+            DEFAULT.getEmail()
         );
 
         when(cpfMapper.toCpf(anyString())).thenReturn(cpfDefault);
@@ -120,7 +120,7 @@ public class ClienteMapperTest {
         assertEquals(dto.getCpf(), result.getCpf());
         assertEquals(dto.getNome(), result.getNome());
         assertEquals(dto.getTelefone(), result.getTelefone());
-        assertEquals(dto.getEmail(), result.getEmail());
+        assertEquals(dto.getEmailConfirmationToken(), result.getEmail());
         assertEquals(USUARIO_DEFAULT.getLogin(), result.getUsuario().getLogin());
         assertEquals(USUARIO_DEFAULT.getSenha(), result.getUsuario().getSenha());
     }
