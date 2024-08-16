@@ -9,10 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Builder
 @Getter
 @ToString
 @NoArgsConstructor
@@ -44,7 +46,7 @@ public class Procedimento {
         this.descricao = this.notBlank(descricao, "descricao");
         this.duracao = this.notNull(duracao, "duracao");
         
-        this.isValidValorForUpdate(valor);
+        this.isValidValor(valor);
         this.valor = this.notNull(valor, "valor");
     }
     
@@ -58,7 +60,7 @@ public class Procedimento {
         if (!this.isBlank(nome)) this.nome = nome;
         if (!this.isBlank(descricao)) this.descricao = descricao;
         if (!this.isNull(duracao)) this.duracao = duracao;
-        if (!this.isValidValorForUpdate(valor)) this.valor = valor;
+        if (!this.isValidValor(valor)) this.valor = valor;
     }
 
     private boolean isNull(Object param) {
@@ -85,7 +87,7 @@ public class Procedimento {
         if (valor < VALOR_MINIMO) 
             throw new IllegalArgumentException("Não é possível definir um valor menor que " + VALOR_MINIMO);
     }
-    private boolean isValidValorForUpdate(Double valor) {
+    private boolean isValidValor(Double valor) {
         if (this.isNull(valor) || valor == 0.00) return true;
         this.validateValor(valor);
         return false;
