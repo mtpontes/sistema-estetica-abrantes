@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.karol.sistema.business.formatters.SenhaEncoderImpl;
+import br.com.karol.sistema.business.formatters.SenhaFormatterImpl;
 import br.com.karol.sistema.domain.formatter.SenhaEncoder;
 
 public class SenhaEncoderTest {
     
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final SenhaEncoder senhaEncoder = new SenhaEncoderImpl(passwordEncoder);
+    private final SenhaEncoder senhaEncoder = new SenhaFormatterImpl(passwordEncoder);
 
 
     @Test

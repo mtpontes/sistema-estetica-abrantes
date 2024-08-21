@@ -2,7 +2,7 @@ package br.com.karol.sistema.domain.valueobjects;
 
 import java.util.List;
 
-import br.com.karol.sistema.business.formatters.CpfFormatter;
+import br.com.karol.sistema.domain.formatter.CpfFormatter;
 import br.com.karol.sistema.domain.validator.CpfValidator;
 import br.com.karol.sistema.infra.exceptions.FieldValidationException;
 import jakarta.persistence.Embeddable;

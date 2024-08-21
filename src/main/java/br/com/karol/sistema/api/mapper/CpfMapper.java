@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.karol.sistema.business.formatters.CpfFormatter;
+import br.com.karol.sistema.domain.formatter.CpfFormatter;
 import br.com.karol.sistema.domain.validator.CpfValidator;
 import br.com.karol.sistema.domain.valueobjects.Cpf;
 import lombok.AllArgsConstructor;

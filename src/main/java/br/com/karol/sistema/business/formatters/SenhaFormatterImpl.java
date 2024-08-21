@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class SenhaEncoderImpl implements SenhaEncoder {
+public class SenhaFormatterImpl implements SenhaEncoder {
 
     private final PasswordEncoder encoder;
 
