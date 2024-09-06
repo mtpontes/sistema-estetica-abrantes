@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.api.mapper;
+package br.com.karol.sistema.unit.api.factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -15,39 +15,39 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.api.mapper.CpfMapper;
-import br.com.karol.sistema.domain.formatter.CpfFormatter;
-import br.com.karol.sistema.domain.validator.CpfValidator;
-import br.com.karol.sistema.domain.valueobjects.Cpf;
+import br.com.karol.sistema.api.factory.TelefoneFactory;
+import br.com.karol.sistema.domain.formatter.TelefoneFormatter;
+import br.com.karol.sistema.domain.validator.TelefoneValidator;
+import br.com.karol.sistema.domain.valueobjects.Telefone;
 
 @ExtendWith(MockitoExtension.class)
-public class CpfMapperTest {
+public class TelefoneFactoryTest {
 
     @Mock
-    private List<CpfValidator> validators;
+    private List<TelefoneValidator> validators;
     @Mock
-    private CpfValidator validador;
+    private TelefoneValidator validador;
     @Mock
-    private CpfFormatter formatter;
+    private TelefoneFormatter formatter;
 
     @InjectMocks
-    private CpfMapper mapper;
+    private TelefoneFactory mapper;
 
     @BeforeEach
     void setup() {
         this.validators = List.of(validador);
-        this.mapper = new CpfMapper(validators, formatter);
+        this.mapper = new TelefoneFactory(validators, formatter);
     }
 
 
     @Test
-    void tesToToCpf() {
+    void testCreateTelefone() {
         // arrange
         String value = "47996525916";
         when(formatter.format(anyString())).thenReturn(value);
 
         // act
-        Cpf result = mapper.toCpf(value);
+        Telefone result = mapper.createTelefone(value);
 
         // assert
         assertNotNull(result);
@@ -55,23 +55,23 @@ public class CpfMapperTest {
     }
 
     @Test
-    void testToCpfOrNullPassandoNull() {
+    void testToTelefoneOrNull_passandoNull() {
         // arrange
         String value = null;
 
         // act
-        Cpf result = mapper.toCpfOrNull(value);
+        Telefone result = mapper.toTelefoneOrNull(value);
 
         // assert
         assertNull(result);
     }
     @Test
-    void testToCpfOrNullPassandoBlank() {
+    void testToTelefoneOrNull_passandoBlank() {
         // arrange
         String value = "";
 
         // act
-        Cpf result = mapper.toCpfOrNull(value);
+        Telefone result = mapper.toTelefoneOrNull(value);
 
         // assert
         assertNull(result);

@@ -6,7 +6,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import br.com.karol.sistema.domain.Procedimento;
 
-public class ProcedimentoFactory {
+public class ProcedimentoTestFactory {
 
     public static Procedimento getProcedimento() {
         Procedimento procedimento = new Procedimento();

@@ -14,7 +14,7 @@ import br.com.karol.sistema.domain.valueobjects.Cpf;
 import br.com.karol.sistema.domain.valueobjects.Email;
 import br.com.karol.sistema.domain.valueobjects.Telefone;
 
-public class ClienteBuilder {
+public class ClienteTestBuilder {
 
     private Long id;
     private String nome;
@@ -25,48 +25,48 @@ public class ClienteBuilder {
     private Usuario usuario;
     private Set<Agendamento> agendamentos = new HashSet<>();
 
-    public ClienteBuilder id(Long id) {
+    public ClienteTestBuilder id(Long id) {
         this.id = id;
         return this;
     }
     
-    public ClienteBuilder nome(String nome) {
+    public ClienteTestBuilder nome(String nome) {
         this.nome = nome;
         return this;
     }
     
-    public ClienteBuilder cpf(String value) {
+    public ClienteTestBuilder cpf(String value) {
         Cpf cpf = new Cpf();
         ReflectionTestUtils.setField(cpf, "value", value);
         this.cpf = cpf;
         return this;
     }
     
-    public ClienteBuilder telefone(String value) {
+    public ClienteTestBuilder telefone(String value) {
         Telefone telefone = new Telefone();
         ReflectionTestUtils.setField(telefone, "value", value);
         this.telefone = telefone;
         return this;
     }
     
-    public ClienteBuilder email(String value) {
+    public ClienteTestBuilder email(String value) {
         Email email = new Email();
         ReflectionTestUtils.setField(email, "value", value);
         this.email = email;
         return this;
     }
 
-    public ClienteBuilder endereco(Endereco endereco) {
+    public ClienteTestBuilder endereco(Endereco endereco) {
         this.endereco = endereco;
         return this;
     }
 
-    public ClienteBuilder usuario(Usuario usuario) {
+    public ClienteTestBuilder usuario(Usuario usuario) {
         this.usuario = usuario;
         return this;
     }
 
-    public ClienteBuilder agendamentos(List<Agendamento> agendamentos) {
+    public ClienteTestBuilder agendamentos(List<Agendamento> agendamentos) {
         this.agendamentos.addAll(agendamentos);
         return this;
     }

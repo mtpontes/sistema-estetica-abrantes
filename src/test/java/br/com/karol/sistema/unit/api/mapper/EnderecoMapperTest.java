@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.karol.sistema.api.dto.EnderecoDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
 import br.com.karol.sistema.domain.Endereco;
 

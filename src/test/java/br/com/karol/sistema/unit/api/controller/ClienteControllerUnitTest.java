@@ -30,15 +30,15 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.karol.sistema.api.controller.ClienteController;
-import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
-import br.com.karol.sistema.api.dto.EmailDTO;
-import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
+import br.com.karol.sistema.api.dto.cliente.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
-import br.com.karol.sistema.builder.ClienteFactory;
-import br.com.karol.sistema.builder.UsuarioFactory;
+import br.com.karol.sistema.api.dto.email.EmailDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
+import br.com.karol.sistema.builder.ClienteTestFactory;
+import br.com.karol.sistema.builder.UsuarioTestFactory;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.EmailSendService;
 import br.com.karol.sistema.business.service.TokenService;
@@ -57,7 +57,7 @@ public class ClienteControllerUnitTest {
     private static final String BASE_URL = "/clientes";
     private static final String ME_ROUTE = BASE_URL + "/me";
 
-    private static final Cliente CLIENTE_DEFAULT = ClienteFactory.getCliente();
+    private static final Cliente CLIENTE_DEFAULT = ClienteTestFactory.getCliente();
 
 
     @Autowired
@@ -87,7 +87,7 @@ public class ClienteControllerUnitTest {
 
     @BeforeAll
     static void setup() {
-        ReflectionTestUtils.setField(CLIENTE_DEFAULT, "usuario", UsuarioFactory.getUsuario());
+        ReflectionTestUtils.setField(CLIENTE_DEFAULT, "usuario", UsuarioTestFactory.getUsuarioAdmin());
     }   
 
     @Test

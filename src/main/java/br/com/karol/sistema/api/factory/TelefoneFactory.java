@@ -1,4 +1,4 @@
-package br.com.karol.sistema.api.mapper;
+package br.com.karol.sistema.api.factory;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class TelefoneMapper {
+public class TelefoneFactory {
 
     private final List<TelefoneValidator> validators;
     private final TelefoneFormatter formatter;
 
     
-    public Telefone toTelefone(String value) {
+    public Telefone createTelefone(String value) {
         return new Telefone(value, validators, formatter);
     }
 

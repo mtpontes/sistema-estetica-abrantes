@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
-import br.com.karol.sistema.builder.ClienteBuilder;
+import br.com.karol.sistema.builder.ClienteTestBuilder;
 import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Procedimento;
@@ -422,14 +422,14 @@ public class AgendamentoRepositoryTest {
     }
 
     private void seedClientes() {
-        this.cliente1 = new ClienteBuilder()
+        this.cliente1 = new ClienteTestBuilder()
             .nome("random name")
             .cpf("random cpf")
             .telefone("random number")
             .email("random email")
             .build();
 
-        this.cliente2 = new ClienteBuilder()
+        this.cliente2 = new ClienteTestBuilder()
             .nome("seconde name")
             .cpf("seconde cpf")
             .telefone("seconde number")

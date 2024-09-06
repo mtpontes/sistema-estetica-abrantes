@@ -7,7 +7,7 @@ import br.com.karol.sistema.domain.enums.UserRole;
 import br.com.karol.sistema.domain.valueobjects.Login;
 import br.com.karol.sistema.domain.valueobjects.Senha;
 
-public class UsuarioBuilder {
+public class UsuarioTestBuilder {
 
     private Long id;
     private String nome;
@@ -15,31 +15,31 @@ public class UsuarioBuilder {
     private Senha senha;
     private UserRole role;
 
-    public UsuarioBuilder id(Long id) {
+    public UsuarioTestBuilder id(Long id) {
         this.id = id;
         return this;
     }
     
-    public UsuarioBuilder nome(String nome) {
+    public UsuarioTestBuilder nome(String nome) {
         this.nome = nome;
         return this;
     }
     
-    public UsuarioBuilder login(String value) {
+    public UsuarioTestBuilder login(String value) {
         Login login = new Login();
         ReflectionTestUtils.setField(login, "value", value);
         this.login = login;
         return this;
     }
     
-    public UsuarioBuilder senha(String value) {
+    public UsuarioTestBuilder senha(String value) {
         Senha senha = new Senha();
         ReflectionTestUtils.setField(senha, "value", value);
         this.senha = senha;
         return this;
     }
 
-    public UsuarioBuilder role(UserRole role) {
+    public UsuarioTestBuilder role(UserRole role) {
         this.role = role;
         return this;
     }

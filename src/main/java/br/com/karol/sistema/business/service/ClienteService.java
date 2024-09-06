@@ -5,17 +5,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
-import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
+import br.com.karol.sistema.api.dto.cliente.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
+import br.com.karol.sistema.api.factory.EmailFactory;
+import br.com.karol.sistema.api.factory.TelefoneFactory;
 import br.com.karol.sistema.api.mapper.ClienteMapper;
-import br.com.karol.sistema.api.mapper.EmailMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
-import br.com.karol.sistema.api.mapper.TelefoneMapper;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.Usuario;
@@ -33,8 +33,8 @@ public class ClienteService {
     
     private final ClienteRepository repository;
     private final ClienteMapper clienteMapper;
-    private final TelefoneMapper telefoneMapper;
-    private final EmailMapper emailMapper;
+    private final TelefoneFactory telefoneMapper;
+    private final EmailFactory emailMapper;
     private final EnderecoMapper enderecoMapper;
     private final UsuarioService usuarioService;
     private final TokenService tokenService;

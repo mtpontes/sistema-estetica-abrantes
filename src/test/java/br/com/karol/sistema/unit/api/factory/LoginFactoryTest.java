@@ -1,4 +1,4 @@
-package br.com.karol.sistema.unit.api.mapper;
+package br.com.karol.sistema.unit.api.factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,13 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.api.mapper.LoginMapper;
+import br.com.karol.sistema.api.factory.LoginFactory;
 import br.com.karol.sistema.business.validators.PatternLoginValidator;
 import br.com.karol.sistema.domain.validator.LoginValidator;
 import br.com.karol.sistema.domain.valueobjects.Login;
 
 @ExtendWith(MockitoExtension.class)
-public class LoginMapperTest {
+public class LoginFactoryTest {
 
     @Mock
     private List<LoginValidator> validators;
@@ -26,21 +26,21 @@ public class LoginMapperTest {
     private PatternLoginValidator validator;
 
     @InjectMocks
-    private LoginMapper mapper;
+    private LoginFactory mapper;
 
     @BeforeEach
     void setup() {
         validators = List.of(validator);
-        mapper = new LoginMapper(validators);
+        mapper = new LoginFactory(validators);
     }
 
     @Test
-    void testToLogin() {
+    void testCreateLogin() {
         // arrange
         String loginValue = "login";
 
         // act
-        Login login = mapper.toLogin(loginValue);
+        Login login = mapper.criarLogin(loginValue);
 
         // assert
         assertNotNull(login);

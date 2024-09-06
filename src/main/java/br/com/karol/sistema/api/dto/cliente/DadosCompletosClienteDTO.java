@@ -1,6 +1,6 @@
 package br.com.karol.sistema.api.dto.cliente;
 
-import br.com.karol.sistema.api.dto.EnderecoDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
 import br.com.karol.sistema.domain.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

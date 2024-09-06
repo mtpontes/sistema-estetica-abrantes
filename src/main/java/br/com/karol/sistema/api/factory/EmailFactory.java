@@ -1,4 +1,4 @@
-package br.com.karol.sistema.api.mapper;
+package br.com.karol.sistema.api.factory;
 
 import java.util.List;
 
@@ -10,12 +10,12 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class EmailMapper {
+public class EmailFactory {
 
     private final List<EmailValidator> validators;
 
 
-    public Email toEmail(String value) {
+    public Email createEmail(String value) {
         return new Email(value, validators);
     }
     

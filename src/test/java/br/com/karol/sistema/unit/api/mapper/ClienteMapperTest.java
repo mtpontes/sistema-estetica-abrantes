@@ -18,54 +18,39 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
-import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
+import br.com.karol.sistema.api.dto.cliente.CriarUsuarioClienteDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
+import br.com.karol.sistema.api.factory.ClientFactory;
 import br.com.karol.sistema.api.mapper.ClienteMapper;
-import br.com.karol.sistema.api.mapper.CpfMapper;
-import br.com.karol.sistema.api.mapper.EmailMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
-import br.com.karol.sistema.api.mapper.TelefoneMapper;
-import br.com.karol.sistema.builder.ClienteFactory;
-import br.com.karol.sistema.builder.UsuarioFactory;
+import br.com.karol.sistema.builder.ClienteTestFactory;
+import br.com.karol.sistema.builder.UsuarioTestFactory;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.domain.valueobjects.Cpf;
-import br.com.karol.sistema.domain.valueobjects.Email;
-import br.com.karol.sistema.domain.valueobjects.Telefone;
 
 @ExtendWith(MockitoExtension.class)
 public class ClienteMapperTest {
 
-    private static final Cliente DEFAULT = ClienteFactory.getCliente();
-    private static final Usuario USUARIO_DEFAULT = UsuarioFactory.getUsuario();
-    private static Cpf cpfDefault;
-    private static Telefone telefoneDefault;
-    private static Email emailDefault;
+    private static final Cliente DEFAULT = ClienteTestFactory.getCliente();
+    private static final Usuario USUARIO_DEFAULT = UsuarioTestFactory.getUsuarioAdmin();
     private static Endereco enderecoDefault;
 
     @Mock
-    private CpfMapper cpfMapper;
-    @Mock
-    private TelefoneMapper telefoneMapper;
-    @Mock
-    private EmailMapper emailMapper;
-    @Mock
     private EnderecoMapper enderecoMapper;
+    @Mock
+    private ClientFactory clientFactory;
 
     @InjectMocks
     private ClienteMapper mapper;
 
     @BeforeAll
     static void setup() {
-        cpfDefault = (Cpf) ReflectionTestUtils.getField(DEFAULT, "cpf");
-        telefoneDefault = (Telefone) ReflectionTestUtils.getField(DEFAULT, "telefone");
-        emailDefault = (Email) ReflectionTestUtils.getField(DEFAULT, "email");
         enderecoDefault = (Endereco) ReflectionTestUtils.getField(DEFAULT, "endereco");
-
         ReflectionTestUtils.setField(DEFAULT, "usuario", USUARIO_DEFAULT);
     }
+
 
     @Test
     void testToCliente() {
@@ -79,9 +64,8 @@ public class ClienteMapperTest {
             enderecoDTO
         );
 
-        when(cpfMapper.toCpf(anyString())).thenReturn(cpfDefault);
-        when(telefoneMapper.toTelefone(anyString())).thenReturn(telefoneDefault);
-        when(emailMapper.toEmail(anyString())).thenReturn(emailDefault);
+        when(clientFactory.criarCliente(anyString(), anyString(), anyString(), anyString(), any()))
+            .thenReturn(DEFAULT);
         when(enderecoMapper.toEndereco(any())).thenReturn(enderecoDefault);
 
         // act
@@ -108,9 +92,8 @@ public class ClienteMapperTest {
             DEFAULT.getEmail()
         );
 
-        when(cpfMapper.toCpf(anyString())).thenReturn(cpfDefault);
-        when(telefoneMapper.toTelefone(anyString())).thenReturn(telefoneDefault);
-        when(emailMapper.toEmail(anyString())).thenReturn(emailDefault);
+        when(clientFactory.criarClienteComUsuario(anyString(), anyString(), anyString(), anyString(), any(), any()))
+            .thenReturn(DEFAULT);
         when(enderecoMapper.toEndereco(any())).thenReturn(enderecoDefault);
 
         // act

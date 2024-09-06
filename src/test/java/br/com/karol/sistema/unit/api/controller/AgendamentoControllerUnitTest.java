@@ -44,7 +44,7 @@ import br.com.karol.sistema.api.dto.agendamento.ObservacaoAtualizadaAgendamentoD
 import br.com.karol.sistema.api.dto.agendamento.RemarcarAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.StatusAtualizadoAgendamentoDTO;
 import br.com.karol.sistema.api.mapper.AgendamentoMapper;
-import br.com.karol.sistema.builder.AgendamentoFactory;
+import br.com.karol.sistema.builder.AgendamentoTestFactory;
 import br.com.karol.sistema.business.service.AgendamentoService;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.DisponibilidadeService;
@@ -68,7 +68,7 @@ public class AgendamentoControllerUnitTest {
     private static final String BASE_URL = "/agendamentos";
     private static final String CLIENT_ROUTE = BASE_URL + "/me";
 
-    private static final Agendamento AGENDAMENTO_DEFAULT = AgendamentoFactory.getAgendamento();
+    private static final Agendamento AGENDAMENTO_DEFAULT = AgendamentoTestFactory.getAgendamento();
 
     @Autowired
     private MockMvc mvc;

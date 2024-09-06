@@ -14,23 +14,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
-import br.com.karol.sistema.api.mapper.LoginMapper;
-import br.com.karol.sistema.api.mapper.SenhaMapper;
+import br.com.karol.sistema.api.factory.UsuarioFactory;
 import br.com.karol.sistema.api.mapper.UsuarioMapper;
-import br.com.karol.sistema.builder.UsuarioFactory;
+import br.com.karol.sistema.builder.UsuarioTestFactory;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.enums.UserRole;
-import br.com.karol.sistema.utils.UsuarioUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class UsuarioMapperTest {
 
-    private static final Usuario DEFAULT = UsuarioFactory.getUsuario();
+    private static final Usuario default_user = UsuarioTestFactory.getUsuarioUser();
+    private static final Usuario default_admin = UsuarioTestFactory.getUsuarioAdmin();
+    private static final Usuario default_client = UsuarioTestFactory.getUsuarioClient();
 
     @Mock
-    private LoginMapper loginMapper;
-    @Mock
-    private SenhaMapper senhaMapper;
+    private UsuarioFactory usuarioFactory;
 
     @InjectMocks
     private UsuarioMapper mapper;
@@ -39,9 +37,9 @@ public class UsuarioMapperTest {
     @Test
     void testToUsuarioUser() {
         // arrange
-        CriarUsuarioDTO dto = new CriarUsuarioDTO("nome", "login", "senha");
-        when(loginMapper.toLogin(anyString())).thenReturn(UsuarioUtils.getLogin(dto.getLogin()));
-        when(senhaMapper.toSenha(anyString())).thenReturn(UsuarioUtils.getSenha(dto.getSenha()));
+        CriarUsuarioDTO dto = new CriarUsuarioDTO(default_user.getNome(), default_user.getLogin(), default_user.getSenha());
+        when(usuarioFactory.criarUsuarioUser(anyString(), anyString(), anyString()))
+            .thenReturn(default_user);
 
         // act
         Usuario result = mapper.toUsuarioUser(dto);
@@ -56,9 +54,10 @@ public class UsuarioMapperTest {
     @Test
     void testToUsuarioAdmin() {
         // arrange
-        CriarUsuarioDTO dto = new CriarUsuarioDTO("nome", "login", "senha");
-        when(loginMapper.toLogin(anyString())).thenReturn(UsuarioUtils.getLogin(dto.getLogin()));
-        when(senhaMapper.toSenha(anyString())).thenReturn(UsuarioUtils.getSenha(dto.getSenha()));
+        CriarUsuarioDTO dto = new CriarUsuarioDTO(default_admin.getNome(), default_admin.getLogin(), default_admin.getSenha());
+        when(usuarioFactory.criarUsuarioAdmin(anyString(), anyString(), anyString()))
+            .thenReturn(default_admin);
+        System.out.println("USUARIO: " + default_user);
 
         // act
         Usuario result = mapper.toUsuarioAdmin(dto);
@@ -73,9 +72,9 @@ public class UsuarioMapperTest {
     @Test
     void testToUsuarioClient() {
         // arrange
-        CriarUsuarioDTO dto = new CriarUsuarioDTO("nome", "login", "senha");
-        when(loginMapper.toLogin(anyString())).thenReturn(UsuarioUtils.getLogin(dto.getLogin()));
-        when(senhaMapper.toSenha(anyString())).thenReturn(UsuarioUtils.getSenha(dto.getSenha()));
+        CriarUsuarioDTO dto = new CriarUsuarioDTO(default_client.getNome(), default_client.getLogin(), default_client.getSenha());
+        when(usuarioFactory.criarUsuarioClient(anyString(), anyString(), anyString()))
+            .thenReturn(default_client);
 
         // act
         Usuario result = mapper.toUsuarioClient(dto);
@@ -90,7 +89,7 @@ public class UsuarioMapperTest {
     @Test
     void testToDadosUsuarioDTO() {
         // arrange
-        Usuario entry = DEFAULT;
+        Usuario entry = default_admin;
 
         // act
         DadosUsuarioDTO result = mapper.toDadosUsuarioDTO(entry);
@@ -104,7 +103,7 @@ public class UsuarioMapperTest {
     @Test
     void testToListDadosUsuarioDTO() {
         // arrange
-        List<Usuario> entry = List.of(DEFAULT);
+        List<Usuario> entry = List.of(default_admin);
 
         // act
         List<DadosUsuarioDTO> result = mapper.toListDadosUsuarioDTO(entry);

@@ -30,7 +30,7 @@ import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
-import br.com.karol.sistema.builder.UsuarioFactory;
+import br.com.karol.sistema.builder.UsuarioTestFactory;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import br.com.karol.sistema.business.service.TokenService;
@@ -50,7 +50,7 @@ public class UsuarioControllerTest {
     private final static String BASE_URL = "/usuarios";
     private final static String ADMIN_ROUTE = BASE_URL + "/admin";
 
-    private final static Usuario DEFAULT_USUARIO = UsuarioFactory.getUsuario();
+    private final static Usuario DEFAULT_USUARIO = UsuarioTestFactory.getUsuarioAdmin();
 
     @Autowired
     private MockMvc mvc;

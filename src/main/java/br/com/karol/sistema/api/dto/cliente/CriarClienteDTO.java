@@ -1,6 +1,6 @@
 package br.com.karol.sistema.api.dto.cliente;
 
-import br.com.karol.sistema.api.dto.EnderecoDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

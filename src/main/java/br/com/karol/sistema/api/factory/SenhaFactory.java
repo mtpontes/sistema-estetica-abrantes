@@ -1,4 +1,4 @@
-package br.com.karol.sistema.api.mapper;
+package br.com.karol.sistema.api.factory;
 
 
 import org.springframework.stereotype.Component;
@@ -10,13 +10,13 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class SenhaMapper {
+public class SenhaFactory {
 
     private final SenhaValidator validators;
     private final SenhaEncoder formatter;
 
     
-    public Senha toSenha(String value) {
+    public Senha criarSenha(String value) {
         return new Senha(value, validators, formatter);
     }
 }

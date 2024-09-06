@@ -12,7 +12,7 @@ import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
-import br.com.karol.sistema.api.mapper.SenhaMapper;
+import br.com.karol.sistema.api.factory.SenhaFactory;
 import br.com.karol.sistema.api.mapper.UsuarioMapper;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.domain.valueobjects.Senha;
@@ -29,7 +29,7 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final UsuarioMapper mapper;
-    private final SenhaMapper senhaMapper;
+    private final SenhaFactory senhaMapper;
     private final AuthenticationManager authenticationManager;
 
 
@@ -79,7 +79,7 @@ public class UsuarioService {
 
     @Transactional
     public Usuario atualizarSenhaUsuarioAtual(Usuario usuarioAtual, AtualizarSenhaUsuarioDTO dados) {
-        Senha novaSenha = senhaMapper.toSenha(dados.getNovaSenha());
+        Senha novaSenha = senhaMapper.criarSenha(dados.getNovaSenha());
         Usuario usuarioValidado = this.autenticarUsuario(
             usuarioAtual.getLogin(), 
             dados.getSenhaAtual()
@@ -91,7 +91,7 @@ public class UsuarioService {
 
     @Transactional
     public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(Long usuarioAlvoId, AtualizarSenhaOutroUsuarioDTO update) {
-        Senha novaSenha = senhaMapper.toSenha(update.getSenha());
+        Senha novaSenha = senhaMapper.criarSenha(update.getSenha());
         Usuario alvo = this.getUsuarioById(usuarioAlvoId);
         alvo.atualizarSenha(novaSenha);
         

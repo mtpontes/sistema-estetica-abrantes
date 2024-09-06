@@ -13,12 +13,12 @@ import org.springframework.data.domain.PageImpl;
 import br.com.karol.sistema.api.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.api.mapper.ProcedimentoMapper;
-import br.com.karol.sistema.builder.ProcedimentoFactory;
+import br.com.karol.sistema.builder.ProcedimentoTestFactory;
 import br.com.karol.sistema.domain.Procedimento;
 
 public class ProcedimentoMapperTest {
 
-    private static final Procedimento DEFAULT = ProcedimentoFactory.getProcedimento();
+    private static final Procedimento DEFAULT = ProcedimentoTestFactory.getProcedimento();
 
     private final ProcedimentoMapper mapper = new ProcedimentoMapper();
 

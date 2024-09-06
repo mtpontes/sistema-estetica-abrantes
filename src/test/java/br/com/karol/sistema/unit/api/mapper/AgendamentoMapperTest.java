@@ -18,13 +18,13 @@ import br.com.karol.sistema.api.dto.agendamento.MeDadosAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.ObservacaoAtualizadaAgendamentoDTO;
 import br.com.karol.sistema.api.dto.agendamento.StatusAtualizadoAgendamentoDTO;
 import br.com.karol.sistema.api.mapper.AgendamentoMapper;
-import br.com.karol.sistema.builder.AgendamentoFactory;
+import br.com.karol.sistema.builder.AgendamentoTestFactory;
 import br.com.karol.sistema.domain.Agendamento;
 
 @ExtendWith(MockitoExtension.class)
 public class AgendamentoMapperTest {
 
-    private static final Agendamento DEFAULT = AgendamentoFactory.getAgendamento();
+    private static final Agendamento DEFAULT = AgendamentoTestFactory.getAgendamento();
 
     @InjectMocks
     private AgendamentoMapper mapper;

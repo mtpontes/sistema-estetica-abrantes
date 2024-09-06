@@ -6,39 +6,27 @@ import org.springframework.stereotype.Component;
 
 import br.com.karol.sistema.api.dto.usuario.CriarUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.DadosUsuarioDTO;
+import br.com.karol.sistema.api.factory.UsuarioFactory;
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.domain.enums.UserRole;
-import br.com.karol.sistema.domain.valueobjects.Login;
-import br.com.karol.sistema.domain.valueobjects.Senha;
 import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
 public class UsuarioMapper {
 
-    private final LoginMapper loginMapper;
-    private final SenhaMapper senhaMapper;
+    private final UsuarioFactory factory;
 
 
     public Usuario toUsuarioUser(CriarUsuarioDTO dto) {
-        Login login = this.loginMapper.toLogin(dto.getLogin());
-        Senha senha = this.senhaMapper.toSenha(dto.getSenha());
-
-        return new Usuario(dto.getNome(), login, senha, UserRole.USER);
+        return factory.criarUsuarioUser(dto.getNome(), dto.getLogin(), dto.getSenha());
     }
 
     public Usuario toUsuarioAdmin(CriarUsuarioDTO dto) {
-        Login login = this.loginMapper.toLogin(dto.getLogin());
-        Senha senha = this.senhaMapper.toSenha(dto.getSenha());
-
-        return new Usuario(dto.getNome(), login, senha, UserRole.ADMIN);
+        return factory.criarUsuarioAdmin(dto.getNome(), dto.getLogin(), dto.getSenha());
     }
 
     public Usuario toUsuarioClient(CriarUsuarioDTO dto) {
-        Login login = this.loginMapper.toLogin(dto.getLogin());
-        Senha senha = this.senhaMapper.toSenha(dto.getSenha());
-
-        return new Usuario(dto.getNome(), login, senha, UserRole.CLIENT);
+        return factory.criarUsuarioClient(dto.getNome(), dto.getLogin(), dto.getSenha());
     }
 
     public DadosUsuarioDTO toDadosUsuarioDTO(Usuario usuario) {

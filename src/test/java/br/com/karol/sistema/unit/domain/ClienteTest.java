@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import br.com.karol.sistema.builder.ClienteFactory;
+import br.com.karol.sistema.builder.ClienteTestFactory;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.valueobjects.Cpf;
@@ -70,7 +70,7 @@ public class ClienteTest {
     @Test
     void testDeveAtualizarDadosCliente() {
         // arrange
-        Cliente cliente = ClienteFactory.getCliente();
+        Cliente cliente = ClienteTestFactory.getCliente();
         var nomeOriginal = cliente.getNome();
         var telefoneOriginal = cliente.getTelefone();
         var emailOriginal = cliente.getEmail();
@@ -86,7 +86,7 @@ public class ClienteTest {
     @Test
     void testNaoDeveAtualizarDadosClienteQuandoValoresForemNull() {
         // arrange
-        Cliente cliente = ClienteFactory.getCliente();
+        Cliente cliente = ClienteTestFactory.getCliente();
         var nomeOriginal = cliente.getNome();
         var telefoneOriginal = cliente.getTelefone();
         var emailOriginal = cliente.getEmail();
@@ -102,7 +102,7 @@ public class ClienteTest {
     @Test
     void testDeveAtualizarEndereco() {
         // arrange
-        Cliente cliente = ClienteFactory.getCliente();
+        Cliente cliente = ClienteTestFactory.getCliente();
         var enderecoOriginal = cliente.getEndereco();
         var novoEndereco = new Endereco();
         ReflectionTestUtils.setField(novoEndereco, "rua", "umaRua");
@@ -115,7 +115,7 @@ public class ClienteTest {
     @Test
     void testNaoDeveAtualizarEndereco() {
         // arrange
-        Cliente cliente = ClienteFactory.getCliente();
+        Cliente cliente = ClienteTestFactory.getCliente();
         var enderecoOriginal = cliente.getEndereco();
 
         // act and assert
@@ -126,7 +126,7 @@ public class ClienteTest {
     @Test
     void testGetCpfDeveRetornarString() {
         // arrange
-        Cliente cliente = ClienteFactory.getCliente();
+        Cliente cliente = ClienteTestFactory.getCliente();
 
         // act and assert
         assertTrue(cliente.getCpf() instanceof String);
@@ -134,7 +134,7 @@ public class ClienteTest {
     @Test
     void testGetTelefoneDeveRetornarString() {
         // arrange
-        Cliente cliente = ClienteFactory.getCliente();
+        Cliente cliente = ClienteTestFactory.getCliente();
 
         // act and assert
         assertTrue(cliente.getTelefone() instanceof String);
@@ -142,7 +142,7 @@ public class ClienteTest {
     @Test
     void testGetEmailDeveRetornarString() {
         // arrange
-        Cliente cliente = ClienteFactory.getCliente();
+        Cliente cliente = ClienteTestFactory.getCliente();
 
         // act and assert
         assertTrue(cliente.getEmail() instanceof String);

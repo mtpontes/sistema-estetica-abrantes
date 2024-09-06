@@ -1,4 +1,4 @@
-package br.com.karol.sistema.api.dto;
+package br.com.karol.sistema.api.dto.email;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

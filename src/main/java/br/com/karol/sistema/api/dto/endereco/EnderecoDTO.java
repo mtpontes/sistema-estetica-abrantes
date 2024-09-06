@@ -1,4 +1,4 @@
-package br.com.karol.sistema.api.dto;
+package br.com.karol.sistema.api.dto.endereco;
 
 import br.com.karol.sistema.domain.Endereco;
 import jakarta.validation.constraints.NotBlank;

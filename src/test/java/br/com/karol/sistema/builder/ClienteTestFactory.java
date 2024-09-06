@@ -3,10 +3,10 @@ package br.com.karol.sistema.builder;
 import br.com.karol.sistema.domain.Cliente;
 import br.com.karol.sistema.utils.ClienteUtils;
 
-public class ClienteFactory {
+public class ClienteTestFactory {
 
     public static Cliente getCliente() {
-        return new ClienteBuilder()
+        return new ClienteTestBuilder()
             .id(1L)
             .nome("default name")
             .cpf("12345678911")

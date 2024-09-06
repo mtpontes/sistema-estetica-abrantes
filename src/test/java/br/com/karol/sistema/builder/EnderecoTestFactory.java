@@ -4,7 +4,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import br.com.karol.sistema.domain.Endereco;
 
-public class EnderecoFactory {
+public class EnderecoTestFactory {
 
     public static Endereco getDefaultEndereco() {
         Endereco endereco = new Endereco();

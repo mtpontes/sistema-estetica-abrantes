@@ -22,9 +22,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import br.com.karol.sistema.api.dto.usuario.AtualizarNomeUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaOutroUsuarioDTO;
 import br.com.karol.sistema.api.dto.usuario.AtualizarSenhaUsuarioDTO;
-import br.com.karol.sistema.api.mapper.SenhaMapper;
+import br.com.karol.sistema.api.factory.SenhaFactory;
 import br.com.karol.sistema.api.mapper.UsuarioMapper;
-import br.com.karol.sistema.builder.UsuarioFactory;
+import br.com.karol.sistema.builder.UsuarioTestFactory;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.domain.Usuario;
 import br.com.karol.sistema.infra.exceptions.EntityNotFoundException;
@@ -34,14 +34,14 @@ import br.com.karol.sistema.utils.UsuarioUtils;
 @ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
 
-    private static final Usuario DEFAULT = UsuarioFactory.getUsuario();
+    private static final Usuario DEFAULT = UsuarioTestFactory.getUsuarioAdmin();
 
     @Mock
     private UsuarioRepository repository;
     @Mock
     private UsuarioMapper mapper;
     @Mock
-    private SenhaMapper senhaMapper;
+    private SenhaFactory senhaMapper;
     @Mock
     private AuthenticationManager authenticationManager;
 
@@ -78,7 +78,7 @@ public class UsuarioServiceTest {
             "nova senha"
         );
         
-        when(senhaMapper.toSenha(dto.getNovaSenha()))
+        when(senhaMapper.criarSenha(dto.getNovaSenha()))
             .thenReturn(
                 UsuarioUtils.getSenha(
                     dto.getNovaSenha()));
@@ -102,7 +102,7 @@ public class UsuarioServiceTest {
         Long USUARIO_ID = usuario.getId();
         var entry = new AtualizarSenhaOutroUsuarioDTO("nova senha");
         
-        when(senhaMapper.toSenha(entry.getSenha()))
+        when(senhaMapper.criarSenha(entry.getSenha()))
             .thenReturn(
                 UsuarioUtils.getSenha(
                     entry.getSenha()));

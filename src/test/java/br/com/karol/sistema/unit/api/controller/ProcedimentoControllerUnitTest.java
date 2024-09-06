@@ -32,7 +32,7 @@ import br.com.karol.sistema.api.dto.procedimento.AtualizarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.CriarProcedimentoDTO;
 import br.com.karol.sistema.api.dto.procedimento.DadosProcedimentoDTO;
 import br.com.karol.sistema.api.mapper.ProcedimentoMapper;
-import br.com.karol.sistema.builder.ProcedimentoFactory;
+import br.com.karol.sistema.builder.ProcedimentoTestFactory;
 import br.com.karol.sistema.business.service.ProcedimentoService;
 import br.com.karol.sistema.business.service.TokenService;
 import br.com.karol.sistema.config.ContextualizeUsuarioTypeWithRoles;
@@ -50,7 +50,7 @@ public class ProcedimentoControllerUnitTest {
 
     private final static String BASE_URL = "/procedimentos";
     
-    private final static Procedimento DEFAULT_PROCEDIMENTO = ProcedimentoFactory.getProcedimento();
+    private final static Procedimento DEFAULT_PROCEDIMENTO = ProcedimentoTestFactory.getProcedimento();
 
     @MockBean
     private ProcedimentoService service;

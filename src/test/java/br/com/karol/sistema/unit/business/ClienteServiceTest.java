@@ -19,13 +19,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.karol.sistema.api.dto.EnderecoDTO;
 import br.com.karol.sistema.api.dto.cliente.AtualizarClienteDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
+import br.com.karol.sistema.api.factory.EmailFactory;
+import br.com.karol.sistema.api.factory.TelefoneFactory;
 import br.com.karol.sistema.api.mapper.ClienteMapper;
-import br.com.karol.sistema.api.mapper.EmailMapper;
 import br.com.karol.sistema.api.mapper.EnderecoMapper;
-import br.com.karol.sistema.api.mapper.TelefoneMapper;
-import br.com.karol.sistema.builder.ClienteFactory;
+import br.com.karol.sistema.builder.ClienteTestFactory;
 import br.com.karol.sistema.business.service.ClienteService;
 import br.com.karol.sistema.business.service.UsuarioService;
 import br.com.karol.sistema.domain.Cliente;
@@ -37,16 +37,16 @@ import br.com.karol.sistema.utils.ClienteUtils;
 @ExtendWith(MockitoExtension.class)
 public class ClienteServiceTest {
 
-    private static final Cliente DEFAULT = ClienteFactory.getCliente();
+    private static final Cliente DEFAULT = ClienteTestFactory.getCliente();
 
     @Mock
     private ClienteRepository repository;
     @Mock
     private ClienteMapper mapper;
     @Mock
-    private TelefoneMapper telefoneMapper;
+    private TelefoneFactory telefoneMapper;
     @Mock
-    private EmailMapper emailMapper;
+    private EmailFactory emailMapper;
     @Mock
     private EnderecoMapper enderecoMapper;
     @Mock

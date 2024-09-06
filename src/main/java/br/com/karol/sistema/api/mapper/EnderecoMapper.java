@@ -2,7 +2,7 @@ package br.com.karol.sistema.api.mapper;
 
 import org.springframework.stereotype.Component;
 
-import br.com.karol.sistema.api.dto.EnderecoDTO;
+import br.com.karol.sistema.api.dto.endereco.EnderecoDTO;
 import br.com.karol.sistema.domain.Endereco;
 
 @Component

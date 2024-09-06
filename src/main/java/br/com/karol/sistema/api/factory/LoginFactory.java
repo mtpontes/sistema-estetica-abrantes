@@ -1,4 +1,4 @@
-package br.com.karol.sistema.api.mapper;
+package br.com.karol.sistema.api.factory;
 
 
 import java.util.List;
@@ -11,12 +11,12 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class LoginMapper {
+public class LoginFactory {
 
     private final List<LoginValidator> validators;
 
     
-    public Login toLogin(String value) {
+    public Login criarLogin(String value) {
         return new Login(value, validators);
     }
 }

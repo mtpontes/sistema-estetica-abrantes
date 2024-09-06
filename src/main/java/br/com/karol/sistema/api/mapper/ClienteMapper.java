@@ -4,46 +4,46 @@ package br.com.karol.sistema.api.mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import br.com.karol.sistema.api.dto.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.CriarClienteDTO;
+import br.com.karol.sistema.api.dto.cliente.CriarUsuarioClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosClienteDTO;
 import br.com.karol.sistema.api.dto.cliente.DadosCompletosClienteDTO;
+import br.com.karol.sistema.api.factory.ClientFactory;
 import br.com.karol.sistema.domain.Cliente;
-import br.com.karol.sistema.domain.Endereco;
 import br.com.karol.sistema.domain.Usuario;
-import br.com.karol.sistema.domain.valueobjects.Cpf;
-import br.com.karol.sistema.domain.valueobjects.Email;
-import br.com.karol.sistema.domain.valueobjects.Telefone;
 import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
 public class ClienteMapper {
 
-    private final CpfMapper cpfMapper;
-    private final TelefoneMapper telefoneMapper;
-    private final EmailMapper emailMapper;
+    private final ClientFactory clientFactory;
     private final EnderecoMapper enderecoMapper;
 
     
     public Cliente toCliente(CriarClienteDTO dados) {
-        Cpf cpf = this.cpfMapper.toCpf(dados.getCpf());
-        Telefone telefone = this.telefoneMapper.toTelefone(dados.getTelefone());
-        Email email = this.emailMapper.toEmail(dados.getEmail());
-        Endereco endereco = enderecoMapper.toEndereco(dados.getEndereco());
-        return new Cliente(dados.getNome(), cpf, telefone, email, endereco);
+        return clientFactory.criarCliente(
+            dados.getNome(), 
+            dados.getCpf(), 
+            dados.getTelefone(), 
+            dados.getEmail(),
+            enderecoMapper.toEndereco(dados.getEndereco()));
     }
+
     public Cliente toClienteComUsuario(CriarUsuarioClienteDTO dados, Usuario usuario) {
-        Cpf cpf = this.cpfMapper.toCpf(dados.getCpf());
-        Telefone telefone = this.telefoneMapper.toTelefone(dados.getTelefone());
-        Email email = this.emailMapper.toEmail(dados.getEmailConfirmationToken());
-        Endereco endereco = enderecoMapper.toEndereco(dados.getEndereco());
-        return new Cliente(dados.getNome(), cpf, telefone, email, endereco, usuario);
+        return clientFactory.criarClienteComUsuario(
+            dados.getNome(), 
+            dados.getCpf(), 
+            dados.getTelefone(), 
+            dados.getEmailConfirmationToken(),
+            enderecoMapper.toEndereco(dados.getEndereco()),
+            usuario);
     }
     
     public DadosCompletosClienteDTO toDadosCompletosClienteDTO(Cliente cliente) {
         return new DadosCompletosClienteDTO(cliente);
     }
+    
     public DadosClienteDTO toDadosClienteDTO(Cliente cliente) {
         return new DadosClienteDTO(cliente);
     }

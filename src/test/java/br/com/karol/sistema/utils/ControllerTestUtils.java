@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import br.com.karol.sistema.builder.UsuarioFactory;
+import br.com.karol.sistema.builder.UsuarioTestFactory;
 import br.com.karol.sistema.domain.enums.UserRole;
 
 public class ControllerTestUtils {
@@ -42,7 +42,7 @@ public class ControllerTestUtils {
     }
 
     public static void withMockUserManual(String role) {
-        var user = UsuarioFactory.getUsuario();
+        var user = UsuarioTestFactory.getUsuarioAdmin();
         user.setRole(UserRole.fromString(role));
         SecurityContextHolder.getContext().setAuthentication(
             new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
