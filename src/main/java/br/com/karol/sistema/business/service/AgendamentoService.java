@@ -66,6 +66,7 @@ public class AgendamentoService {
         return mapper.toDadosAgendamentoDTO(
             agendamentoRepository.save(novoAgendamento));
     }
+    
     @Transactional
     public MeDadosAgendamentoDTO salvarAgendamentoMe(
         ClienteCriarAgendamentoDTO dadosAgendamento, 
@@ -90,6 +91,7 @@ public class AgendamentoService {
     public DadosAgendamentoDTO buscarAgendamentoPorId(Long agendamentoId) {
         return mapper.toDadosAgendamentoDTO(this.getAgendamentoById(agendamentoId));
     }
+
     public MeDadosAgendamentoDTO buscarAgendamentoPorIdEUsuarioId(
         Long agendamentoId, Long usuarioId
     ) {
@@ -124,9 +126,8 @@ public class AgendamentoService {
             )
         );
     }
-    public Page<DadosBasicosAgendamentoDTO> listarTodosAgendamentosUsuarioAtual(
-        Long usuarioId, Pageable pageable
-    ) {
+
+    public Page<DadosBasicosAgendamentoDTO> listarTodosAgendamentosUsuarioAtual(Long usuarioId, Pageable pageable) {
         return mapper.toPageDadosBasicosAgentamentoDTO(
             agendamentoRepository.findByClienteUsuarioId(usuarioId, pageable));
     }
@@ -140,6 +141,7 @@ public class AgendamentoService {
         alvo.remarcar(dadosNovaDataHora.getDataHora(), validators);
         return mapper.toDadosAgendamentoDTO(agendamentoRepository.save(alvo));
     }
+
     @Transactional
     public MeDadosAgendamentoDTO editarDataHoraAgendamentoUsuarioAtual(
         Long agendamentoId, 
@@ -164,6 +166,7 @@ public class AgendamentoService {
             agendamentoRepository.save(alvo)
         );
     }
+    
     @Transactional
     public ObservacaoAtualizadaAgendamentoDTO editarObservacaoAgendamentoUsuarioAtual(
         Long agendamentoId, 
@@ -191,6 +194,7 @@ public class AgendamentoService {
             agendamentoRepository.save(alvo)
         );
     }
+
     @Transactional
     public StatusAtualizadoAgendamentoDTO editarStatusAgendamentoUsuarioAtual(
         Long agendamentoId, 
@@ -223,10 +227,7 @@ public class AgendamentoService {
             .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE));
     }
 
-    private Agendamento getAgendamentoByIdAndUsuarioId(
-        Long agendamentoId, 
-        Long usuarioId
-    ) {
+    private Agendamento getAgendamentoByIdAndUsuarioId(Long agendamentoId, Long usuarioId) {
         return agendamentoRepository.findByIdAndClienteUsuarioId(
             agendamentoId, 
             usuarioId

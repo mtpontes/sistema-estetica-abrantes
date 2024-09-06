@@ -37,17 +37,13 @@ public class UsuarioController {
     // -- Rotas comuns --
 
     @PostMapping
-    public ResponseEntity<DadosUsuarioDTO> criarUsuario(
-        @RequestBody @Valid CriarUsuarioDTO dados
-    ) {
+    public ResponseEntity<DadosUsuarioDTO> criarUsuario(@RequestBody @Valid CriarUsuarioDTO dados) {
         return ResponseEntity.ok(service.salvarUsuario(dados));
     }
 
     /* O usuário padrão precisa se autenticar e só consegue consultar os seus próprios dados */
     @GetMapping
-    public ResponseEntity<DadosUsuarioDTO> buscarUsuarioPorAutenticacao(
-        Authentication authentication
-    ) {
+    public ResponseEntity<DadosUsuarioDTO> buscarUsuarioPorAutenticacao(Authentication authentication) {
         return ResponseEntity.ok(
             service.getDadosUsuarioAtual((Usuario) authentication.getPrincipal()));
     }
@@ -78,9 +74,7 @@ public class UsuarioController {
     // --- Rotas de ADMIN -- 
 
     @PostMapping("/admin")
-    public ResponseEntity<DadosUsuarioDTO> adminCriarUsuario(
-        @RequestBody @Valid CriarUsuarioDTO dados
-    ) {
+    public ResponseEntity<DadosUsuarioDTO> adminCriarUsuario(@RequestBody @Valid CriarUsuarioDTO dados) {
         return ResponseEntity.ok(service.adminSalvarUsuario(dados));
     }
     
@@ -91,9 +85,7 @@ public class UsuarioController {
 
     /* Um usuário com ROLE ADMIN autenticado consegue recuperar dados de outros usuários */
     @GetMapping("/admin/{userId}")
-    public ResponseEntity<DadosUsuarioDTO> adminBuscarUsuario(
-        @PathVariable Long userId
-    ) {
+    public ResponseEntity<DadosUsuarioDTO> adminBuscarUsuario(@PathVariable Long userId) {
         return ResponseEntity.ok(service.adminBuscarUsuarioPorID(userId));
     }
 

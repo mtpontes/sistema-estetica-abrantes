@@ -6,15 +6,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.karol.sistema.infra.repository.UsuarioRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UsuarioRepository repository;
-
-    public UserDetailsServiceImpl(UsuarioRepository repository) {
-        this.repository = repository;
-    }
 
     
     @Override

@@ -34,9 +34,7 @@ public class ErrorHandler {
     }
 	
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessageWithFields> handleError400(
-        MethodArgumentNotValidException ex
-    ) {
+    public ResponseEntity<ErrorMessageWithFields> handleError400(MethodArgumentNotValidException ex) {
     	Map<String, String> fields = ex.getFieldErrors().stream()
             .collect(Collectors.toMap(f -> 
                 f.getField().toString(), 
@@ -52,9 +50,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(FieldValidationException.class)
-    public ResponseEntity<ErrorMessageWithFields> handleError400(
-        FieldValidationException ex
-    ) {
+    public ResponseEntity<ErrorMessageWithFields> handleError400(FieldValidationException ex) {
         Map<String, String> details = 
             Map.of(ex.getFieldError(), ex.getErrorMessage());
         return ResponseEntity
@@ -67,36 +63,28 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorMessage> handleError400(
-        IllegalArgumentException ex
-    ) {
+    public ResponseEntity<ErrorMessage> handleError400(IllegalArgumentException ex) {
         return ResponseEntity
             .badRequest()
             .body(new ErrorMessage(ex.getMessage()));
     }
     
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorMessage> handleError400(
-        HttpRequestMethodNotSupportedException ex
-    ) {
+    public ResponseEntity<ErrorMessage> handleError400(HttpRequestMethodNotSupportedException ex) {
         return ResponseEntity
             .badRequest()
             .body(new ErrorMessage(ex.getMessage()));
     }
     
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ErrorMessage> handleError400(
-        MissingServletRequestParameterException ex
-    ) {
+    public ResponseEntity<ErrorMessage> handleError400(MissingServletRequestParameterException ex) {
         return ResponseEntity
             .badRequest()
             .body(new ErrorMessage(ex.getBody().getDetail()));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorMessageWithParam> handleError400(
-        MethodArgumentTypeMismatchException ex
-    ) {
+    public ResponseEntity<ErrorMessageWithParam> handleError400(MethodArgumentTypeMismatchException ex) {
         var field = Map.of(ex.getPropertyName(), "valor inválido");
         return ResponseEntity
             .badRequest()
@@ -108,18 +96,14 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorMessage> handleError400(
-        HttpMessageNotReadableException ex
-    ) {
+    public ResponseEntity<ErrorMessage> handleError400(HttpMessageNotReadableException ex) {
         return ResponseEntity
             .badRequest()
             .body(new ErrorMessage("Formato de JSON inválido"));
     }
     
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<ErrorMessage> handleError415(
-        HttpMediaTypeNotSupportedException ex
-    ) {
+    public ResponseEntity<ErrorMessage> handleError415(HttpMediaTypeNotSupportedException ex) {
         String unsupportedType = Optional.ofNullable(ex.getContentType())
             .map(mediaType -> mediaType.getType() + "/" + mediaType.getSubtype())
             .orElse("unknown");

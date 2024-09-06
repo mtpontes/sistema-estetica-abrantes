@@ -48,9 +48,7 @@ public class ProcedimentoController {
     }
 
     @GetMapping("/{procedimentoId}")
-    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(
-        @PathVariable Long procedimentoId
-    ) {
+    public ResponseEntity<DadosProcedimentoDTO> buscarProcedimento(@PathVariable Long procedimentoId) {
         return ResponseEntity.ok(service.mostrarProcedimento(procedimentoId));
     }
 
@@ -64,9 +62,7 @@ public class ProcedimentoController {
     }
 
     @DeleteMapping("/{procedimentoId}")
-    public ResponseEntity<Void> deletarProcedimento(
-        @PathVariable Long procedimentoId
-    ) {
+    public ResponseEntity<Void> deletarProcedimento(@PathVariable Long procedimentoId) {
         service.removerProcedimento(procedimentoId);
         return ResponseEntity.noContent().build();
     }

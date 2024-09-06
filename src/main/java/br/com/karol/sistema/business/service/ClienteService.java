@@ -41,18 +41,14 @@ public class ClienteService {
 
 
     @Transactional
-    public DadosCompletosClienteDTO salvarCliente(
-        CriarClienteDTO dadosCriacaoCliente
-    ) {
+    public DadosCompletosClienteDTO salvarCliente(CriarClienteDTO dadosCriacaoCliente) {
         Cliente cliente = clienteMapper.toCliente(dadosCriacaoCliente);
         Cliente savedCliente = repository.save(cliente);
         return clienteMapper.toDadosCompletosClienteDTO(savedCliente);
     }
     
     @Transactional
-    public DadosCompletosClienteDTO salvarClienteComUsuario(
-        CriarUsuarioClienteDTO dados
-    ) {
+    public DadosCompletosClienteDTO salvarClienteComUsuario(CriarUsuarioClienteDTO dados) {
         Usuario usuario = this.usuarioService.salvarUsuarioCliente(
             new CriarUsuarioDTO(
                 dados.getNome(), 
@@ -69,10 +65,7 @@ public class ClienteService {
         return clienteMapper.toDadosCompletosClienteDTO(savedCliente);
     }
 
-    public Page<DadosClienteDTO> listarTodosClientes(
-        String nome, 
-        Pageable pageable
-    ) {
+    public Page<DadosClienteDTO> listarTodosClientes(String nome, Pageable pageable) {
         return clienteMapper.toPageDadosClienteDTO(
             repository.findAllByParams(nome, pageable));
     }
@@ -83,10 +76,7 @@ public class ClienteService {
     }
 
     @Transactional
-    public DadosCompletosClienteDTO editarContatoCliente(
-        Long clienteId, 
-        AtualizarClienteDTO dados
-    ) {
+    public DadosCompletosClienteDTO editarContatoCliente(Long clienteId, AtualizarClienteDTO dados) {
         Cliente alvo = this.buscarPorId(clienteId);
         
         String novoNome = dados.getNome();
@@ -101,11 +91,9 @@ public class ClienteService {
 
         return clienteMapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
+
     @Transactional
-    public DadosCompletosClienteDTO editarContatoClienteAtual(
-        Cliente cliente, 
-        AtualizarClienteDTO dados
-    ) {
+    public DadosCompletosClienteDTO editarContatoClienteAtual(Cliente cliente, AtualizarClienteDTO dados) {
         String novoNome = dados.getNome();
         Telefone novoTelefone = 
             telefoneMapper.toTelefoneOrNull(dados.getTelefone());
@@ -121,21 +109,16 @@ public class ClienteService {
     }
 
     @Transactional
-    public DadosCompletosClienteDTO editarEnderecoCliente(
-        Long clienteId, 
-        EnderecoDTO dadosAtualizacao
-    ) {
+    public DadosCompletosClienteDTO editarEnderecoCliente(Long clienteId, EnderecoDTO dadosAtualizacao) {
         Cliente alvo = this.buscarPorId(clienteId);
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         alvo.atualizarEndereco(novoEndereco);
 
         return clienteMapper.toDadosCompletosClienteDTO(repository.save(alvo));
     }
+
     @Transactional
-    public DadosCompletosClienteDTO editarEnderecoClienteAtual(
-        Cliente cliente, 
-        EnderecoDTO dadosAtualizacao
-    ) {
+    public DadosCompletosClienteDTO editarEnderecoClienteAtual(Cliente cliente, EnderecoDTO dadosAtualizacao) {
         Endereco novoEndereco = enderecoMapper.toEndereco(dadosAtualizacao);
         cliente.atualizarEndereco(novoEndereco);
 
@@ -146,7 +129,6 @@ public class ClienteService {
     public void removerCliente(Long clienteId) {
         if (!repository.existsById(clienteId))
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE);
-
         repository.deleteById(clienteId);
     }
 

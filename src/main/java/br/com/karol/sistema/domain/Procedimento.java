@@ -51,12 +51,7 @@ public class Procedimento {
     }
     
 
-    public void atualizarDados(
-        String nome, 
-        String descricao, 
-        LocalTime duracao, 
-        Double valor
-    ) {
+    public void atualizarDados(String nome, String descricao, LocalTime duracao, Double valor) {
         if (!this.isBlank(nome)) this.nome = nome;
         if (!this.isBlank(descricao)) this.descricao = descricao;
         if (!this.isNull(duracao)) this.duracao = duracao;
@@ -87,6 +82,7 @@ public class Procedimento {
         if (valor < VALOR_MINIMO) 
             throw new IllegalArgumentException("Não é possível definir um valor menor que " + VALOR_MINIMO);
     }
+    
     private boolean isValidValor(Double valor) {
         if (this.isNull(valor) || valor == 0.00) return true;
         this.validateValor(valor);

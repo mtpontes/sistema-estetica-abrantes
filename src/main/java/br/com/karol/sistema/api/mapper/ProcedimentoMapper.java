@@ -23,9 +23,7 @@ public class ProcedimentoMapper {
         return new DadosProcedimentoDTO(dados);
     }
 
-    public Page<DadosProcedimentoDTO> toPageDadosProcedimentoDTO(
-        Page<Procedimento> dados
-    ) {
+    public Page<DadosProcedimentoDTO> toPageDadosProcedimentoDTO(Page<Procedimento> dados) {
         return dados.map(this::toDadosProcedimentoDTO);
     }
 }

@@ -60,9 +60,7 @@ public class ClienteController {
     }
     
     @PostMapping
-    public ResponseEntity<DadosCompletosClienteDTO> criarCliente(
-        @RequestBody @Valid CriarClienteDTO cliente
-    ) {
+    public ResponseEntity<DadosCompletosClienteDTO> criarCliente(@RequestBody @Valid CriarClienteDTO cliente) {
         DadosCompletosClienteDTO clienteSalvo = service.salvarCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
@@ -78,9 +76,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{clienteId}")
-    public ResponseEntity<DadosCompletosClienteDTO> buscarCliente(
-        @PathVariable Long clienteId
-    ) {
+    public ResponseEntity<DadosCompletosClienteDTO> buscarCliente(@PathVariable Long clienteId) {
         return ResponseEntity.ok(service.buscarClientePorId(clienteId));
     }
 
@@ -110,9 +106,7 @@ public class ClienteController {
     // -- Rotas para clientes autenticados
 
     @GetMapping("/me")
-    public ResponseEntity<DadosCompletosClienteDTO> buscarDadosClienteMe(
-        Authentication auth
-    ) {
+    public ResponseEntity<DadosCompletosClienteDTO> buscarDadosClienteMe(Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
         return ResponseEntity.ok(new DadosCompletosClienteDTO(cliente));

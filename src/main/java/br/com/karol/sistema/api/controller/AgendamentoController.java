@@ -91,9 +91,7 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{agendamentoId}")
-    public ResponseEntity<DadosAgendamentoDTO> mostrarAgendamento(
-        @PathVariable Long agendamentoId
-    ) {
+    public ResponseEntity<DadosAgendamentoDTO> mostrarAgendamento(@PathVariable Long agendamentoId) {
         return ResponseEntity
             .ok()
             .body(agendamentoService.buscarAgendamentoPorId(agendamentoId));

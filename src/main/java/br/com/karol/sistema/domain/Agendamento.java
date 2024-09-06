@@ -64,13 +64,7 @@ public class Agendamento {
     ) {
         this.procedimento = this.notNull(procedimento, "procedimento");
 
-        List<StatusAgendamento> statusesPermitidos = List.of(
-            StatusAgendamento.PENDENTE, 
-            StatusAgendamento.CONFIRMADO
-        );
-        if (!statusesPermitidos.contains(status))
-            throw new IllegalArgumentException(
-                "Não é possível criar um agendamento com status diferente de: " + statusesPermitidos.toString());
+        this.checkStatus(status);
         this.status = status;
 
         this.setObservacao(observacao);
@@ -87,6 +81,7 @@ public class Agendamento {
             throw new RuntimeException("Deve fornecer um ou mais validadores");
         validators.forEach(validator -> validator.validate(this));
     }
+
     public Agendamento(
         Procedimento procedimento, 
         StatusAgendamento status, 
@@ -139,5 +134,17 @@ public class Agendamento {
     private void mustBeBeforeNow(LocalDateTime dataHora) {
         if (dataHora != null && dataHora.isBefore(LocalDateTime.now()))
             throw new IllegalArgumentException("Data e hora não podem ser no passado");
+    }
+
+    private StatusAgendamento checkStatus(StatusAgendamento status) {
+        List<StatusAgendamento> statusesPermitidos = List.of(
+            StatusAgendamento.PENDENTE, 
+            StatusAgendamento.CONFIRMADO
+        );
+        
+        if (!statusesPermitidos.contains(status))
+            throw new IllegalArgumentException(
+                "Não é possível criar um agendamento com status diferente de: " + statusesPermitidos.toString());
+        return status;
     }
 }

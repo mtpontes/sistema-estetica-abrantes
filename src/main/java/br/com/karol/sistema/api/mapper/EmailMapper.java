@@ -18,6 +18,7 @@ public class EmailMapper {
     public Email toEmail(String value) {
         return new Email(value, validators);
     }
+    
     public Email toEmailOrNull(String value) {
         if (value != null && !value.isBlank())
             return new Email(value, validators);

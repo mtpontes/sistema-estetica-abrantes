@@ -13,6 +13,7 @@ import br.com.karol.sistema.domain.Agendamento;
 import br.com.karol.sistema.domain.enums.StatusAgendamento;
 
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
+    
     Long countByClienteIdAndDataHoraBetween(Long clienteId, LocalDateTime inicio, LocalDateTime fim);
     
     List<Agendamento> findByDataHoraBetween(LocalDateTime inicio, LocalDateTime fim);

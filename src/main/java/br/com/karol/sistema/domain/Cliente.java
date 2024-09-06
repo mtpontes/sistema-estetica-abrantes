@@ -68,13 +68,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Agendamento> agendamentos = new HashSet<>();
 
-    public Cliente(
-        String nome, 
-        Cpf cpf, 
-        Telefone telefone, 
-        Email email, 
-        Endereco endereco
-    ) {
+    public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco) {
         this.nome = this.notBlank(nome, "nome");
 
         this.cpf = this.notNull(cpf, "cpf");
@@ -83,14 +77,7 @@ public class Cliente {
         this.endereco = this.notNull(endereco, "endereco");
     }
 
-    public Cliente(
-        String nome, 
-        Cpf cpf, 
-        Telefone telefone, 
-        Email email, 
-        Endereco endereco, 
-        Usuario usuario
-    ) {
+    public Cliente(String nome, Cpf cpf, Telefone telefone, Email email, Endereco endereco, Usuario usuario) {
         this(nome, cpf, telefone, email, endereco);
         this.usuario = this.notNull(usuario, "usuario");
     }

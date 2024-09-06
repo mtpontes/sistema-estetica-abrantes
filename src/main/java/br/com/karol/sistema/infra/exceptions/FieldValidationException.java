@@ -13,6 +13,7 @@ public class FieldValidationException extends RuntimeException {;
         this.fieldError = fieldName.toLowerCase();
         this.errorMessage = DEFAULT_MESSAGE;
     }
+    
     public FieldValidationException(String fieldName, String message) {
         this.fieldError = fieldName.toLowerCase();
         this.errorMessage = message;

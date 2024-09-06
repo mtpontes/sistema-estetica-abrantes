@@ -46,11 +46,13 @@ public class UsuarioService {
         Usuario client = mapper.toUsuarioClient(dados);
         return repository.save(client);
     }
+
     @Transactional
     public DadosUsuarioDTO salvarUsuario(CriarUsuarioDTO dados) {
         Usuario user = mapper.toUsuarioUser(dados);
         return mapper.toDadosUsuarioDTO(repository.save(user));
     }
+
     @Transactional
     public DadosUsuarioDTO adminSalvarUsuario(CriarUsuarioDTO dados) {
         Usuario admin = mapper.toUsuarioAdmin(dados);
@@ -70,18 +72,13 @@ public class UsuarioService {
     }
 
     @Transactional
-    public DadosUsuarioDTO atualizarNomeUsuarioAtual(
-        Usuario usuario, 
-        AtualizarNomeUsuarioDTO update
-    ) {
+    public DadosUsuarioDTO atualizarNomeUsuarioAtual(Usuario usuario, AtualizarNomeUsuarioDTO update) {
         usuario.atualizarDados(update.getNome());
         return mapper.toDadosUsuarioDTO(repository.save(usuario));
     }
+
     @Transactional
-    public Usuario atualizarSenhaUsuarioAtual(
-        Usuario usuarioAtual, 
-        AtualizarSenhaUsuarioDTO dados
-    ) {
+    public Usuario atualizarSenhaUsuarioAtual(Usuario usuarioAtual, AtualizarSenhaUsuarioDTO dados) {
         Senha novaSenha = senhaMapper.toSenha(dados.getNovaSenha());
         Usuario usuarioValidado = this.autenticarUsuario(
             usuarioAtual.getLogin(), 
@@ -93,10 +90,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(
-        Long usuarioAlvoId, 
-        AtualizarSenhaOutroUsuarioDTO update
-    ) {
+    public DadosUsuarioDTO adminAtualizarSenhaOutrosUsuarios(Long usuarioAlvoId, AtualizarSenhaOutroUsuarioDTO update) {
         Senha novaSenha = senhaMapper.toSenha(update.getSenha());
         Usuario alvo = this.getUsuarioById(usuarioAlvoId);
         alvo.atualizarSenha(novaSenha);

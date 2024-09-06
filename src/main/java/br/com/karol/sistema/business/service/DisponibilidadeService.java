@@ -26,10 +26,7 @@ public class DisponibilidadeService {
     private final ProcedimentoService procedimentoService;
 
         
-    public List<LocalDateTime> filtrarHorariosDisponiveis(
-        Long procedimentoId, 
-        LocalDate dataHora
-    ) {
+    public List<LocalDateTime> filtrarHorariosDisponiveis(Long procedimentoId, LocalDate dataHora) {
         Procedimento procedimento = 
             this.procedimentoService.getProcedimentoById(procedimentoId);
         List<Agendamento> agendamentos = agendamentoRepository.findByDataHoraBetween(
