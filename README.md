@@ -3,9 +3,9 @@
 Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Nesta clínica os atendimentos são realizados por uma única esteticista, a proprietária. Esta versão utiliza de muitos dos conceitos do Clean Architecture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
 
 ## 📖 Documentação
-Confira a documentação completa da API feita com Postman: [Documentação](https://abrantes.doc.mtpontes.com)
+- [Confira a documentação completa da API feita com Postman](https://abrantes.doc.mtpontes.com)
 
-O Deploy no Heroku pode ser acessado aqui: [Abrantes API](http://abrantes.mtpontes.com)
+- [Acesse o deploy da aplicação no Heroku](http://abrantes.mtpontes.com)
 
 ## 💡 Melhorias
 
@@ -46,11 +46,14 @@ Esse projeto me trouxe diversos insights de recursos que eu poderia implementar 
 
 ### Detalhes
 
-É necessário possuir um provedor de email para rodar esse app, essa API se integra ao provedor para enviar emails.
+Existem duas maneiras de rodar a aplicação, através do arquivo docker-compose.yml a aplicação rodará com perfil de produção, atráves do docker-compose-demo.yml será o perfil de demonstração. Para rodar com o docker-compose.yml é necessário configurar um provedor de email. 
+
+No docker-compose-demo.yml é levantado um container [Mailhog](https://github.com/mailhog/MailHog), uma aplicação que simula um provedor de email. O Mailhog utiliza a porta 1025 para SMTP e 8025 para uma interface web onde, você pode visualizar os emails enviados com ele. Acesse http://localhost:8025 para visualizar os emails.
 
 ### 🌍 Variáveis de ambiente:
 
-- Na raiz do projeto localize o diretório "env-example"
+#### Produção
+- Na raiz do projeto localize o diretório "env-demo"
 - Faça uma cópia desse diretório e renomeie-o para "env"
 - Abra os arquivos app.env e db.env e preencha os valores das variáveis de ambiente
 
@@ -72,13 +75,13 @@ Esse projeto me trouxe diversos insights de recursos que eu poderia implementar 
 
 ### 🌐 Deploy
 
-Clone o projeto com o comando (ou baixe o zip pelo Github):
+Clone o projeto ou baixe o zip pelo Github:
 
     git clone https://github.com/mtpontes/sistema-estetica-abrantes.git
 
 Levante os containers: 
         
-    docker-compose up --build
+    docker-compose -f docker-compose-demo.yml up --build
 
 </details>
 
