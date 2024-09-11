@@ -18,7 +18,7 @@ public class EmailSendService {
     private final TokenService tokenService;
 
     public EmailSendService(
-        @Value("${spring.mail.username}") String remetente,
+        @Value("${spring.mail.from}") String remetente,
         JavaMailSender javaMailSender,
         EmailFactory emailMapper,
         TokenService tokenService
