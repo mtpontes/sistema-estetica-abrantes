@@ -7,16 +7,16 @@ Este é um sistema de agendamentos de uma clínica estética. Nele, os atendente
 
 - [Acesse o deploy da aplicação no Heroku](http://abrantes.mtpontes.com)
 
-## 💡 Melhorias
+## 🧰 Tecnologias
 
-- [ ] _Sistema de pagamentos_: Será adicionado um sistema de pagamentos utilizando de uma API externa
-- [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
-- [ ] _Sistema de notificação_: Os clientes serão notificados via email quando seus agendamento estiver próximo.
-- [ ] _Alta cobertura de testes de integração_: Os atuais testes da API são todos testes de unidade. Irei implementar testes de integração com banco de dados e teste end-to-end, com a intenção de fazer a maior cobertura possível
+- SpringBoot
+- JWT
+- PostGreSQL
+- Postman
 
-## 🖥️ Sobre o desenvolvimento
-<details><summary>Clique para expandir</summary>
-<br>
+
+<details>
+  <summary><h2>🖥️ Sobre o desenvolvimento</h2></summary>
 
 Este projeto foi iniciado pelo meu colega [Ironildo Junior](https://github.com/JIJunior22), onde ele fez o levantamento de requisitos do projeto com a proprietária de uma clínica estética. Após as reuniões de requisitos, ele modelou e criou toda a base do sistema, definindo as entidades e seus mapeamentos, e o CRUD básico da API. 
 
@@ -26,18 +26,15 @@ Fizemos reuniões entre nós e reuniões com o cliente, que resultaram em divers
 
 Esse projeto me trouxe diversos insights de recursos que eu poderia implementar nele, mas como ele foi criado desenvolvido com base nas necessidades deste cliente, tem muita coisa que não faria sentido implementar, então, fica pra um próximo projeto :)
 
-### 🧰 Tecnologias
+</details>
 
-- SpringBoot
-- JWT
-- PostGreSQL
-- Postman
+
 
 </details>
 
 
-## 🚀 Como rodar localmente
-<details><summary>Clique para expandir</summary>
+<details>
+  <summary><h2>🚀 Como rodar localmente</h2></summary>
 
 ### 📋 Pré-requisitos
 
@@ -82,6 +79,16 @@ Clone o projeto ou baixe o zip pelo Github:
 Levante os containers: 
         
     docker-compose -f docker-compose-demo.yml up --build
+
+</details>
+
+<details>
+  <summary><h2>💡 Melhorias</h2></summary>
+
+- [ ] _Sistema de pagamentos_: Será adicionado um sistema de pagamentos utilizando de uma API externa
+- [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
+- [ ] _Sistema de notificação_: Os clientes serão notificados via email quando seus agendamento estiver próximo.
+- [ ] _Alta cobertura de testes de integração_: Os atuais testes da API são todos testes de unidade. Irei implementar testes de integração com banco de dados e teste end-to-end, com a intenção de fazer a maior cobertura possível
 
 </details>
 
