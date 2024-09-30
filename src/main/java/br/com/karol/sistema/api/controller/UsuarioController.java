@@ -3,7 +3,7 @@ package br.com.karol.sistema.api.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -43,29 +43,24 @@ public class UsuarioController {
 
     /* O usuário padrão precisa se autenticar e só consegue consultar os seus próprios dados */
     @GetMapping
-    public ResponseEntity<DadosUsuarioDTO> buscarUsuarioPorAutenticacao(Authentication authentication) {
-        return ResponseEntity.ok(
-            service.getDadosUsuarioAtual((Usuario) authentication.getPrincipal()));
+    public ResponseEntity<DadosUsuarioDTO> buscarUsuarioPorAutenticacao(@AuthenticationPrincipal Usuario usuario) {
+        return ResponseEntity.ok(service.getDadosUsuarioAtual(usuario));
     }
 
     @PatchMapping("/nome")
     public ResponseEntity<DadosUsuarioDTO> atualizarNomeUsuario(
-        Authentication authentication, 
+        @AuthenticationPrincipal Usuario usuario, 
         @RequestBody @Valid AtualizarNomeUsuarioDTO dados
     ) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
-        return ResponseEntity.ok(
-            service.atualizarNomeUsuarioAtual(usuario, dados));
+        return ResponseEntity.ok(service.atualizarNomeUsuarioAtual(usuario, dados));
     }
 
     @PatchMapping("/senha")
     public ResponseEntity<LoginResponseDTO> atualizarSenhaUsuarioAtual(
-        Authentication authentication,
+        @AuthenticationPrincipal Usuario usuarioAtual,
         @RequestBody @Valid AtualizarSenhaUsuarioDTO dados
     ) {
-        Usuario usuarioAtual = (Usuario) authentication.getPrincipal();
-        Usuario usuarioValidado = 
-            service.atualizarSenhaUsuarioAtual(usuarioAtual, dados);
+        Usuario usuarioValidado = service.atualizarSenhaUsuarioAtual(usuarioAtual, dados);
         String token = this.tokenService.generateToken(usuarioValidado.getUsername());
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }

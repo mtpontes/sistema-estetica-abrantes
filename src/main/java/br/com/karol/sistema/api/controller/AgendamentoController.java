@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -52,10 +52,9 @@ public class AgendamentoController {
     @PostMapping
     public ResponseEntity<DadosAgendamentoDTO> criarAgendamento(
         UriComponentsBuilder uriBuilder,
-        Authentication authentication,
+        @AuthenticationPrincipal Usuario usuario,
         @RequestBody @Valid CriarAgendamentoDTO dadosAgendamento
     ) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
         DadosAgendamentoDTO agendamentoCriado = 
             agendamentoService.salvarAgendamento(dadosAgendamento, usuario.getLogin());
 
@@ -152,12 +151,11 @@ public class AgendamentoController {
     @PostMapping("/me")
     public ResponseEntity<MeDadosAgendamentoDTO> criarAgendamentoMe(
         UriComponentsBuilder uriBuilder,
-        Authentication authentication,
+        @AuthenticationPrincipal Usuario usuarioAtual,
         @RequestBody @Valid ClienteCriarAgendamentoDTO dadosAgendamento
     ) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
         MeDadosAgendamentoDTO agendamentoCriado = 
-            agendamentoService.salvarAgendamentoMe(dadosAgendamento, usuario.getId());
+            agendamentoService.salvarAgendamentoMe(dadosAgendamento, usuarioAtual.getId());
 
         var uri = uriBuilder.path("/agendamento/{id}")
             .buildAndExpand(agendamentoCriado.getId())
@@ -168,10 +166,9 @@ public class AgendamentoController {
 
     @GetMapping("/me")
     public ResponseEntity<Page<DadosBasicosAgendamentoDTO>> listarAgendamentoMe(
-        Authentication auth,
+        @AuthenticationPrincipal Usuario usuarioAtual,
         @PageableDefault(size = 10) Pageable pageable
     ) {
-        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         return ResponseEntity.ok(
             agendamentoService.listarTodosAgendamentosUsuarioAtual(
                 usuarioAtual.getId(), 
@@ -182,23 +179,21 @@ public class AgendamentoController {
     @GetMapping("/me/{agendamentoId}")
     public ResponseEntity<MeDadosAgendamentoDTO> mostrarAgendamentoMe(
         @PathVariable Long agendamentoId,
-        Authentication auth
+        @AuthenticationPrincipal Usuario usuario
     ) {
-        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         return ResponseEntity.ok().body(
             agendamentoService.buscarAgendamentoPorIdEUsuarioId(
                 agendamentoId, 
-                usuarioAtual.getId())
+                usuario.getId())
             );
     }
 
     @PatchMapping("/me/{agendamentoId}")
     public ResponseEntity<MeDadosAgendamentoDTO> remarcarAgendamentoMe(
         @PathVariable Long agendamentoId, 
-        Authentication auth,
+        @AuthenticationPrincipal Usuario usuarioAtual,
         @RequestBody @Valid RemarcarAgendamentoDTO dadosRemarcacao
     ) {
-        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         MeDadosAgendamentoDTO agendamentoAtualizado = agendamentoService
             .editarDataHoraAgendamentoUsuarioAtual(
                 agendamentoId, 
@@ -211,10 +206,9 @@ public class AgendamentoController {
     @PatchMapping("/me/{agendamentoId}/observacao")
     public ResponseEntity<ObservacaoAtualizadaAgendamentoDTO> atualizarObservacaoAgendamentoMe(
         @PathVariable Long agendamentoId, 
-        Authentication auth,
+        @AuthenticationPrincipal Usuario usuarioAtual,
         @RequestBody @Valid AtualizarObservacaoAgendamentoDTO dadosRemarcacao
     ) {
-        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         ObservacaoAtualizadaAgendamentoDTO agendamentoAtualizado = 
             agendamentoService.editarObservacaoAgendamentoUsuarioAtual(
                 agendamentoId, 
@@ -227,10 +221,9 @@ public class AgendamentoController {
     @PatchMapping("/me/{agendamentoId}/status")
     public ResponseEntity<StatusAtualizadoAgendamentoDTO> atualizarStatusAgendamentoMe(
         @PathVariable Long agendamentoId, 
-        Authentication auth,
+        @AuthenticationPrincipal Usuario usuarioAtual,
         @RequestBody @Valid AtualizarStatusAgendamentoDTO novoStatus
     ) {
-        Usuario usuarioAtual = (Usuario) auth.getPrincipal();
         return ResponseEntity.ok().body(
             agendamentoService.editarStatusAgendamentoUsuarioAtual(
                 agendamentoId, 

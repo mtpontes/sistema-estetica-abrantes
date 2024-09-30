@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -106,18 +106,16 @@ public class ClienteController {
     // -- Rotas para clientes autenticados
 
     @GetMapping("/me")
-    public ResponseEntity<DadosCompletosClienteDTO> buscarDadosClienteMe(Authentication auth) {
-        Usuario usuario = (Usuario) auth.getPrincipal();
+    public ResponseEntity<DadosCompletosClienteDTO> buscarDadosClienteMe(@AuthenticationPrincipal Usuario usuario) {
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
         return ResponseEntity.ok(new DadosCompletosClienteDTO(cliente));
     }
 
     @PutMapping("/me")
     public ResponseEntity<DadosCompletosClienteDTO> atualizarClienteMe(
-        Authentication auth, 
+        @AuthenticationPrincipal Usuario usuario, 
         @RequestBody AtualizarClienteDTO dados
     ) {
-        Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
         return ResponseEntity.ok(
             service.editarContatoClienteAtual(cliente, dados));
@@ -125,10 +123,9 @@ public class ClienteController {
 
     @PutMapping("/me/endereco")
     public ResponseEntity<DadosCompletosClienteDTO> atualizarEnderecoClienteMe(
-        Authentication auth, 
+        @AuthenticationPrincipal Usuario usuario, 
         @RequestBody @Valid EnderecoDTO dadosEndereco
     ) {
-        Usuario usuario = (Usuario) auth.getPrincipal();
         Cliente cliente = service.getClienteByUsuarioId(usuario.getId());
         return ResponseEntity.ok(
             service.editarEnderecoClienteAtual(cliente, dadosEndereco));
