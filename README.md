@@ -82,6 +82,7 @@ Levante os containers:
 
 </details>
 
+<!--
 <details>
   <summary><h2>💡 Melhorias</h2></summary>
 
@@ -89,6 +90,7 @@ Levante os containers:
 - [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
 - [ ] _Sistema de notificação_: Os clientes serão notificados via email quando seus agendamento estiver próximo.
 - [ ] _Alta cobertura de testes de integração_: Os atuais testes da API são todos testes de unidade. Irei implementar testes de integração com banco de dados e teste end-to-end, com a intenção de fazer a maior cobertura possível
+-->
 
 </details>
 
