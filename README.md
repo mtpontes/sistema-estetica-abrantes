@@ -19,6 +19,7 @@ Este é um sistema de agendamentos de uma clínica estética. Nele, os atendente
   <summary><h2>🖥️ Sobre o desenvolvimento</h2></summary>
 
 > **IMPORTANT**
+> 
 > Este projeto foi desenvolvido exclusivamente para fins de estudo. O cenário simula um sistema real, mas nenhuma informação sensível, confidencial ou de produção foi utilizada. O "cliente" mencionado foi um colaborador voluntário, que participou da definição do cenário como parte de um exercício técnico. Todo o conteúdo é fictício ou foi compartilhado com consentimento explícito.
 
 
