@@ -2,12 +2,12 @@
 
 Este é um sistema de agendamentos de uma clínica estética. Nele, os atendentes conseguem criar e gerenciar agendamentos para clientes, e os clientes também conseguem se cadastrar como usuário para criar e gerenciar seus próprios agendamentos sem necessitar de ser atendido por uma pessoa. Nesta clínica os atendimentos são realizados por uma única esteticista, a proprietária. Esta versão utiliza de muitos dos conceitos do Clean Architecture e SOLID, possui um sistema de validações extremamente robusto e mais de 300 testes (totalizando mais de 400 cases) para garantir a integridade e confiabilidade do sistema.
 
-## 📖 Documentação
+## Documentação
 - [Confira a documentação completa da API feita com Postman](https://abrantes.doc.mtpontes.com)
 
 - [Acesse o deploy da aplicação no Heroku](http://abrantes.mtpontes.com)
 
-## 🧰 Tecnologias
+## Tecnologias
 
 - SpringBoot
 - JWT
@@ -16,7 +16,7 @@ Este é um sistema de agendamentos de uma clínica estética. Nele, os atendente
 
 
 <details>
-  <summary><h2>🖥️ Sobre o desenvolvimento</h2></summary>
+  <summary><h2>Sobre o desenvolvimento</h2></summary>
 
 > **IMPORTANT**
 > 
@@ -39,9 +39,9 @@ Esse projeto me trouxe diversos insights de recursos que eu poderia implementar 
 
 
 <details>
-  <summary><h2>🚀 Como rodar localmente</h2></summary>
+  <summary><h2>Como rodar localmente</h2></summary>
 
-### 📋 Pré-requisitos
+### Pré-requisitos
 
 - Docker
 - Docker Compose
@@ -52,7 +52,7 @@ Existem duas maneiras de rodar a aplicação, através do arquivo docker-compose
 
 No docker-compose-demo.yml é levantado um container [Mailhog](https://github.com/mailhog/MailHog), uma aplicação que simula um provedor de email. O Mailhog utiliza a porta 1025 para SMTP e 8025 para uma interface web onde, você pode visualizar os emails enviados com ele. Acesse http://localhost:8025 para visualizar os emails.
 
-### 🌍 Variáveis de ambiente:
+### Variáveis de ambiente:
 
 #### Produção
 - Na raiz do projeto localize o diretório "env-demo"
@@ -75,7 +75,7 @@ No docker-compose-demo.yml é levantado um container [Mailhog](https://github.co
 
 ##### Essas configurações também podem ser alteradas no `application.properties`.
 
-### 🌐 Deploy
+### Deploy
 
 Clone o projeto ou baixe o zip pelo Github:
 
@@ -89,7 +89,7 @@ Levante os containers:
 
 <!--
 <details>
-  <summary><h2>💡 Melhorias</h2></summary>
+  <summary><h2>Melhorias</h2></summary>
 
 - [ ] _Sistema de pagamentos_: Será adicionado um sistema de pagamentos utilizando de uma API externa
 - [ ] _Relatórios_: Será possível gerar relatórios de atendimentos e clientes
@@ -100,7 +100,7 @@ Levante os containers:
 </details>
 
 
-## 🤝 Colaboradores
+## Colaboradores
 <table>
   <tr>
     <td align="center">
